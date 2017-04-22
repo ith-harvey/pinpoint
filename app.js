@@ -5,6 +5,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs')
+const bcrypt = require('bcrypt-as-promised')
+
 
 
 const index = require('./routes/index');
