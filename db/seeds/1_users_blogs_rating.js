@@ -1,11 +1,32 @@
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex) {
   return knex('users_blogs_rating').del()
     .then(function () {
       return knex('users_blogs_rating').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+        {
+          id: 1,
+          blog_id: 1,
+          user_id: 1,
+          vote_direction: false,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 2,
+          blog_id: 1,
+          user_id: 2,
+          vote_direction: false,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 3,
+          blog_id: 2,
+          user_id: 2,
+          vote_direction: false,
+          created_at: new Date(),
+          updated_at: new Date()
+        }
       ]);
     })
     .then(() => {
