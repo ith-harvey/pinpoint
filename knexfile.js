@@ -1,10 +1,13 @@
 const path = require('path')
 
+//dev connection path for Mike
+const connectionPATH = process.env.CONNECTION_PATH || ''
+
 module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/pinpoint_dev',
+    connection: `postgres://${connectionPATH}localhost/pinpoint_dev`,
     migrations: {
       directory: path.join(__dirname, 'db', 'migrations')
     },
