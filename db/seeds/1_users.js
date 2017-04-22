@@ -22,7 +22,7 @@ exports.seed = function(knex, Promise) {
         {
           id: 3,
           name: 'Layla',
-          email: 'otherEmail@gmail.com',
+          email: 'laylasEmail@gmail.com',
           hashed_password: '',
           created_at: new Date(),
           updated_at: new Date()
