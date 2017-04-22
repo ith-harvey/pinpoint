@@ -9,6 +9,10 @@ const hbs = require('hbs')
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const flag = require('./routes/flag')
+const session = require('./routes/session')
+const blogs = require('./routes/blogs')
+
 
 const app = express();
 
