@@ -1,5 +1,7 @@
 'use strict'
 
+const bcrypt = require('bcrypt-as-promised')
+
 function checkUserInput(email,password){
   if(!email || !email.trim()){
     return false
@@ -31,6 +33,7 @@ function compareHashes(password,error){
 
 function deleteHashedPasswordAndRespond(req,res){
   return (user) => {
+    console.log(user)
     delete user.hashed_password
     req.session.userId = user.id
     console.log(req.session)
