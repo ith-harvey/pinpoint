@@ -5,6 +5,9 @@ const routingFunctions = require('routingFunctions.js')
 
 
 router.get('/', showAllBlogs)
+router.get('/new', showAddBlogForm)
+router.post('/new', addBlog)
+
 router.get('/:id', showSingleBlog)
 
 //Vote,flag,tag a blog
@@ -14,17 +17,12 @@ router.get('/:id', showSingleBlog)
     // ('/:id/tag')
 router.put('/:id', modifyBlog)
 
-
-
 //Vote on a comment
 router.get('/:id/comments/:id', voteBlogComment)
 
 router.get('/:id/comments', showBlogComments)
 router.post('/:id/comments', addBlogComment)
 
-
-router.get('/new', showAddBlogForm)
-router.post('/new', addBlog)
 
 
 
