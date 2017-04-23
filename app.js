@@ -3,6 +3,8 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
+
 const bodyParser = require('body-parser');
 const hbs = require('hbs')
 const bcrypt = require('bcrypt-as-promised')
@@ -38,7 +40,7 @@ const sessionOptions = {
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser(sessionOptions));
+app.use(cookieSession(sessionOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
