@@ -3,6 +3,7 @@ const path = require('path')
 //dev connection path for Mike
 const connectionPATH = process.env.CONNECTION_PATH || ''
 
+
 module.exports = {
 
   development: {
