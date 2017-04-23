@@ -3,9 +3,12 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
+
 const bodyParser = require('body-parser');
 const hbs = require('hbs')
 const bcrypt = require('bcrypt-as-promised')
+const dotenv = require('dotenv').config()
 
 
 const index = require('./routes/index');
@@ -27,10 +30,17 @@ app.set('view engine', 'hbs');
 //enables https with Heroku
 app.enable('trust proxy');
 
+//Initalizes the session options object
+const sessionOptions = {
+  name: 'pinpoint',
+  secret: process.env.SESSION_SECRET,
+  secure: app.get('env') === 'production'
+}
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieSession(sessionOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
