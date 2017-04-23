@@ -7,7 +7,6 @@ const router = express.Router()
 const sessionUtilities = require('./utilityFunctions.js')
 
 //http://expressjs-book.com/index.html%3Fp=128.html
-// testAccount ->  email@gmail.com:youreawizard
 
 ////////// Main Routes //////////
 router.get('/', showLogin)
