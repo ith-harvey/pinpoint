@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
           id: 1,
           user_name: 'Mike',
           email: 'email@gmail.com',
-          hashed_password: '',
+          hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS',
           created_at: new Date(),
           updated_at: new Date()
         },
