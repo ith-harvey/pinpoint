@@ -8,7 +8,6 @@ const hbs = require('hbs')
 const bcrypt = require('bcrypt-as-promised')
 
 
-
 const index = require('./routes/index');
 const users = require('./routes/users');
 const flag = require('./routes/flag')
@@ -42,7 +41,7 @@ app.use('/session', session)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
