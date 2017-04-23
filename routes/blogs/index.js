@@ -17,9 +17,8 @@ router.get('/:id', showSingleBlog)
     // ('/:id/tag')
 router.put('/:id', modifyBlog)
 
-//Vote on a comment
+//Vote on a comment --> functions kept in seperate page
 router.get('/:id/comments/:id', voteBlogComment)
-
 router.get('/:id/comments', showBlogComments)
 router.post('/:id/comments', addBlogComment)
 
@@ -33,6 +32,7 @@ function showAllBlogs(req,res,next){
 }
 
 function showSingleBlog(req,res,next){
+
 }
 
 function showAddBlogForm(req,res,next){

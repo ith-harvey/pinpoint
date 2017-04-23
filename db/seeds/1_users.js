@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
       return knex('users').insert([
         {
           id: 1,
-          name: 'Mike',
+          user_name: 'Mike',
           email: 'email@gmail.com',
           hashed_password: '',
           created_at: new Date(),
@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 2,
-          name: 'Elon',
+          user_name: 'Elon',
           email: 'otherEmail@gmail.com',
           hashed_password: '',
           created_at: new Date(),
@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 3,
-          name: 'Layla',
+          user_name: 'Layla',
           email: 'laylasEmail@gmail.com',
           hashed_password: '',
           created_at: new Date(),
