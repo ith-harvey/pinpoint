@@ -1,0 +1,41 @@
+<div class="container">
+      <div id="sidebar-wrapper" class="col">
+           <ul class="sidebar-nav">
+               <li class="sidebar-brand">
+                   <h4>
+                       Catagories
+                   </h4>
+               </li>
+               {{#each tags}}
+               <li>
+                   <a href="{{this.name}}">{{this.name}}</a>
+               </li>
+               {{/each}}
+           </ul>
+       </div>
+  <table class="table-borderless table">
+    <thead>
+      <tr>
+        <th></th>
+        <th><h4>Title</h4></th>
+        <th><h4>Description</h4></th>
+        <th><h4>Tags</h4></th>
+        <th><h4>Link</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each blogs}}
+      <tr class="blog" data-id="{{this.id}}">
+          <div class="panel-body">
+            <td class="blog-rating">{{this.rating}}</td>
+            <td class="blog-title">{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.name}}</td>
+            <td><a href='{{this.url}}'>{{this.url}}</a></td>
+            <td><form action=/blogs/{{this.id}} method="GET"><input type="submit" value="blog detail"></form></td>
+          </div>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
