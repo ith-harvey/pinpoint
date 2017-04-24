@@ -56,14 +56,16 @@ function seeUserFeed(req,res,next) {
     .catch((err) => next(err))
 }
 
+//Need too decide whether to break the add preferences form as a seperate file
 function seeTagForm(req,res,next){
   return db('tags')
     .then((tags) => {
       console.log(tags)
+      // res.render('')
     })
+    .catch((err) => next(err))
 }
-
-
+//handle post request for add preferences form
 function addUserPreferences(req,res,next) {
   const id = req.params.id
 }

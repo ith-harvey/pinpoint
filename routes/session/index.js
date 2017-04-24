@@ -16,7 +16,7 @@ router.delete('/', endSession)
 
 ////////// Routing Functions //////////
 function showLogin(req,res,next){
-  res.render('login', {title: 'Sign In'})
+  res.render('users/login', {title: 'Sign In'})
 }
 
 function endSession(req,res,next){
