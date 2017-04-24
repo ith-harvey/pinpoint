@@ -33,7 +33,6 @@ function registerUser(req,res,next){
           return db('users')
             .insert({user_name, email, hashed_password: password},'*')
             .then((user) => {
-              console.log('!',user,user[0])
               userUtilities.checkResponse(user)
               res.redirect('/blogs')
             })
@@ -44,28 +43,32 @@ function registerUser(req,res,next){
 
 
 function seeUserPreferences(req,res,next) {
-  const id = req.params.ids
+  const id = req.params.id
 
-  const userTags = retreiveUserTags()
-  res.render('users/preferences', {userTags})
+  return retreiveUserTags(id)
+    .then((userData) => {
+      console.log(userData)
+      const dataToSend = reduceData(userData)
+      res.render('users/preferences', {dataToSend})
+    })
+    .catch((err) => next(err))
 }
 
 function addUserPreferences(req,res,next) {
   const id = req.params.id
 }
 
-function retreiveData(){
-  return db.select('users.user_name')
-}
-
-//retreive all tags that match the user id passed in through req.params
-function retreiveUserTags(){
-  const id = 1
-
-  return db.select('*')
+//retreive all users and tag info that match the user id passed in through req.params
+function retreiveUserTags(id){
+  return db.select('users.user_name','tags.name')
     .from('tags')
     .innerJoin('users_tags','tags.id','users_tags.id')
-    .where('users_tags.id',id)
+    .innerJoin('users','users_tags.id','users.id')
+    .where('users.id',id)
+}
+
+function reduceData(data){
+  return data.reduce()
 }
 
 
