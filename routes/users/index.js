@@ -5,7 +5,7 @@ const db = require('../../db')
 const userUtilities = require('./utilityFunctions.js')
 
 
-/* GET users listing. */
+////////// Routes //////////
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
 
@@ -13,8 +13,11 @@ router.get('/:id/tags', seeUserPreferences)
 router.post('/:id/tags', addUserPreferences)
 
 
+
+
+////////// Routing Functions  //////////
 function showRegistrationPage(req,res,next){
-  res.render('registration',{title: 'Register'})
+  res.render('users/registration',{title: 'Register'})
 }
 
 
@@ -30,22 +33,51 @@ function registerUser(req,res,next){
           return db('users')
             .insert({user_name, email, hashed_password: password},'*')
             .then((user) => {
-              console.log('!',user,user[0])
-              checkResponse(user)
+              userUtilities.checkResponse(user)
               res.redirect('/blogs')
             })
         })
     })
     .catch((err) => next(err))
-
 }
 
 
-function seeUserPreferences() {
+function seeUserPreferences(req,res,next) {
+  const id = req.params.id
+
+  return retreiveUserTags(id)
+    .then((userData) => {
+      const userTags = getTagNames(userData)
+      res.render('users/preferences', {
+        userName: userData[0].user_name,
+        userTags: userTags
+      })
+    })
+    .catch((err) => next(err))
+}
+
+function addUserPreferences(req,res,next) {
+  const id = req.params.id
+}
+
+//retreive all users and tag info that match the user id passed in through req.params
+function retreiveUserTags(id){
+  return db.select('users.user_name','tags.name')
+    .from('users')
+    .innerJoin('users_tags','users.id','users_tags.user_id')
+    .innerJoin('tags','users_tags.tag_id','tags.id')
+    .where('users.id',id)
 
 }
-function addUserPreferences() {
 
+function getTagNames(userData){
+  const arrayOfTags = []
+  userData.forEach(innerObj => {
+    arrayOfTags.push({name: innerObj['name']})
+  })
+  console.log('nameTag',arrayOfTags)
+  return arrayOfTags
 }
+
 
 module.exports = router

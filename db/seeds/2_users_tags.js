@@ -19,6 +19,13 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 3,
+          user_id: 1,
+          tag_id: 3,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 4,
           user_id: 2,
           tag_id: 1,
           created_at: new Date(),
