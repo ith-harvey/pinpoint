@@ -51,20 +51,20 @@ function showAllBlogs(req,res,next){
     console.log(error);
     next(error)
   })
-
-
 }
 
 function showSingleBlog(req,res,next){
   console.log('in showSingleBlog');
   console.log('req.params.id',req.params.id);
   return db.select(
-    'blogs.id','blogs.title','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
+    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
   )
   .from('blogs')
-  .innerJoin('blogs_tags','blogs_tags.blog_id', 'blogs.id')
-  .innerJoin('tags','tags.id', 'blogs_tags.tag_id').where('blogs.id', req.params.id).then( blogs => {
-      res.render('blogs/singleBlog', { blogs, title: 'PinPoint' })
+  .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
+  .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where('blogs.id',req.params.id).then( blogs => {
+    blogs = combineTagsToBlogs(blogs)
+    console.log('blog combine',blogs[0]);
+    res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
     next(error)

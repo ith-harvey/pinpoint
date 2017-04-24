@@ -5,4 +5,8 @@
 <p>{{this.description}}</p>
 <p>{{this.url}}</p>
 <p>{{this.rating}}</p>
+<h4>Tags : </h4>
+{{#each this.tags}}
+<p>{{this.name}}</p>
+{{/each}}
 {{/each}}
