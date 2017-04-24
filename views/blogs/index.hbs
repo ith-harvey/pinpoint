@@ -38,7 +38,12 @@
       </div>
       <div>
         <div>{{this.description}}</div>
-        <div>{{this.name}}</div>
+        <div>
+          <h4>Tags : </h4> 
+        {{#each this.tags}}
+        <div data-tagid="{{this.id}}">{{this.name}}</div>
+        {{/each}}
+        </div>
         <div><a href='{{this.url}}'>{{this.url}}</a></div>
         <div><form action=/blogs/{{this.id}} method="GET"><input type="submit" value="blog detail"></form></div>
       </div>

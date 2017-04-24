@@ -67,7 +67,6 @@ function seeTagForm(req,res,next){
   return db('tags')
     .then((tags) => {
       console.log(tags)
-      // res.render('')
     })
     .catch((err) => next(err))
 }
