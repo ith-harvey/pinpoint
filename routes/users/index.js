@@ -9,7 +9,7 @@ const userUtilities = require('./utilityFunctions.js')
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
 
-router.get('/:id/feed', seeUserFeed)
+router.get('/:id/feed', authorize, seeUserFeed)
 
 router.get('/:id/tags', seeTagForm)
 router.post('/:id/tags', addUserPreferences)
@@ -18,6 +18,11 @@ router.post('/:id/tags', addUserPreferences)
 
 
 ////////// Routing Functions  //////////
+function authorize(req,res,next){
+  const error = {status: 401, message: 'Unauthorized'}
+  return req.session.userId ? next() : next(error)
+}
+
 function showRegistrationPage(req,res,next){
   res.render('users/registration',{title: 'Register'})
 }
