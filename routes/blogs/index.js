@@ -39,16 +39,14 @@ function addBlogComment(req,res,next){
   //can place these functions in an external file
 function showAllBlogs(req,res,next){
   return db.select(
-    'blogs.title','blogs.id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
+    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
   )
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    console.log('blogs', blogs);
-    db('tags').select('*').then( tags => {
-      res.render('blogs', { blogs, tags, title: 'PinPoint' })
-    })
-
+    blogs = combineTagsToBlogs(blogs)
+    console.log('blog combine',blogs[1].tags);
+    res.render('blogs', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
     next(error)
@@ -72,6 +70,40 @@ function showSingleBlog(req,res,next){
     next(error)
   })
 }
+
+function combineTagsToBlogs(blogs) {
+
+  return blogs.reduce( (acc, blog, index, array )=> {
+
+  let theBlogInTheNewArray = acc.filter(sortedBlog => {
+    return sortedBlog.id == blog.id
+  })[0]
+
+  if(!theBlogInTheNewArray) {
+    blog.tags = [{ id: blog.tag_id ,name: blog.name }]
+    acc.push(blog)
+  } else {
+    theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
+  }
+  return acc
+  },[])
+}
+
+
+
+
+
+// function getTagNames(userData){
+//   const arrayOfTags = []
+//   userData.forEach(innerObj => {
+//     console.log('this is innerobj', innerObj);
+//     arrayOfTags.push({name: innerObj['name']})
+//   })
+//   return arrayOfTags
+// }
+
+
+
 
 function addBlog(req,res,next){
 
