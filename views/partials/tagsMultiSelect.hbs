@@ -1,17 +1,32 @@
 <link rel='stylesheet' href='/stylesheets/multiSelectStyling.css' />
 
-<div class="container">
-	<div class="row">
+<script defer>
+$(function() {
+  console.log('hello?')
+    $('#search').on('keyup', function() {
+        var pattern = $(this).val();
+        $('.searchable-container .items').hide();
+        $('.searchable-container .items').filter(function() {
+            return $(this).text().match(new RegExp(pattern, 'i'));
+        }).show();
+    });
+});
+</script>
+
+	<!-- <div class="row">
 		<h2>Multiple Select with Search Option - Tiled Layout </h2>
         <div class="form-group">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <input type="search" class="form-control" id="search" placeholder="Add your options..">
             </div>
         </div>
-    </div>
+    </div> -->
+
     <div class="row">
         <div class="form-group">
             <div class="searchable-container">
+
+              {{#each tags}}
                 <div class="items col-xs-5 col-sm-5 col-md-3 col-lg-3">
                     <div class="info-block block-info clearfix">
                         <div class="square-box pull-left">
@@ -20,31 +35,16 @@
                         <div data-toggle="buttons" class="btn-group bizmoduleselect">
                             <label class="btn btn-default">
                                 <div class="bizcontent">
-                                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                                    <input type="checkbox" name="{{this.name}}" autocomplete="off" value="">
                                     <span class="glyphicon glyphicon-ok glyphicon-lg"></span>
-                                    <h5>Coffee</h5>
+                                    <h5>{{this.name}}</h5>
                                 </div>
                             </label>
                         </div>
                     </div>
                 </div>
-                <div class="items col-xs-5 col-sm-5 col-md-3 col-lg-3">
-                    <div class="info-block block-info clearfix">
-                        <div class="square-box pull-left">
-                            <span class="glyphicon glyphicon-tags glyphicon-lg"></span>
-                        </div>
-                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                            <label class="btn btn-default">
-                                <div class="bizcontent">
-                                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                    <span class="glyphicon glyphicon-ok glyphicon-lg"></span>
-                                    <h5>Tea</h5>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                {{/each}}
+
             </div>
         </div>
 	</div>
-</div>
