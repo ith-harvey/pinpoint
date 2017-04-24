@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt-as-promised')
 const db = require('../../db')
 const userUtilities = require('./utilityFunctions.js')
 
-
+//http://bootsnipp.com/snippets/featured/multi-select-tiled-layout
+  //fancy select tiles
+  
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
