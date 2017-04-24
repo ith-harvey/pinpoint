@@ -41,9 +41,9 @@ function showAllBlogs(req,res,next){
   return db.select(
     'blogs.title','blogs.id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
   )
-  .from('tags')
-  .innerJoin('blogs_tags','tags.id', 'blogs_tags.tag_id')
-  .innerJoin('blogs','blogs_tags.blog_id', 'blogs.id').where({flagged: false}).then( blogs => {
+  .from('blogs')
+  .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
+  .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
     console.log('blogs', blogs);
     db('tags').select('*').then( tags => {
       res.render('blogs', { blogs, tags, title: 'PinPoint' })

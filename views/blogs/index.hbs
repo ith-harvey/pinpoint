@@ -1,41 +1,51 @@
 <div class="container">
-      <div id="sidebar-wrapper" class="col">
-           <ul class="sidebar-nav">
-               <li class="sidebar-brand">
-                   <h4>
-                       Catagories
-                   </h4>
-               </li>
-               {{#each tags}}
-               <li>
-                   <a href="{{this.name}}">{{this.name}}</a>
-               </li>
-               {{/each}}
-           </ul>
-       </div>
-  <table class="table-borderless table">
-    <thead>
-      <tr>
-        <th></th>
-        <th><h4>Title</h4></th>
-        <th><h4>Description</h4></th>
-        <th><h4>Tags</h4></th>
-        <th><h4>Link</h4></th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each blogs}}
-      <tr class="blog" data-id="{{this.id}}">
-          <div class="panel-body">
-            <td class="blog-rating">{{this.rating}}</td>
-            <td class="blog-title">{{this.title}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.name}}</td>
-            <td><a href='{{this.url}}'>{{this.url}}</a></td>
-            <td><form action=/blogs/{{this.id}} method="GET"><input type="submit" value="blog detail"></form></td>
-          </div>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  <nav class="navbar navbar-default">
+<div class="container-fluid">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/blogs">pinpoint</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Link<span class="sr-only">(current)</span></a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+      </li>
+    </ul>
+    <form>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div><!-- /.navbar-collapse -->
+</div><!-- /.container-fluid -->
+</nav>
+  {{#each blogs}}
+  <div class="panel panel-default">
+    <div class="panel-body blog" data-id="{{this.id}}">
+      <div>
+        <div class="blog-rating"><h3>{{this.rating}}</h3></div>
+        <div class="blog-title"><h3>{{this.title}}</h3></div>
+      </div>
+      <div>
+        <div>{{this.description}}</div>
+        <div>{{this.name}}</div>
+        <div><a href='{{this.url}}'>{{this.url}}</a></div>
+        <div><form action=/blogs/{{this.id}} method="GET"><input type="submit" value="blog detail"></form></div>
+      </div>
+
+
+
+    </div>
+  </div>
+  {{/each}}
 </div>
