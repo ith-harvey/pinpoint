@@ -14,6 +14,9 @@ router.post('/register', registerUser)
 router.get('/:id/feed', authorize, seeUserFeed)
 
 // form to add tags to a user id
+router.get('/:id/customize', customizePreferencesForm)
+router.post('/:id/customize',customizePreferences)
+
 router.get('/:id/edit', seeUserEditForm)
 router.put('/:id/edit', editUserPreferences)
 
@@ -28,32 +31,47 @@ function authorize(req,res,next){
 }
 
 function showRegistrationPage(req,res,next){
-  return db('tags')
-    .then((tags) => {
-      res.render('users/registration',{tags})
-    })
-    .catch((err) => next(err))
+  res.render('users/registration',{title: 'Register'})
 }
 
 
 //hash methodology needs a workfactor to be specified
-  //need to redirect to the users specific blog feed
+  //may be easier to use request promise to wrangle the inputted data into an array called by req.body
 function registerUser(req,res,next){
   console.log(req.body)
-  const {user_name,email,password} = req.body
+  const {user_name,email,password,name} = req.body
   return bcrypt.genSalt(10)
     .then((salt) => {
       return bcrypt.hash(password,salt)
-        .then((password) => {
-          return db('users')
-            .insert({user_name, email, hashed_password: password},'*')
-            .then((user) => {
-              userUtilities.checkResponse(user)
-              res.redirect('/blogs')
-            })
-        })
+    })
+    .then((password) => {
+      return db('users')
+        .insert({user_name, email, hashed_password: password},'*')
+    })
+    .then((user) => {
+      console.log(user)
+      userUtilities.checkResponse(user)
+      res.redirect(`/users/${user.id}/customize`)
     })
     .catch((err) => next(err))
+}
+
+function customizePreferencesForm(req,res,next){
+  const id = req.params.id
+  return db('tags')
+    .then((tags) => {
+      res.render('users/customizePreferences',{tags: tags, id: id})
+    })
+    .catch((err) => next(err))
+}
+
+function customizePreferences(req,res,next){
+  const id = req.params.id
+  const {name} = req.body
+  return db('tags')
+    .insert({name})
+    // .where({id}) //may not be the correct approach
+
 }
 
 
