@@ -68,10 +68,15 @@ function customizePreferencesForm(req,res,next){
 function customizePreferences(req,res,next){
   const id = req.params.id
   const {name} = req.body
-  return db('tags')
-    .insert({name})
-    // .where({id}) //may not be the correct approach
-
+  console.log({name},req.body)
+  return names.map(tag => {
+    return db('tags')
+      .insert(tag)
+      .then(() => {
+        res.redirect(`/users/${id}/feed`)
+      })
+      .catch((err) => next(err))
+  })
 }
 
 
