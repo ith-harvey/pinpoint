@@ -6,7 +6,7 @@ const userUtilities = require('./utilityFunctions.js')
 
 //http://bootsnipp.com/snippets/featured/multi-select-tiled-layout
   //fancy select tiles
-  
+
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
@@ -14,7 +14,8 @@ router.post('/register', registerUser)
 router.get('/:id/feed', authorize, seeUserFeed)
 
 // form to add tags to a user id
-router.post('/:id/edit', editUserPreferences)
+router.get('/:id/edit', seeUserEditForm)
+router.put('/:id/edit', editUserPreferences)
 
 
 
@@ -38,6 +39,7 @@ function showRegistrationPage(req,res,next){
 //hash methodology needs a workfactor to be specified
   //need to redirect to the users specific blog feed
 function registerUser(req,res,next){
+  console.log(req.body)
   const {user_name,email,password} = req.body
   return bcrypt.genSalt(10)
     .then((salt) => {
@@ -57,9 +59,9 @@ function registerUser(req,res,next){
 
 function seeUserFeed(req,res,next) {
   const id = req.params.id
-  return retreiveUserTags(id)
+  return userUtilities.retreiveUserTags(id)
     .then((userData) => {
-      const userTags = getTagNames(userData)
+      const userTags = userUtilities.getTagNames(userData)
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,
@@ -70,28 +72,16 @@ function seeUserFeed(req,res,next) {
 }
 
 
+//handle put request for edit user information form
+function seeUserEditForm(req,res,next){
 
-//handle post request for add preferences form
+}
+
 function editUserPreferences(req,res,next) {
   const id = req.params.id
 }
 
-//retreive all users and tag info that match the user id passed in through req.params
-function retreiveUserTags(id){
-  return db.select('users.user_name','tags.name')
-    .from('users')
-    .innerJoin('users_tags','users.id','users_tags.user_id')
-    .innerJoin('tags','users_tags.tag_id','tags.id')
-    .where('users.id',id)
-}
 
-function getTagNames(userData){
-  const arrayOfTags = []
-  userData.forEach(innerObj => {
-    arrayOfTags.push({name: innerObj['name']})
-  })
-  return arrayOfTags
-}
 
 
 module.exports = router
