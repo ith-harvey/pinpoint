@@ -6,10 +6,11 @@
   </head>
   <body>
     {{> logout}}
-    Look at the userTags!
-    User: {{userName}}
+    Add Preference<a></a>
+    <h1>{{userName}}</h1>
+    <h3>Preferences:</h3>
     {{#each userTags}}
-      Preferences: {{this.name}}
+       <p>{{this.name}}</p>
     {{/each}}
   </body>
 </html>

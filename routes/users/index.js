@@ -11,6 +11,7 @@ router.post('/register', registerUser)
 
 router.get('/:id/feed', authorize, seeUserFeed)
 
+// form to add tags to a user id
 router.get('/:id/tags', seeTagForm)
 router.post('/:id/tags', addUserPreferences)
 
@@ -67,6 +68,7 @@ function seeTagForm(req,res,next){
   return db('tags')
     .then((tags) => {
       console.log(tags)
+      res.render('users/addUserPreferences',{tags})
     })
     .catch((err) => next(err))
 }
