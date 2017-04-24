@@ -41,7 +41,11 @@ function registerUser(req,res,next){
 }
 
 
+function seeUserPreferences() {
 
+}
+function addUserPreferences() {
 
+}
 
 module.exports = router
