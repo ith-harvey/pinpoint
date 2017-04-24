@@ -56,6 +56,7 @@ function seeUserFeed(req,res,next) {
     .then((userData) => {
       const userTags = getTagNames(userData)
       res.render('users/userFeed', {
+        userId: id,
         userName: userData[0].user_name,
         userTags: userTags
       })
