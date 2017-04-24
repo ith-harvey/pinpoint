@@ -106,7 +106,19 @@ function combineTagsToBlogs(blogs) {
 
 
 function addBlog(req,res,next){
-
+  console.log('reqdatbody',req.body);
+  let blogIns = {
+    title: req.body.title,
+    description: req.body.description,
+    url: req.body.url,
+  }
+  console.log('blogIns',blogIns);
+  db('blogs').insert(blogIns).then( result => {
+    console.log(result);
+    res.redirect('/blogs')
+  }).catch( error => {
+    next(error)
+  })
 }
 
 function modifyBlog(req,res,next){

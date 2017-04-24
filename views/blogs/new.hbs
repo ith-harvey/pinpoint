@@ -1,0 +1,49 @@
+<form class="form-horizontal" action='/blogs/new' method="POST">
+  <fieldset>
+    <div id="legend">
+      <legend class="">Add a blog</legend>
+    </div>
+    <div class="control-group">
+      <!-- Title -->
+      <label class="control-label"  for="title">Title: </label>
+      <div class="controls">
+        <input type="text" id="title" name="title" class="input-xlarge">
+        <p class="help-block">The title should refer to the name of the blog</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <!-- description -->
+      <label class="control-label" for="description">Description:</label>
+      <div class="controls">
+        <input type="text" id="description" name="description" placeholder="" class="input-xlarge">
+        <p class="help-block">Please provide a description of the blog</p>
+      </div>
+    </div>
+
+    <!-- <div class="control-group">
+
+      <label class="control-label" for="tags">Tags: </label>
+      <div class="controls">
+        <input type="tags" id="tags" name="tags" placeholder="" class="input-xlarge">
+        <p class="help-block">A tag should reflect the content of this specific blog</p>
+      </div>
+    </div> -->
+
+    <div class="control-group">
+      <!-- url -->
+      <label class="control-label"  for="url">Blog's URL: </label>
+      <div class="controls">
+        <input type="text" id="url" name="url" placeholder="" class="input-xlarge">
+        <p class="help-block">URL that links to the blog you are adding</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <input type="submit" class="btn btn-success">
+      </div>
+    </div>
+  </fieldset>
+</form>
