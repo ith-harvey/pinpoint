@@ -9,7 +9,9 @@ const userUtilities = require('./utilityFunctions.js')
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
 
-router.get('/:id/tags', seeUserPreferences)
+router.get('/:id/feed', seeUserFeed)
+
+router.get('/:id/tags', seeTagForm)
 router.post('/:id/tags', addUserPreferences)
 
 
@@ -25,7 +27,6 @@ function showRegistrationPage(req,res,next){
   //need to redirect to the users specific blog feed
 function registerUser(req,res,next){
   const {user_name,email,password} = req.body
-
   return bcrypt.genSalt(10)
     .then((salt) => {
       return bcrypt.hash(password,salt)
@@ -42,19 +43,26 @@ function registerUser(req,res,next){
 }
 
 
-function seeUserPreferences(req,res,next) {
+function seeUserFeed(req,res,next) {
   const id = req.params.id
-
   return retreiveUserTags(id)
     .then((userData) => {
       const userTags = getTagNames(userData)
-      res.render('users/preferences', {
+      res.render('users/userFeed', {
         userName: userData[0].user_name,
         userTags: userTags
       })
     })
     .catch((err) => next(err))
 }
+
+function seeTagForm(req,res,next){
+  return db('tags')
+    .then((tags) => {
+      console.log(tags)
+    })
+}
+
 
 function addUserPreferences(req,res,next) {
   const id = req.params.id
@@ -67,7 +75,6 @@ function retreiveUserTags(id){
     .innerJoin('users_tags','users.id','users_tags.user_id')
     .innerJoin('tags','users_tags.tag_id','tags.id')
     .where('users.id',id)
-
 }
 
 function getTagNames(userData){
@@ -75,7 +82,6 @@ function getTagNames(userData){
   userData.forEach(innerObj => {
     arrayOfTags.push({name: innerObj['name']})
   })
-  console.log('nameTag',arrayOfTags)
   return arrayOfTags
 }
 
