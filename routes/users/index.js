@@ -47,9 +47,11 @@ function seeUserPreferences(req,res,next) {
 
   return retreiveUserTags(id)
     .then((userData) => {
-      console.log(userData)
-      const dataToSend = reduceData(userData)
-      res.render('users/preferences', {dataToSend})
+      const userTags = getTagNames(userData)
+      res.render('users/preferences', {
+        userName: userData[0].user_name,
+        userTags: userTags
+      })
     })
     .catch((err) => next(err))
 }
@@ -61,18 +63,21 @@ function addUserPreferences(req,res,next) {
 //retreive all users and tag info that match the user id passed in through req.params
 function retreiveUserTags(id){
   return db.select('users.user_name','tags.name')
-    .from('tags')
-    .innerJoin('users_tags','tags.id','users_tags.id')
-    .innerJoin('users','users_tags.id','users.id')
+    .from('users')
+    .innerJoin('users_tags','users.id','users_tags.user_id')
+    .innerJoin('tags','users_tags.tag_id','tags.id')
     .where('users.id',id)
+
 }
 
-function reduceData(data){
-  return data.reduce()
+function getTagNames(userData){
+  const arrayOfTags = []
+  userData.forEach(innerObj => {
+    arrayOfTags.push({name: innerObj['name']})
+  })
+  console.log('nameTag',arrayOfTags)
+  return arrayOfTags
 }
-
-
-
 
 
 module.exports = router
