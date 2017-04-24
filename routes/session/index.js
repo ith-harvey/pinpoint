@@ -16,13 +16,13 @@ router.delete('/', endSession)
 
 ////////// Routing Functions //////////
 function showLogin(req,res,next){
-  res.render('login', {title: 'Sign In'})
+  res.render('users/login', {title: 'Sign In'})
 }
 
 function endSession(req,res,next){
   const message = {message: 'You have been logged out'}
   req.session = null
-  res.status(200).json(mesage)
+  res.status(200).json(message)
 }
 
 function authenticateUser(req,res,next){
