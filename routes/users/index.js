@@ -1,12 +1,17 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const bcrypt = require('bcrypt-as-promised')
-const db = require('../db')
+const db = require('../../db')
+const userUtilities = require('./utilityFunctions.js')
 
 
 /* GET users listing. */
-router.get('/register', showRegistrationPage);
-router.post('/register', registerUser);
+router.get('/register', showRegistrationPage)
+router.post('/register', registerUser)
+
+router.get('/:id/tags', seeUserPreferences)
+router.post('/:id/tags', addUserPreferences)
+
 
 function showRegistrationPage(req,res,next){
   res.render('registration',{title: 'Register'})
@@ -36,24 +41,7 @@ function registerUser(req,res,next){
 }
 
 
-function checkResponse(addedUser){
-  const emailError = {status: 400, message: 'Email must not be blank'}
-  const passwordError = {status: 400, message: 'Password must be longer than 8 characters'}
-
-  if(!addedUser.email){
-    return emailError
-  }
-  else if(checkPassword(addedUser.password)) {
-    return passwordError
-  }
-  return userData
-}
 
 
-//may need to modify this validation methodology
-function checkPassword(passwordStr){
-  return passwordStr.split('').length <= 8 ? true : false
-}
 
-
-module.exports = router;
+module.exports = router
