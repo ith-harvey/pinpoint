@@ -12,8 +12,7 @@ router.post('/register', registerUser)
 router.get('/:id/feed', authorize, seeUserFeed)
 
 // form to add tags to a user id
-router.get('/:id/tags', seeTagForm)
-router.post('/:id/tags', addUserPreferences)
+router.post('/:id/edit', editUserPreferences)
 
 
 
@@ -26,7 +25,11 @@ function authorize(req,res,next){
 }
 
 function showRegistrationPage(req,res,next){
-  res.render('users/registration',{title: 'Register'})
+  return db('tags')
+    .then((tags) => {
+      res.render('users/registration',{tags})
+    })
+    .catch((err) => next(err))
 }
 
 
@@ -64,17 +67,10 @@ function seeUserFeed(req,res,next) {
     .catch((err) => next(err))
 }
 
-//Need too decide whether to break the add preferences form as a seperate file
-function seeTagForm(req,res,next){
-  return db('tags')
-    .then((tags) => {
-      console.log(tags)
-      res.render('users/addUserPreferences',{tags})
-    })
-    .catch((err) => next(err))
-}
+
+
 //handle post request for add preferences form
-function addUserPreferences(req,res,next) {
+function editUserPreferences(req,res,next) {
   const id = req.params.id
 }
 
