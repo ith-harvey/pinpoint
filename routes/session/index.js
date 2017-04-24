@@ -22,7 +22,7 @@ function showLogin(req,res,next){
 function endSession(req,res,next){
   const message = {message: 'You have been logged out'}
   req.session = null
-  res.status(200).json(mesage)
+  res.status(200).json(message)
 }
 
 function authenticateUser(req,res,next){

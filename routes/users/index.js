@@ -19,8 +19,9 @@ router.post('/:id/tags', addUserPreferences)
 
 ////////// Routing Functions  //////////
 function authorize(req,res,next){
+  const id = req.params.id
   const error = {status: 401, message: 'Unauthorized'}
-  return req.session.userId ? next() : next(error)
+  return parseInt(req.session.userId) === parseInt(id) ? next() : next(error)
 }
 
 function showRegistrationPage(req,res,next){
