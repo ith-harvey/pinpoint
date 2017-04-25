@@ -28,7 +28,13 @@ router.put('/:id/edit', editUserPreferences)
 function authorize(req,res,next){
   const id = req.params.id
   const error = {status: 401, message: 'Unauthorized'}
-  return parseInt(req.session.userId) === parseInt(id) ? next() : next(error)
+  if(parseInt(req.session.userId) === parseInt(id)){
+    return next()
+  }
+  else{
+    next(error)
+    res.redirect('/blogs')
+  }
 }
 
 function showRegistrationPage(req,res,next){
