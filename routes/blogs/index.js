@@ -89,40 +89,73 @@ function combineTagsToBlogs(blogs) {
 
 
 
-
-
-// function getTagNames(userData){
-//   const arrayOfTags = []
-//   userData.forEach(innerObj => {
-//     console.log('this is innerobj', innerObj);
-//     arrayOfTags.push({name: innerObj['name']})
-//   })
-//   return arrayOfTags
-// }
-
-
-
-
 function addBlog(req,res,next){
+
   console.log('reqdatbody',req.body);
   let blogIns = {
     title: req.body.title,
     description: req.body.description,
     url: req.body.url,
   }
-  db('blogs').insert(blogIns).returning('id').then( blogId => {
-    blogId = blogId[0]
-    var newArr = new Array
-    const tag_ids = req.body.id
-    let constTagsBlogsIns = tag_ids.map( individtag_id => {
-      return {tag_id: individtag_id, blog_id: blogId}
+  let tagsBlogsIns = req.body.id
+  let tagNamesIns = req.body.name
+
+  if(tagNamesIns) {
+    if(tagNamesIns.length >= 1 && Array.isArray(tagNamesIns)) {
+      tagNamesIns = tagNamesIns.map( specifName => {
+          return {name: specifName}
+      })
+      console.log('inside inner tagNames', tagNamesIns);
+    }
+
+    db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
+      console.log('the tag was inserted', insertedTagIds);
+
+      if(tagsBlogsIns) {
+        // if(typeof tagsBlogsIns == 'string') {
+        // tagsBlogsIns = [tagsBlogsIns]
+        // tagsBlogsIns.push(insertedTagIds)
+
+
+        // if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
+        //
+        // }
+
+      }
     })
-    db('blogs_tags').insert(constTagsBlogsIns).then( () => {
-      res.redirect('/blogs')
+  }
+
+  blogsInsertToDB()
+
+  function blogsInsertToDB() {
+
+    db('blogs').insert(blogIns).returning('id').then( blogId => {
+      blogId = blogId[0]
+      console.log('blog injection finnished');
+
+      if(tagsBlogsIns) {
+        // if array of ids -
+        // if just an id - add tag to blog_tags
+        if(typeof tagsBlogsIns === 'string') {
+          tagsBlogsIns = {tag_id: tagsBlogsIns, blog_id: blogId}
+        }
+        if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
+          tagsBlogsIns = tagsBlogsIns.map( individtag_id => {
+            return {tag_id: individtag_id, blog_id: blogId}
+          })
+          console.log('inside inner tagsblogsins', tagsBlogsIns);
+        }
+
+        db('blogs_tags').insert(tagsBlogsIns).then( () => {
+          res.redirect('/blogs')
+          console.log('blogs_tags injection finnished');
+        })
+      }
+    // }).catch( error => {
+    //   next(error)
+    // })
     })
-  }).catch( error => {
-    next(error)
-  })
+  }
 }
 
 

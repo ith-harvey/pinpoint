@@ -21,21 +21,26 @@
       </div>
     </div>
 
-    <!-- <div class="control-group">
-
-      <label class="control-label" for="tags">Tags: </label>
-      <div class="controls">
-        <input type="tags" id="tags" name="tags" placeholder="" class="input-xlarge">
-        <p class="help-block">A tag should reflect the content of this specific blog</p>
-      </div>
-    </div> -->
-
     <div class="control-group">
       <div class="controls">
         {{> tagsMultiSelect}}
       </div>
     </div>
 
+    <label class="control-label" for="tag-no-exist-btn">A tag doesn't exist?</label>
+    <input type="button" class="btn btn-primary" id="tag-no-exist-btn" value=" Add new classes">
+
+    <div id="tag-show-adition-group">
+      <div class="control-group tag-text-input">
+        <label class="control-label"  for="name">New tag: </label>
+        <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
+        <input type="button" class="btn btn-default tag-edit-btn" value="edit">
+      </div>
+
+      <div class="control-group">
+        <input type="button" class="btn btn-primary" id="tag-add-another-btn" value="+ Add another class">
+      </div>
+    </div>
 
     <div class="control-group">
       <!-- url -->
