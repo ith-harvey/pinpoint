@@ -11,7 +11,7 @@ const sessionRouting = require('../session/routingFunctions.js')
 
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
-router.post('/register', registerUser, sessionRouting.authenticateUser)
+router.post('/register', registerUser)
 
 router.get('/:id/feed', authorize, seeUserFeed)
 
@@ -58,7 +58,9 @@ function registerUser(req,res,next){
         return db('users')
           .insert({user_name, email, hashed_password: password},'*')
       })
-      .then(() => next())
+      .then(() => {
+        return sessionRouting.authenticateUser(req,res,next)
+      })
       .catch((err) => next(err))
   }
   else{
