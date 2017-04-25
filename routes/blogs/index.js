@@ -39,14 +39,12 @@ function addBlogComment(req,res,next){
   //can place these functions in an external file
 function showAllBlogs(req,res,next){
   return db.select(
-    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
-  )
+    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
     blogs = combineTagsToBlogs(blogs)
-    console.log('blog combine',blogs[1].tags);
-    res.render('blogs', {blogs, title: 'PinPoint' })
+    res.render('blogs', {blogs, tags, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
     next(error)
@@ -128,7 +126,10 @@ function modifyBlog(req,res,next){
 
 
 function showAddBlogForm(req,res,next){
-  res.render('blogs/new', { title: 'Add a blog' })
+  db('tags').then( tags =>{
+    console.log(tags);
+    res.render('blogs/new', { tags, title: 'Add a blog' })
+  })
 }
 
 
