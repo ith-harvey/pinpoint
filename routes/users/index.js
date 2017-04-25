@@ -106,10 +106,14 @@ function seeUserFeed(req,res,next) {
         userId: id,
         userName: userData[0].user_name,
         userTags: uniqueTags,
-        blogs: uniqueData
+        blogs: uniqueData,
       })
     })
     .catch((err) => next(err))
+}
+
+function buildSingleBlogObj(data){
+  
 }
 
 
