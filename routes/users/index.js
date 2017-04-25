@@ -32,7 +32,7 @@ function authorize(req,res,next){
     return next()
   }
   else{
-    next(error)
+    // next(error)
     res.redirect('/blogs')
   }
 }
@@ -70,35 +70,11 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
-//need to insert based upon tag id so there arent duplicates
-  //need to figure out how to redirect the information only after all insertions
-  //are complete -> perform multiple insertions in a query
 
-  //on branch register post
-
-// function customizePreferences(req,res,next){
-//   const userId = req.params.id
-//   const {id} = req.body
-//   return id.map(tagID => {
-//     console.log('!',tagID)
-//     return db('users_tags')
-//       .insert({
-//         user_id: userId,
-//         tag_id: parseInt(id)
-//       })
-//       .then(() => {
-//         res.redirect(`/users/${userId}/feed`)
-//       })
-//       .catch((err) => next(err))
-//   })
-// }
-
-//return Promise.map
 function customizePreferences(req,res,next){
   const userId = req.params.id
   const {id} = req.body
   return id.map(tagID => {
-    console.log('!',tagID)
     return db('users_tags')
       .insert({
         user_id: userId,
