@@ -13,7 +13,6 @@ function endSession(req,res,next){
 }
 
 function authenticateUser(req,res,next){
-  console.log('authentication is proceeding', req.body)
   const {email,password} = req.body
   const error = {status: 400, message: 'Bad email or password'}
   const isValid = sessionUtilities.checkUserInput(email,password)
