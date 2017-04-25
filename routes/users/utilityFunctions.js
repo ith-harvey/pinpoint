@@ -38,17 +38,17 @@ function getTagNames(userData){
 
 
 function removeDuplicates(originalArray, prop) {
-     const newArray = [];
-     const lookupObject  = {};
+     const newArray = []
+     const lookupObject = {}
 
      for(let i in originalArray) {
-        lookupObject[originalArray[i][prop]] = originalArray[i];
+        lookupObject[originalArray[i][prop]] = originalArray[i]
      }
 
      for(let i in lookupObject) {
-         newArray.push(lookupObject[i]);
+         newArray.push(lookupObject[i])
      }
-      return newArray;
+      return newArray
  }
 
 module.exports = {
