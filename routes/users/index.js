@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt-as-promised')
 const db = require('../../db')
 const userUtilities = require('./utilityFunctions.js')
 
-const sessionRoute = require('./session/routingFunctions')
+const sessionRouting = require('../session/routingFunctions.js')
 
 //http://bootsnipp.com/snippets/featured/multi-select-tiled-layout
   //fancy select tiles
 
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
-router.post('/register', registerUser, sessionRoute.authenticateUser)
+router.post('/register', registerUser, sessionRouting.authenticateUser)
 
 router.get('/:id/feed', authorize, seeUserFeed)
 

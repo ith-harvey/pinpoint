@@ -23,3 +23,10 @@ function authenticateUser(req,res,next){
     next(error)
   }
 }
+
+
+module.exports = {
+  showLogin,
+  endSession,
+  authenticateUser
+}
