@@ -101,6 +101,7 @@ function seeUserFeed(req,res,next) {
     .then((userData) => {
       const uniqueTags = userUtilities.removeDuplicates(userUtilities.getTagNames(userData),'name')
       const uniqueData = userUtilities.removeDuplicates(userData,'title')
+      console.log(uniqueTags)
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,

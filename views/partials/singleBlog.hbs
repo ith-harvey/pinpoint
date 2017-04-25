@@ -11,13 +11,14 @@
         <div>{{this.description}}</div>
         <div>
           <h4>Tags : </h4>
-          {{#each this.tags}}
+          <!-- <btn class="btn-primary btn-xs">{{this.name}}</btn> -->
+          {{#each userTags}}
             <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
           {{/each}}
         </div>
         <div><a href='{{this.url}}'>{{this.url}}</a></div>
         <div>
-          <form action=/blogs/ {{this.id}} method="GET"><input type="submit" value="blog detail"></form>
+          <form action="/blogs/{{this.id}}"  method="GET"><input type="submit" value="blog detail"></form>
         </div>
       </div>
     </div>
