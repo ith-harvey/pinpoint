@@ -47,20 +47,23 @@ function showRegistrationPage(req,res,next){
 //hash methodology needs a workfactor to be specified
   //may be easier to use request promise to wrangle the inputted data into an array called by req.body
 function registerUser(req,res,next){
-  const {user_name,email,password,name} = req.body
-  return bcrypt.genSalt(10)
-    .then((salt) => {
-      return bcrypt.hash(password,salt)
-    })
-    .then((password) => {
-      return db('users')
-        .insert({user_name, email, hashed_password: password},'*')
-    })
-    .then((user) => {
-      userUtilities.checkResponse(user)
-      res.redirect(`/users/${user[0].id}/customize`)
-    })
-    .catch((err) => next(err))
+  const {user_name,email,password} = req.body
+  const errorMessage = 'Bad Email or Password'
+  if(userUtilities.checkResponse(req.body)){
+    return bcrypt.genSalt(10)
+      .then((salt) => {
+        return bcrypt.hash(password,salt)
+      })
+      .then((password) => {
+        return db('users')
+          .insert({user_name, email, hashed_password: password},'*')
+      })
+      .then(() => next())
+      .catch((err) => next(err))
+  }
+  else{
+    res.render('users/registration',{errorMessage})
+  }
 }
 
 function customizePreferencesForm(req,res,next){
@@ -72,7 +75,7 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
-
+//insert into users as an array
 function customizePreferences(req,res,next){
   const userId = req.params.id
   const {id} = req.body

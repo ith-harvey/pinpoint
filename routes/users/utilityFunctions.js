@@ -3,18 +3,17 @@ const db = require('../../db')
 function checkResponse(addedUser){
   const emailError = {status: 400, message: 'Email must not be blank'}
   const passwordError = {status: 400, message: 'Password must be longer than 8 characters'}
-
   if(!addedUser.email){
-    return emailError
+    return false
   }
   else if(checkPassword(addedUser.password)) {
-    return passwordError
+    return false
   }
-  return userData
+  return true
 }
 
 function checkPassword(passwordStr){
-  return passwordStr.split('').length <= 8 ? true : false
+  return passwordStr.split('').length <= 4 ? true : false
 }
 
 
