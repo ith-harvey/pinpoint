@@ -24,6 +24,7 @@ router.put('/:id/edit', editUserPreferences)
 
 
 ////////// Routing Functions  //////////
+  //redirect to showAllBlogs if req.session.id not present
 function authorize(req,res,next){
   const id = req.params.id
   const error = {status: 401, message: 'Unauthorized'}
@@ -38,7 +39,6 @@ function showRegistrationPage(req,res,next){
 //hash methodology needs a workfactor to be specified
   //may be easier to use request promise to wrangle the inputted data into an array called by req.body
 function registerUser(req,res,next){
-  console.log(req.body)
   const {user_name,email,password,name} = req.body
   return bcrypt.genSalt(10)
     .then((salt) => {
@@ -49,9 +49,8 @@ function registerUser(req,res,next){
         .insert({user_name, email, hashed_password: password},'*')
     })
     .then((user) => {
-      console.log(user)
       userUtilities.checkResponse(user)
-      res.redirect(`/users/${user.id}/customize`)
+      res.redirect(`/users/${user[0].id}/customize`)
     })
     .catch((err) => next(err))
 }
@@ -65,15 +64,21 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
+//need to insert based upon tag id so there arent duplicates
+  //need to figure out how to redirect the information only after all insertions
+  //are complete.
 function customizePreferences(req,res,next){
-  const id = req.params.id
-  const {name} = req.body
-  console.log({name},req.body)
-  return names.map(tag => {
-    return db('tags')
-      .insert(tag)
+  const userId = req.params.id
+  const {id} = req.body
+  return id.map(tagID => {
+    console.log('!',tagID)
+    return db('users_tags')
+      .insert({
+        user_id: userId,
+        tag_id: parseInt(id)
+      })
       .then(() => {
-        res.redirect(`/users/${id}/feed`)
+        res.redirect(`/users/${userId}/feed`)
       })
       .catch((err) => next(err))
   })

@@ -1,3 +1,5 @@
+const db = require('../../db')
+
 function checkResponse(addedUser){
   const emailError = {status: 400, message: 'Email must not be blank'}
   const passwordError = {status: 400, message: 'Password must be longer than 8 characters'}
