@@ -1,6 +1,6 @@
 {{#each blogs}}
   <div class="panel panel-default">
-    <div class="panel-body blog" data-id="{{this.id}}">
+    <div class="panel-body blog" data-id="{{this.blog_id}}">
       <div>
         <div class="blog-rating">
           <h3>{{this.rating}}</h3></div>
@@ -11,12 +11,12 @@
         <div>{{this.description}}</div>
         <div><a href='{{this.url}}'>{{this.url}}</a></div>
         <div>
-          <form action="/blogs/{{this.id}}"  method="GET"><input type="submit" value="blog detail"></form>
+          <form action="/blogs/{{this.blog_id}}"  method="GET"><input type="submit" value="blog detail"></form>
         </div>
         <div>
           <h4>Tags : </h4>
           <!-- <btn class="btn-primary btn-xs">{{this.name}}</btn> -->
-          {{#each userTags}}
+          {{#each tags}}
             <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
           {{/each}}
         </div>
