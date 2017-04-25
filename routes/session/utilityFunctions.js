@@ -49,7 +49,7 @@ function deleteHashedPasswordAndRespond(req,res){
   return (user) => {
     delete user.hashed_password
     req.session.userId = user.id
-    return res.redirect(`/users/${user.id}/feed`)
+    return res.redirect(`/users/${user.id}/customize`)
   }
 }
 
