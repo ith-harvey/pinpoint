@@ -77,7 +77,8 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
-//insert into users as an array
+
+//Need to rewrite insert methodology to prevent multiple queries
 function customizePreferences(req,res,next){
   const userId = req.params.id
   const {id} = req.body
@@ -100,16 +101,10 @@ function seeUserFeed(req,res,next) {
   return userUtilities.retreiveUserData(id)
     .then((userData) => {
       const outputObj = buildSingleBlogObj(userData)
-      console.dir(outputObj, { depth: null })
-
-      const uniqueTags = userUtilities.removeDuplicates(userUtilities.getTagNames(userData),'name')
-      const uniqueData = userUtilities.removeDuplicates(userData,'title')
-
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,
-        userTags: uniqueTags,
-        blogs: outputObj,
+        blogs: outputObj
       })
     })
     .catch((err) => next(err))
