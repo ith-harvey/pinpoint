@@ -9,8 +9,11 @@
     <a href="/users/{{userId}}/customize">Add Preference</a>
     <h1>{{userName}}</h1>
     <h3>Preferences:</h3>
-    {{#each userTags}}
-       <p>{{this.name}}</p>
-    {{/each}}
+    <ul>
+      {{#each userTags}}
+         <li><p>{{this.name}}</p></li>
+      {{/each}}
+    </ul>
+    {{> singleBlog}}
   </body>
 </html>

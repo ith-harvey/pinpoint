@@ -1,0 +1,25 @@
+{{#each blogs}}
+  <div class="panel panel-default">
+    <div class="panel-body blog" data-id="{{this.id}}">
+      <div>
+        <div class="blog-rating">
+          <h3>{{this.rating}}</h3></div>
+        <div class="blog-title">
+          <h3>{{this.title}}</h3></div>
+      </div>
+      <div>
+        <div>{{this.description}}</div>
+        <div>
+          <h4>Tags : </h4>
+          {{#each this.tags}}
+            <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
+          {{/each}}
+        </div>
+        <div><a href='{{this.url}}'>{{this.url}}</a></div>
+        <div>
+          <form action=/blogs/ {{this.id}} method="GET"><input type="submit" value="blog detail"></form>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/each}}

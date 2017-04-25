@@ -97,13 +97,15 @@ function customizePreferences(req,res,next){
 
 function seeUserFeed(req,res,next) {
   const id = req.params.id
-  return userUtilities.retreiveUserTags(id)
+  return userUtilities.retreiveUserData(id)
     .then((userData) => {
-      const userTags = userUtilities.getTagNames(userData)
+      const uniqueTags = userUtilities.removeDuplicates(userUtilities.getTagNames(userData),'name')
+      const uniqueData = userUtilities.removeDuplicates(userData,'title')
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,
-        userTags: userTags
+        userTags: uniqueTags,
+        blogs: uniqueData
       })
     })
     .catch((err) => next(err))

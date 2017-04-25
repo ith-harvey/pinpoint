@@ -19,7 +19,7 @@ function checkPassword(passwordStr){
 
 //retreive all users and tag info that match the user id passed in through req.params
 function retreiveUserData(id){
-  return db.select('users.user_name','tags.name','blogs.title')
+  return db.select('users.user_name','tags.name','blogs.title','blogs.rating','blogs.description')
     .from('users')
     .innerJoin('users_tags','users.id','users_tags.user_id')
     .innerJoin('tags','users_tags.tag_id','tags.id')
@@ -36,9 +36,25 @@ function getTagNames(userData){
   return arrayOfTags
 }
 
+
+function removeDuplicates(originalArray, prop) {
+     const newArray = [];
+     const lookupObject  = {};
+
+     for(let i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+     }
+
+     for(let i in lookupObject) {
+         newArray.push(lookupObject[i]);
+     }
+      return newArray;
+ }
+
 module.exports = {
   checkResponse,
   checkPassword,
   retreiveUserData,
-  getTagNames
+  getTagNames,
+  removeDuplicates
 }
