@@ -44,7 +44,7 @@ function showAllBlogs(req,res,next){
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
     blogs = combineTagsToBlogs(blogs)
-    res.render('blogs', {blogs, tags, title: 'PinPoint' })
+    res.render('blogs', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
     next(error)
@@ -110,14 +110,21 @@ function addBlog(req,res,next){
     description: req.body.description,
     url: req.body.url,
   }
-  console.log('blogIns',blogIns);
-  db('blogs').insert(blogIns).then( result => {
-    console.log(result);
-    res.redirect('/blogs')
+  db('blogs').insert(blogIns).returning('id').then( blogId => {
+    blogId = blogId[0]
+    var newArr = new Array
+    const tag_ids = req.body.id
+    let constTagsBlogsIns = tag_ids.map( individtag_id => {
+      return {tag_id: individtag_id, blog_id: blogId}
+    })
+    db('blogs_tags').insert(constTagsBlogsIns).then( () => {
+      res.redirect('/blogs')
+    })
   }).catch( error => {
     next(error)
   })
 }
+
 
 function modifyBlog(req,res,next){
 
