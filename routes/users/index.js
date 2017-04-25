@@ -6,7 +6,7 @@ const userUtilities = require('./utilityFunctions.js')
 
 //http://bootsnipp.com/snippets/featured/multi-select-tiled-layout
   //fancy select tiles
-  
+
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
@@ -14,52 +14,109 @@ router.post('/register', registerUser)
 router.get('/:id/feed', authorize, seeUserFeed)
 
 // form to add tags to a user id
-router.post('/:id/edit', editUserPreferences)
+router.get('/:id/customize', customizePreferencesForm)
+router.post('/:id/customize',customizePreferences)
+
+router.get('/:id/edit', seeUserEditForm)
+router.put('/:id/edit', editUserPreferences)
 
 
 
 
 ////////// Routing Functions  //////////
+  //redirect to showAllBlogs if req.session.id not present
 function authorize(req,res,next){
   const id = req.params.id
   const error = {status: 401, message: 'Unauthorized'}
-  return parseInt(req.session.userId) === parseInt(id) ? next() : next(error)
+  if(parseInt(req.session.userId) === parseInt(id)){
+    return next()
+  }
+  else{
+    next(error)
+    res.redirect('/blogs')
+  }
 }
 
 function showRegistrationPage(req,res,next){
-  return db('tags')
-    .then((tags) => {
-      res.render('users/registration',{tags})
-    })
-    .catch((err) => next(err))
+  res.render('users/registration',{title: 'Register'})
 }
 
 
 //hash methodology needs a workfactor to be specified
-  //need to redirect to the users specific blog feed
+  //may be easier to use request promise to wrangle the inputted data into an array called by req.body
 function registerUser(req,res,next){
-  const {user_name,email,password} = req.body
+  const {user_name,email,password,name} = req.body
   return bcrypt.genSalt(10)
     .then((salt) => {
       return bcrypt.hash(password,salt)
-        .then((password) => {
-          return db('users')
-            .insert({user_name, email, hashed_password: password},'*')
-            .then((user) => {
-              userUtilities.checkResponse(user)
-              res.redirect('/blogs')
-            })
-        })
+    })
+    .then((password) => {
+      return db('users')
+        .insert({user_name, email, hashed_password: password},'*')
+    })
+    .then((user) => {
+      userUtilities.checkResponse(user)
+      res.redirect(`/users/${user[0].id}/customize`)
     })
     .catch((err) => next(err))
+}
+
+function customizePreferencesForm(req,res,next){
+  const id = req.params.id
+  return db('tags')
+    .then((tags) => {
+      res.render('users/customizePreferences',{tags: tags, id: id})
+    })
+    .catch((err) => next(err))
+}
+
+//need to insert based upon tag id so there arent duplicates
+  //need to figure out how to redirect the information only after all insertions
+  //are complete -> perform multiple insertions in a query
+
+  //on branch register post
+
+// function customizePreferences(req,res,next){
+//   const userId = req.params.id
+//   const {id} = req.body
+//   return id.map(tagID => {
+//     console.log('!',tagID)
+//     return db('users_tags')
+//       .insert({
+//         user_id: userId,
+//         tag_id: parseInt(id)
+//       })
+//       .then(() => {
+//         res.redirect(`/users/${userId}/feed`)
+//       })
+//       .catch((err) => next(err))
+//   })
+// }
+
+//return Promise.map
+function customizePreferences(req,res,next){
+  const userId = req.params.id
+  const {id} = req.body
+  return id.map(tagID => {
+    console.log('!',tagID)
+    return db('users_tags')
+      .insert({
+        user_id: userId,
+        tag_id: parseInt(id)
+      })
+      .then(() => {
+        res.redirect(`/users/${userId}/feed`)
+      })
+      .catch((err) => next(err))
+  })
 }
 
 
 function seeUserFeed(req,res,next) {
   const id = req.params.id
-  return retreiveUserTags(id)
+  return userUtilities.retreiveUserTags(id)
     .then((userData) => {
-      const userTags = getTagNames(userData)
+      const userTags = userUtilities.getTagNames(userData)
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,
@@ -70,28 +127,16 @@ function seeUserFeed(req,res,next) {
 }
 
 
+//handle put request for edit user information form
+function seeUserEditForm(req,res,next){
 
-//handle post request for add preferences form
+}
+
 function editUserPreferences(req,res,next) {
   const id = req.params.id
 }
 
-//retreive all users and tag info that match the user id passed in through req.params
-function retreiveUserTags(id){
-  return db.select('users.user_name','tags.name')
-    .from('users')
-    .innerJoin('users_tags','users.id','users_tags.user_id')
-    .innerJoin('tags','users_tags.tag_id','tags.id')
-    .where('users.id',id)
-}
 
-function getTagNames(userData){
-  const arrayOfTags = []
-  userData.forEach(innerObj => {
-    arrayOfTags.push({name: innerObj['name']})
-  })
-  return arrayOfTags
-}
 
 
 module.exports = router
