@@ -17,5 +17,9 @@
     {{/each}}
     {{> addComment}}
 
+    {{#if error}}
+      <h3>{{error}}</h3>
+    {{/if}}
+
   {{/each}}
 </div>
