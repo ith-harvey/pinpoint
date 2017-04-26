@@ -11,6 +11,10 @@
     <p>{{this.name}}</p>
   {{/each}}
 
+  <form action="/blogs/{{this.id}}/comments" method="POST">
+    <button class="btn btn-success" type="submit">Add a comment</button>
+  </form>
+
   {{#each this.comments}}
     {{> comments}}
   {{/each}}

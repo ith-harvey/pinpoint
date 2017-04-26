@@ -19,7 +19,7 @@ router.get('/:id', showSingleBlog)
 router.put('/:id', modifyBlog)
 
 //Vote on a comment --> functions kept in seperate page
-router.get('/:id/comments/:id', voteBlogComment)
+router.put('/:id/comments/:id', voteBlogComment)
 
 router.get('/:id/comments', showBlogComments)
 
@@ -64,7 +64,8 @@ function showAllBlogs(req,res,next){
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    blogs = combineTagsToBlogs(blogs)
+    // blogs = combineTagsToBlogs(blogs)
+    blogs = modfiyBlogsObject(blogs)
     res.render('blogs', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
@@ -72,31 +73,12 @@ function showAllBlogs(req,res,next){
   })
 }
 
-// function showSingleBlog(req,res,next){
-//   console.log('in showSingleBlog');
-//   console.log('req.params.id',req.params.id);
-//   return db.select(
-//     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
-//   )
-//   .from('blogs')
-//   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
-//   .innerJoin('tags','blogs_tags.tag_id', 'tags.id')
-//   .where('blogs.id',req.params.id)
-//   .then( blogs => {
-//     blogs = combineTagsToBlogs(blogs)
-//     console.log('blog combine',blogs[0]);
-//     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
-//   }).catch( error => {
-//     console.log(error);
-//     next(error)
-//   })
-// }
 
 function showSingleBlog(req,res,next){
   const id = req.params.id
   return db.select(
       'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
-      'comments.rating AS comment_rating','comments.text','users.user_name'
+      'comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id'
   )
   .from('tags')
   .innerJoin('blogs_tags','tags.id','blogs_tags.tag_id')
@@ -107,17 +89,14 @@ function showSingleBlog(req,res,next){
   .where('blogs.id',id)
   .then((blogs) => {
     blogs = modfiyBlogsObject(blogs)
-    console.dir(blogs,modfiyBlogsObject(blogs))
     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
   })
   .catch((err) => next(err))
 }
 
-//blogs.comments
-
 
 function modfiyBlogsObject(blogs) {
-  return blogs.reduce( (acc, blog, index, array )=> {
+  return blogs.reduce((acc, blog, index, array) => {
 
     const theBlogInTheNewArray = acc.filter(sortedBlog => {
       return sortedBlog.id == blog.id
@@ -125,34 +104,15 @@ function modfiyBlogsObject(blogs) {
 
     if(!theBlogInTheNewArray) {
       blog.tags = [{ id: blog.tag_id ,name: blog.name }]
-      blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating }]
+      blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id}]
       acc.push(blog)
     } else {
       theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
-      theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating })
+      theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id })
     }
     return acc
   },[])
 }
-
-
-// function combineTagsToBlogs(blogs) {
-//
-//   return blogs.reduce( (acc, blog, index, array )=> {
-//
-//   let theBlogInTheNewArray = acc.filter(sortedBlog => {
-//     return sortedBlog.id == blog.id
-//   })[0]
-//
-//   if(!theBlogInTheNewArray) {
-//     blog.tags = [{ id: blog.tag_id ,name: blog.name }]
-//     acc.push(blog)
-//   } else {
-//     theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
-//   }
-//   return acc
-//   },[])
-// }
 
 
 
