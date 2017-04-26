@@ -89,40 +89,84 @@ function combineTagsToBlogs(blogs) {
 
 
 
-
-
-// function getTagNames(userData){
-//   const arrayOfTags = []
-//   userData.forEach(innerObj => {
-//     console.log('this is innerobj', innerObj);
-//     arrayOfTags.push({name: innerObj['name']})
-//   })
-//   return arrayOfTags
-// }
-
-
-
-
 function addBlog(req,res,next){
+
   console.log('reqdatbody',req.body);
   let blogIns = {
     title: req.body.title,
     description: req.body.description,
     url: req.body.url,
   }
-  db('blogs').insert(blogIns).returning('id').then( blogId => {
-    blogId = blogId[0]
-    var newArr = new Array
-    const tag_ids = req.body.id
-    let constTagsBlogsIns = tag_ids.map( individtag_id => {
-      return {tag_id: individtag_id, blog_id: blogId}
+  let tagsBlogsIns = req.body.id
+  let tagNamesIns = req.body.name
+
+  if(tagNamesIns) {
+    if(typeof tagNamesIns === 'string') {
+      tagNamesIns = {name: tagNamesIns}
+    }
+    if(tagNamesIns.length >= 1 && Array.isArray(tagNamesIns)) {
+      tagNamesIns = tagNamesIns.map( specifName => {
+          return {name: specifName}
+      })
+    }
+    console.log('what is inserted into tags: ', tagNamesIns);
+    db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
+      console.log('the id of the created tag : ', insertedTagIds);
+      console.log('number of ids in the created tags array', insertedTagIds.length);
+
+      if(insertedTagIds.length == 1) {
+        console.log('we think just one id was created');
+        insertedTagIds = insertedTagIds[0]
+      }
+
+      console.log('does tagsBlogsIns exist id: ',tagsBlogsIns);
+      if(tagsBlogsIns) {
+        //if tagsBlogsIns is an array
+        if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
+            tagsBlogsIns.push(insertedTagIds)
+        }
+
+        //if tagsBlogsIns is one item
+        if(typeof tagsBlogsIns === 'string') {
+          console.log('tagsBlogsIns right before we combine with the created id: ',tagsBlogsIns);
+          tagsBlogsIns = [tagsBlogsIns]
+          tagsBlogsIns = tagsBlogsIns.concat(insertedTagIds)
+          console.log('this is after we combine ids', tagsBlogsIns);
+        }
+
+      }
     })
-    db('blogs_tags').insert(constTagsBlogsIns).then( () => {
-      res.redirect('/blogs')
+  }
+
+  blogsInsertToDB()
+
+  function blogsInsertToDB() {
+
+    db('blogs').insert(blogIns).returning('id').then( blogId => {
+      blogId = blogId[0]
+      console.log('blog injection finnished');
+
+      if(tagsBlogsIns) {
+        if(typeof tagsBlogsIns === 'string') {
+          tagsBlogsIns = {tag_id: tagsBlogsIns, blog_id: blogId}
+        }
+        if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
+          tagsBlogsIns = tagsBlogsIns.map( individtag_id => {
+            return {tag_id: individtag_id, blog_id: blogId}
+          })
+          console.log('inside inner tagsblogsins', tagsBlogsIns);
+        }
+
+        db('blogs_tags').insert(tagsBlogsIns).then( () => {
+          res.redirect('/blogs')
+          console.log('blogs_tags injection finnished');
+        })
+      }
+    // }).catch( error => {
+    //   next(error)
+    // })
     })
-  }).catch( error => {
-    next(error)
-  })
+  }
 }
 
 
