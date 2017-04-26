@@ -77,26 +77,40 @@ function showAllBlogs(req,res,next){
 
 function showSingleBlog(req,res,next){
   const id = req.params.id
-  return db.select(
-      'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
-      'comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id', 'comments.blog_id'
-  )
+
+  return Promise.all([getBlog(id),getComments(id),getTags(id)])
+    .then((result) => {
+      result[0][0].comments = result[1]
+      result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
+
+      res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
+    })
+    .catch((err) => next(err))
+}
+
+
+function getBlog(id){
+  return db('blogs').where('blogs.id',id)
+}
+
+//modify this object so that it also returns the user who created that comment
+function getComments(id){
+  return db.select('comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id')
+    .from()
+    
+}
+
+// function getComments(id){
+//   return db('comments').where('comments.blog_id',id)
+// }
+
+function getTags(id){
+  return db.select('tags.id AS tag_id','tags.name')
   .from('tags')
   .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
   .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
-  .fullOuterJoin('comments','blogs.id','comments.blog_id')
-  .fullOuterJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
-  .fullOuterJoin('users','users_comments_rating.user_id','users.id')
-  .where('comments.blog_id',id)
-  .then((blogs) => {
-    blogs = utilFunc.modfiyBlogsObject(blogs)
-    blogs[0].tags = utilFunc.removeDuplicates(blogs[0].tags,'name')
-    console.log(blogs)
-    res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
-  })
-  .catch((err) => next(err))
+  .where('blogs.id',id)
 }
-
 
 
 
