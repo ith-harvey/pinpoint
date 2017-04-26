@@ -18,7 +18,7 @@ router.get('/:id', showSingleBlog)
     // ('/:id/vote')
     // ('/:id/flag')
     // ('/:id/tag')
-router.put('/:id', modifyBlog)
+router.put('/rating/:id', modifyBlogRating)
 
 //Vote on a comment --> functions kept in seperate page
 router.put('/:id/comments/:id', voteBlogComment)
@@ -176,7 +176,19 @@ function addBlog(req,res,next){
 }
 
 
-function modifyBlog(req,res,next){
+function modifyBlogRating(req,res,next){
+  let blogId = req.params.id
+
+  db('blogs').select('*').where({id: req.params.id}).then( blog => {
+    console.log('this is the blog pulled', blog);
+
+    // let updatedRating = blogs.
+    //
+    // db('blogs').select('*').where({id: req.params.id}).update({rating: })
+
+  })
+
+
 
 }
 

@@ -1,7 +1,10 @@
 
-
-
 $(document).ready(function() {
+
+
+
+
+
 console.log('attached');
 
 // displays area where users can create tags
@@ -16,13 +19,23 @@ $('#tag-add-another-btn').click(function() {
   )
 })
 
-$('arrow-up').click(function () {
+
+
+socket.on('new message', function (data) {
+  console.log(data + "<br>");
+})
+
+
+
+$('.arrow-up').click(function () {
+  socket.emit('up vote', 1);
   console.log('clickup');
 
 })
 
 
-$('arrow-down').click(function () {
+$('.arrow-down').click(function () {
+  socket.emit('down vote', -1);
   console.log('clickdown');
 
 })

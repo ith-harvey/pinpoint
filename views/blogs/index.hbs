@@ -35,11 +35,13 @@
     <div class="panel panel-default">
       <div class="panel-body blog" data-id="{{this.id}}">
         <div>
-          <div class="arrow-up"></div>
+
+        <form action="/blogs/rating/{{this.id}}" method=""><button class="btn btn-default arrow-up" type="submit" name="rating" value="1"><span class="glyphicon glyphicon-arrow-up"></span></button></form>
+
           <div class="blog-rating">
             <h3>{{this.rating}}</h3>
           </div>
-          <div type="button" class="arrow-down"></div>
+          <button class="btn btn-default arrow-down" type="submit"><span class="glyphicon glyphicon-arrow-down"></span></button>
           <div class="blog-title">
             <h3>{{this.title}}</h3></div>
         </div>
@@ -61,13 +63,9 @@
     </div>
   {{/each}}
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect();
-    socket.emit('send message', 'saying Hi to the server!');
+<script src="/socket.io/socket.io.js"></script>
 
-    socket.on('new message', function (data) {
-      console.log(data + "<br>");
-    })
+<script>
+  var socket = io.connect();
 
-  </script>
+</script>
