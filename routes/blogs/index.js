@@ -112,20 +112,26 @@ function addBlog(req,res,next){
     console.log('what is inserted into tags: ', tagNamesIns);
     db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
       console.log('the id of the created tag : ', insertedTagIds);
-      insertedTagIds = insertedTagIds[0]
+      console.log('number of ids in the created tags array', insertedTagIds.length);
+      if(!insertedTagIds.length >= 1) {
+        insertedTagIds = insertedTagIds[0]
+      }
 
+      console.log('does tagsBlogsIns exist id: ',tagsBlogsIns);
       if(tagsBlogsIns) {
+        //if tagsBlogsIns is an array
+        if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
+            tagsBlogsIns.push(insertedTagIds)
+        }
+
         //if tagsBlogsIns is one item
         if(typeof tagsBlogsIns === 'string') {
           console.log('tagsBlogsIns right before we combine with the created id: ',tagsBlogsIns);
           tagsBlogsIns = [tagsBlogsIns]
-          tagsBlogsIns.push(insertedTagIds)
-          console.log('this is after we combine ids', tagsblogsIns);
+          tagsBlogsIns = tagsBlogsIns.concat(insertedTagIds)
+          console.log('this is after we combine ids', tagsBlogsIns);
         }
-            //if tagsBlogsIns is an array
-        if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
-            tagsBlogsIns.push(insertedTagIds)
-        }
+
       }
     })
   }
