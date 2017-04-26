@@ -56,6 +56,8 @@ function addBlogComment(req,res,next){
 
 
 
+
+
 ////////// Routing Functions  //////////
   //can place these functions in an external file
 function showAllBlogs(req,res,next){
@@ -64,8 +66,7 @@ function showAllBlogs(req,res,next){
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    // blogs = combineTagsToBlogs(blogs)
-    blogs = modfiyBlogsObject(blogs)
+    blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
     res.render('blogs', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
@@ -88,7 +89,7 @@ function showSingleBlog(req,res,next){
   .fullOuterJoin('users','users_comments_rating.user_id','users.id')
   .where('comments.blog_id',id)
   .then((blogs) => {
-    blogs = modfiyBlogsObject(blogs)
+    blogs = utilFunc.modfiyBlogsObject(blogs)
     blogs[0].tags = utilFunc.removeDuplicates(blogs[0].tags,'name')
     console.log(blogs)
     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
@@ -96,24 +97,6 @@ function showSingleBlog(req,res,next){
   .catch((err) => next(err))
 }
 
-function modfiyBlogsObject(blogs) {
-  return blogs.reduce((acc, blog, index, array) => {
-
-    const theBlogInTheNewArray = acc.filter(sortedBlog => {
-      return sortedBlog.id == blog.id
-    })[0]
-
-    if(!theBlogInTheNewArray) {
-      blog.tags = [{ id: blog.tag_id ,name: blog.name }]
-      blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id}]
-      acc.push(blog)
-    } else {
-      theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
-      theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id })
-    }
-    return acc
-  },[])
-}
 
 
 
