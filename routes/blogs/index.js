@@ -113,7 +113,9 @@ function addBlog(req,res,next){
     db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
       console.log('the id of the created tag : ', insertedTagIds);
       console.log('number of ids in the created tags array', insertedTagIds.length);
-      if(!insertedTagIds.length >= 1) {
+
+      if(insertedTagIds.length == 1) {
+        console.log('we think just one id was created');
         insertedTagIds = insertedTagIds[0]
       }
 
