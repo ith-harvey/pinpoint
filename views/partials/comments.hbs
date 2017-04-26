@@ -25,7 +25,6 @@ Each blog will have its own comments-list
                     <h1><small class="pull-right">45 comments</small> Comments </h1>
                   </div>
                    <div class="comments-list">
-                     {{#each comments}}
                        <div class="media">
                            <p class="pull-right"><small>{{this.created_at}}</small></p>
                             <a class="media-left" href="#">
@@ -35,10 +34,13 @@ Each blog will have its own comments-list
 
                               <h4 class="media-heading user_name">{{this.user_name}}</h4>
                                 <p>{{this.text}}</p>
+                                <p><strong>{{this.rating}}</strong></p>
+                                <form action="/blogs/{{this.blog_id}}/comments/{{this.comment_id}}?_method=PUT" method="POST">
+                                  <button type="submit">Rate</button>
+                                </form>
                               <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
                             </div>
                           </div>
-                      {{/each}}
                    </div>
                 </div>
             </div>

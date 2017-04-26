@@ -1,13 +1,21 @@
-<h1>{{title}}</h1>
-{{#each blogs}}
-<p>{{this.id}}</p>
-<p>{{this.title}}</p>
-<p>{{this.description}}</p>
-<p>{{this.url}}</p>
-<p>{{this.rating}}</p>
-<h4>Tags : </h4>
-{{#each this.tags}}
-<p>{{this.name}}</p>
-{{/each}}
-<a href="/blogs/{{this.id}}/comments"><p>See All Comments</p></a>
-{{/each}}
+<div class="container">
+  <h1>{{title}}</h1>
+  {{#each blogs}}
+    <p>{{this.id}}</p>
+    <p>{{this.title}}</p>
+    <p>{{this.description}}</p>
+    <p>{{this.url}}</p>
+    <p>{{this.rating}}</p>
+
+    <h4>Tags : </h4>
+    {{#each this.tags}}
+      <p>{{this.name}}</p>
+    {{/each}}
+
+    {{#each this.comments}}
+      {{> comments}}
+    {{/each}}
+    {{> addComment}}
+
+  {{/each}}
+</div>
