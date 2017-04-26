@@ -31,8 +31,23 @@ function showBlogComments(req,res,next){
 
 }
 function addBlogComment(req,res,next){
-
+  const id = req.params.id
+  return db.select('blogs.title', 'blogs.id','comments.rating','comments.text','users.user_name')
+    .from('blogs')
+    .innerJoin('comments', 'blogs.id', 'comments.blog_id')
+    .innerJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
+    .innerJoin('users')
+    .where('blogs.id',id)
+    .then((comments) => {
+      res.render('blogs/singleBlog',{comments})
+    })
+    .catch((err) => next(err))
 }
+
+// table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE').index()
+// table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE').index()
+// table.integer('rating').notNull().defaultTo(0)
+// table.text('text').notNull()
 
 
 ////////// Routing Functions  //////////

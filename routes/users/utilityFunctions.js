@@ -28,14 +28,6 @@ function retreiveUserData(id){
     .where('users.id',id)
 }
 
-function getTagNames(userData){
-  const arrayOfTags = []
-  userData.forEach(innerObj => {
-    arrayOfTags.push({name: innerObj['name']})
-  })
-  return arrayOfTags
-}
-
 
 function removeDuplicates(originalArray, prop) {
      const newArray = []
@@ -49,6 +41,33 @@ function removeDuplicates(originalArray, prop) {
          newArray.push(lookupObject[i])
      }
       return newArray
+ }
+
+ function buildSingleBlogObj(data){
+   const outputArray = data.map(item => {
+     const {user_name,name,blog_id,tag_id,title,rating,description,url} = item
+     const newObj = {user_name,name,blog_id,tag_id,title,rating,description,url}
+     newObj['tags'] = []
+     return newObj
+   })
+
+   const uniqueOutputArray = removeDuplicates(outputArray,'title')
+
+   return uniqueOutputArray.map(item => {
+     item.tags.push(...getTagNames(data,item.blog_id))
+     return item
+   })
+ }
+
+
+ function getTagNames(userData,id){
+   const arrayOfTags = []
+   userData.forEach(innerObj => {
+     if(innerObj.blog_id === id){
+       arrayOfTags.push({name: innerObj['name']})
+     }
+   })
+   return arrayOfTags
  }
 
 module.exports = {

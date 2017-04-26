@@ -100,7 +100,7 @@ function seeUserFeed(req,res,next) {
   const id = req.params.id
   return userUtilities.retreiveUserData(id)
     .then((userData) => {
-      const outputObj = buildSingleBlogObj(userData)
+      const outputObj = userUtilities.buildSingleBlogObj(userData)
       res.render('users/userFeed', {
         userId: id,
         userName: userData[0].user_name,
@@ -111,32 +111,7 @@ function seeUserFeed(req,res,next) {
 }
 
 
-function buildSingleBlogObj(data){
-  const outputArray = data.map(item => {
-    const {user_name,name,blog_id,tag_id,title,rating,description,url} = item
-    const newObj = {user_name,name,blog_id,tag_id,title,rating,description,url}
-    newObj['tags'] = []
-    return newObj
-  })
 
-  const uniqueOutputArray = userUtilities.removeDuplicates(outputArray,'title')
-
-  return uniqueOutputArray.map(item => {
-    item.tags.push(...getTagNames(data,item.blog_id))
-    return item
-  })
-}
-
-
-function getTagNames(userData,id){
-  const arrayOfTags = []
-  userData.forEach(innerObj => {
-    if(innerObj.blog_id === id){
-      arrayOfTags.push({name: innerObj['name']})
-    }
-  })
-  return arrayOfTags
-}
 
 
 
