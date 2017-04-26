@@ -26,11 +26,32 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 4,
-          blog_id: 2,
-          tag_id: 4,
+          blog_id: 5,
+          tag_id: 5,
           created_at: new Date(),
           updated_at: new Date()
-        }
+        },
+        {
+          id: 5,
+          blog_id: 5,
+          tag_id: 7,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 6,
+          blog_id: 3,
+          tag_id: 6,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 7,
+          blog_id: 4,
+          tag_id: 7,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
       ])
     })
     .then(() => {

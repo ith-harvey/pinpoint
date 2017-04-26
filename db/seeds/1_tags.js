@@ -26,6 +26,24 @@ exports.seed = function(knex) {
           name: 'Cooking',
           created_at: new Date(),
           updated_at: new Date()
+        },
+        {
+          id: 5,
+          name: 'Pain',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 6,
+          name: 'Keystrokes',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 7,
+          name: 'paragliding',
+          created_at: new Date(),
+          updated_at: new Date()
         }
       ]);
     })

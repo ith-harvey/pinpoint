@@ -16,7 +16,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 2,
-          title: '',
+          title: 'Baseball and its adventure',
           rating: 8,
           description: 'Wait But Why (WBW) is a site founded by Tim Urban and Andrew Finn and written and illustrated by Tim Urban. The site covers a range of subjects as a long-form blog. Content has been syndicated on The Huffington Post, Lifehacker, as well as being referenced on other sites. Typical posts involve long form explanations of various topics, including artificial intelligence, outer space, and',
           url: '',
@@ -25,6 +25,39 @@ exports.seed = function(knex, Promise) {
           created_at: new Date(),
           updated_at: new Date()
         },
+        {
+          id: 3,
+          title: 'Foodtruck lover',
+          rating: 2,
+          description: 'Wait But Why (WBW) is a site founded by Tim Urban and Andrew Finn and written and illustrated by Tim Urban. The site covers a range of subjects as a long-form blog. Content has been syndicated on The Huffington Post, Lifehacker, as well as being referenced on other sites. Typical posts involve long form explanations of various topics, including artificial intelligence, outer space, and',
+          url: '',
+          flagged: false,
+          flagged_text: '',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 4,
+          title: 'The Codeinator',
+          rating: 6,
+          description: 'Wait But Why (WBW) is a site founded by Tim Urban and Andrew Finn and written and illustrated by Tim Urban. The site covers a range of subjects as a long-form blog. Content has been syndicated on The Huffington Post, Lifehacker, as well as being referenced on other sites. Typical posts involve long form explanations of various topics, including artificial intelligence, outer space, and',
+          url: '',
+          flagged: false,
+          flagged_text: '',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 5,
+          title: 'The disasters of Validation',
+          rating: 1,
+          description: 'Wait But Why (WBW) is a site founded by Tim Urban and Andrew Finn and written and illustrated by Tim Urban. The site covers a range of subjects as a long-form blog. Content has been syndicated on The Huffington Post, Lifehacker, as well as being referenced on other sites. Typical posts involve long form explanations of various topics, including artificial intelligence, outer space, and',
+          url: '',
+          flagged: false,
+          flagged_text: '',
+          created_at: new Date(),
+          updated_at: new Date()
+        }
       ])
     })
     .then(() => {
