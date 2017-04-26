@@ -1,22 +1,21 @@
-<h1>{{title}}</h1>
-{{#each blogs}}
-  <p>{{this.id}}</p>
-  <p>{{this.title}}</p>
-  <p>{{this.description}}</p>
-  <p>{{this.url}}</p>
-  <p>{{this.rating}}</p>
+<div class="container">
+  <h1>{{title}}</h1>
+  {{#each blogs}}
+    <p>{{this.id}}</p>
+    <p>{{this.title}}</p>
+    <p>{{this.description}}</p>
+    <p>{{this.url}}</p>
+    <p>{{this.rating}}</p>
 
-  <h4>Tags : </h4>
-  {{#each this.tags}}
-    <p>{{this.name}}</p>
+    <h4>Tags : </h4>
+    {{#each this.tags}}
+      <p>{{this.name}}</p>
+    {{/each}}
+
+    {{> addComment}}
+    {{#each this.comments}}
+      {{> comments}}
+    {{/each}}
+
   {{/each}}
-
-  <form action="/blogs/{{this.id}}/comments" method="POST">
-    <button class="btn btn-success" type="submit">Add a comment</button>
-  </form>
-
-  {{#each this.comments}}
-    {{> comments}}
-  {{/each}}
-
-{{/each}}
+</div>

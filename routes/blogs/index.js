@@ -21,7 +21,6 @@ router.put('/:id', modifyBlog)
 //Vote on a comment --> functions kept in seperate page
 router.put('/:id/comments/:id', voteBlogComment)
 
-router.get('/:id/comments', showBlogComments)
 
 router.post('/:id/comments', addBlogComment)
 
@@ -29,24 +28,11 @@ function voteBlogComment(req,res,next){
 
 }
 
-function showBlogComments(req,res,next){
-  const id = req.params.id
-  return db.select('blogs.title', 'blogs.id','comments.rating','comments.text','users.user_name')
-    .from('blogs')
-    .innerJoin('comments', 'blogs.id', 'comments.blog_id')
-    .innerJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
-    .innerJoin('users','users_comments_rating.user_id','users.id')
-    .where('blogs.id',id)
-    .then((comments) => {
-      console.log(comments)
-      res.render('blogs/comments',{comments})
-    })
-    .catch((err) => next(err))
-}
-
 
 function addBlogComment(req,res,next){
   const id = req.params.id
+  console.log(req.body)
+  const {text,rating} = req.body
   return db('comments')
     .insert()
     .where()
