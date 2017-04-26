@@ -31,12 +31,14 @@ function voteBlogComment(req,res,next){
 
 function addBlogComment(req,res,next){
   const id = req.params.id
-  console.log(req.body)
-  const {text,rating} = req.body
+  const userId = req.session.userId
+  console.log(req.body, req.session)
+  const {text} = req.body
   return db('comments')
-    .insert()
-    .where()
-    .then()
+    .insert(text)
+    .then(() => {
+      res.redirect(`/blogs/${id}`)
+    })
     .catch((err) => next(err))
 }
 

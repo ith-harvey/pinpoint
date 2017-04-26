@@ -12,10 +12,10 @@
       <p>{{this.name}}</p>
     {{/each}}
 
-    {{> addComment}}
     {{#each this.comments}}
       {{> comments}}
     {{/each}}
+    {{> addComment}}
 
   {{/each}}
 </div>
