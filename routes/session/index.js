@@ -6,6 +6,11 @@ const sessionRouting = require('./routingFunctions.js')
 
 
 ////////// Main Routes //////////
+  //can write different functions
+  // router.post('/login',sessionRouting.authenticateExistingUser)
+  // router.post('/register',sessionRouting.authenticateNewUser)
+
+
 router.get('/', sessionRouting.showLogin)
 // router.post('/', checkPostSource(),sessionRouting.authenticateUser)
 router.post('/', sessionRouting.authenticateUser())
