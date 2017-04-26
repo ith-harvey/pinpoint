@@ -78,23 +78,21 @@ function showSingleBlog(req,res,next){
   const id = req.params.id
   return db.select(
       'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
-      'comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id'
+      'comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id', 'comments.blog_id'
   )
   .from('tags')
-  .innerJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-  .innerJoin('blogs','blogs_tags.blog_id','blogs.id')
-  .innerJoin('comments','blogs.id','comments.blog_id')
-  .innerJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
-  .innerJoin('users','users_comments_rating.user_id','users.id')
-  // .where('blogs.id',id)
+  .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+  .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+  .fullOuterJoin('comments','blogs.id','comments.blog_id')
+  .fullOuterJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
+  .fullOuterJoin('users','users_comments_rating.user_id','users.id')
+  .where('comments.blog_id',id)
   .then((blogs) => {
-    console.log(blogs)
     blogs = modfiyBlogsObject(blogs)
     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
   })
   .catch((err) => next(err))
 }
-
 
 function modfiyBlogsObject(blogs) {
   return blogs.reduce((acc, blog, index, array) => {
