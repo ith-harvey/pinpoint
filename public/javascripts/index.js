@@ -41,6 +41,13 @@ $('.arrow-down').click(function () {
 })
 
 
+$('.voted').click(function () {
+  // event.preventDefault()
+  console.log('clicked voting mech');
+})
+
+
+
 
 
 

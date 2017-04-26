@@ -36,12 +36,14 @@
       <div class="panel-body blog" data-id="{{this.id}}">
         <div>
 
-        <form action="/blogs/rating/{{this.id}}" method=""><button class="btn btn-default arrow-up" type="submit" name="rating" value="1"><span class="glyphicon glyphicon-arrow-up"></span></button></form>
+        <form action="/blogs/rating/{{this.id}}?_method=PUT" method="POST"><button class="btn btn-default arrow-up voted" type="submit" name="rating" value="1"><span class="glyphicon glyphicon-arrow-up"></span></button></form>
 
           <div class="blog-rating">
             <h3>{{this.rating}}</h3>
           </div>
-          <button class="btn btn-default arrow-down" type="submit"><span class="glyphicon glyphicon-arrow-down"></span></button>
+          <form action="/blogs/rating/{{this.id}}?_method=PUT" method="POST"><button class="btn btn-default arrow-down voted" type="submit" name="rating" value="-1"><span class="glyphicon glyphicon-arrow-down"></span></button></form>
+
+
           <div class="blog-title">
             <h3>{{this.title}}</h3></div>
         </div>
