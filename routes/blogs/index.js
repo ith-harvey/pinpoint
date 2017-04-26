@@ -28,26 +28,30 @@ function voteBlogComment(req,res,next){
 }
 
 function showBlogComments(req,res,next){
-
-}
-function addBlogComment(req,res,next){
   const id = req.params.id
   return db.select('blogs.title', 'blogs.id','comments.rating','comments.text','users.user_name')
     .from('blogs')
     .innerJoin('comments', 'blogs.id', 'comments.blog_id')
     .innerJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
-    .innerJoin('users')
+    .innerJoin('users','users_comments_rating.user_id','users.id')
     .where('blogs.id',id)
     .then((comments) => {
-      res.render('blogs/singleBlog',{comments})
+      console.log(comments)
+      res.render('blogs/comments',{comments})
     })
     .catch((err) => next(err))
 }
 
-// table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE').index()
-// table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE').index()
-// table.integer('rating').notNull().defaultTo(0)
-// table.text('text').notNull()
+
+function addBlogComment(req,res,next){
+  const id = req.params.id
+  return db('comments')
+    .insert()
+    .where()
+    .then()
+    .catch((err) => next(err))
+}
+
 
 
 ////////// Routing Functions  //////////
@@ -74,7 +78,9 @@ function showSingleBlog(req,res,next){
   )
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
-  .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where('blogs.id',req.params.id).then( blogs => {
+  .innerJoin('tags','blogs_tags.tag_id', 'tags.id')
+  .where('blogs.id',req.params.id)
+  .then( blogs => {
     blogs = combineTagsToBlogs(blogs)
     console.log('blog combine',blogs[0]);
     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
