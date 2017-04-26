@@ -72,53 +72,87 @@ function showAllBlogs(req,res,next){
   })
 }
 
-function showSingleBlog(req,res,next){
-  console.log('in showSingleBlog');
-  console.log('req.params.id',req.params.id);
-  return db.select(
-    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
-  )
-  .from('blogs')
-  .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
-  .innerJoin('tags','blogs_tags.tag_id', 'tags.id')
-  .where('blogs.id',req.params.id)
-  .then( blogs => {
-    blogs = combineTagsToBlogs(blogs)
-    console.log('blog combine',blogs[0]);
-    res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
-  }).catch( error => {
-    console.log(error);
-    next(error)
-  })
-}
-
 // function showSingleBlog(req,res,next){
+//   console.log('in showSingleBlog');
+//   console.log('req.params.id',req.params.id);
 //   return db.select(
-//       'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
-//       'comments.rating','comments.text','users.user_name')
+//     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
+//   )
+//   .from('blogs')
+//   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
+//   .innerJoin('tags','blogs_tags.tag_id', 'tags.id')
+//   .where('blogs.id',req.params.id)
+//   .then( blogs => {
+//     blogs = combineTagsToBlogs(blogs)
+//     console.log('blog combine',blogs[0]);
+//     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
+//   }).catch( error => {
+//     console.log(error);
+//     next(error)
+//   })
 // }
 
+function showSingleBlog(req,res,next){
+  const id = req.params.id
+  return db.select(
+      'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
+      'comments.rating AS comment_rating','comments.text','users.user_name'
+  )
+  .from('tags')
+  .innerJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+  .innerJoin('blogs','blogs_tags.blog_id','blogs.id')
+  .innerJoin('comments','blogs.id','comments.blog_id')
+  .innerJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
+  .innerJoin('users','users_comments_rating.user_id','users.id')
+  .where('blogs.id',id)
+  .then((blogs) => {
+    blogs = modfiyBlogsObject(blogs)
+    console.dir(blogs,modfiyBlogsObject(blogs))
+    res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
+  })
+  .catch((err) => next(err))
+}
+
+//blogs.comments
 
 
-
-
-function combineTagsToBlogs(blogs) {
-
+function modfiyBlogsObject(blogs) {
   return blogs.reduce( (acc, blog, index, array )=> {
 
-  let theBlogInTheNewArray = acc.filter(sortedBlog => {
-    return sortedBlog.id == blog.id
-  })[0]
+    const theBlogInTheNewArray = acc.filter(sortedBlog => {
+      return sortedBlog.id == blog.id
+    })[0]
 
-  if(!theBlogInTheNewArray) {
-    blog.tags = [{ id: blog.tag_id ,name: blog.name }]
-    acc.push(blog)
-  } else {
-    theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
-  }
-  return acc
+    if(!theBlogInTheNewArray) {
+      blog.tags = [{ id: blog.tag_id ,name: blog.name }]
+      blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating }]
+      acc.push(blog)
+    } else {
+      theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
+      theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating })
+    }
+    return acc
   },[])
 }
+
+
+// function combineTagsToBlogs(blogs) {
+//
+//   return blogs.reduce( (acc, blog, index, array )=> {
+//
+//   let theBlogInTheNewArray = acc.filter(sortedBlog => {
+//     return sortedBlog.id == blog.id
+//   })[0]
+//
+//   if(!theBlogInTheNewArray) {
+//     blog.tags = [{ id: blog.tag_id ,name: blog.name }]
+//     acc.push(blog)
+//   } else {
+//     theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
+//   }
+//   return acc
+//   },[])
+// }
 
 
 
