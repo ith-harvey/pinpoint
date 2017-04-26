@@ -12,15 +12,30 @@ function endSession(req,res,next){
   res.status(200).json(message)
 }
 
-function authenticateUser(req,res,next){
-  const {email,password} = req.body
-  const error = {status: 400, message: 'Bad email or password'}
-  const isValid = sessionUtilities.checkUserInput(email,password)
-  if(isValid) {
-    sessionUtilities.databaseOperations(req,res,next,email,password)
-  }
-  else {
-    next(error)
+// function authenticateUser(req,res,next){
+//   const {email,password} = req.body
+//   const error = {status: 400, message: 'Bad email or password'}
+//   const isValid = sessionUtilities.checkUserInput(email,password)
+//   if(isValid) {
+//     sessionUtilities.databaseOperations(req,res,next,email,password)
+//   }
+//   else {
+//     next(error)
+//   }
+// }
+
+
+function authenticateUser(source = 'login'){
+  return function(req,res,next){
+    const {email,password} = req.body
+    const error = {status: 400, message: 'Bad email or password'}
+    const isValid = sessionUtilities.checkUserInput(email,password)
+    if(isValid) {
+      sessionUtilities.databaseOperations(req,res,next,email,error,password,source)
+    }
+    else {
+      next(error)
+    }
   }
 }
 

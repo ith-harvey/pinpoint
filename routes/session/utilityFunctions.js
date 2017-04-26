@@ -14,12 +14,12 @@ function checkUserInput(email,password){
 }
 
 //Promise chain control flow
-function databaseOperations(req,res,next,email,password,error){
+function databaseOperations(req,res,next,email,error,password,source){
   return db('users')
     .where('email',email).first()
     .then(checkDbResponse(error))
     .then(compareHashes(password,error))
-    .then(deleteHashedPasswordAndRespond(req,res))
+    .then(deleteHashedPasswordAndRespond(req,res,source))
     .catch((err) => next(err))
 }
 
@@ -45,10 +45,13 @@ function compareHashes(password,error){
 }
 
 //attach sessionid to user, and delete hashed_password from client response
-function deleteHashedPasswordAndRespond(req,res){
+function deleteHashedPasswordAndRespond(req,res,source){
   return (user) => {
     delete user.hashed_password
     req.session.userId = user.id
+    if(source === 'login'){
+      return res.redirect(`/users/${user.id}/feed`)
+    }
     return res.redirect(`/users/${user.id}/customize`)
   }
 }
