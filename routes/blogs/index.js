@@ -89,6 +89,8 @@ function showSingleBlog(req,res,next){
   .where('comments.blog_id',id)
   .then((blogs) => {
     blogs = modfiyBlogsObject(blogs)
+    blogs[0].tags = utilFunc.removeDuplicates(blogs[0].tags,'name')
+    console.log(blogs)
     res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
   })
   .catch((err) => next(err))
