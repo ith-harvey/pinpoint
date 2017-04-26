@@ -5,6 +5,8 @@ const routingFunctions = require('./routingFunctions.js')
 const utilityFunction = require('./utilityFunctions.js')
 const db = require('../../db')
 
+const utilFunc = require('./utilityFunctions')
+
 router.get('/', showAllBlogs)
 router.get('/new', showAddBlogForm)
 router.post('/new', addBlog)
@@ -130,44 +132,35 @@ function addBlog(req,res,next){
     description: req.body.description,
     url: req.body.url,
   }
-  let tagsBlogsIns = req.body.id
-  let tagNamesIns = req.body.name
+
+  let tagsBlogsIns = utilFunc.turnIntoArray(req.body.id)
+
+
+  let tagNamesIns = utilFunc.turnIntoArray(req.body.name)
+  tagNamesIns = utilFunc.valueInEveryIndex(tagNamesIns)
+
+
 
   if(tagNamesIns) {
-    if(typeof tagNamesIns === 'string') {
-      tagNamesIns = {name: tagNamesIns}
-    }
-    if(tagNamesIns.length >= 1 && Array.isArray(tagNamesIns)) {
+    console.log('this is tagNamesIns before map',tagNamesIns);
       tagNamesIns = tagNamesIns.map( specifName => {
           return {name: specifName}
       })
-    }
+
     console.log('what is inserted into tags: ', tagNamesIns);
     db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
       console.log('the id of the created tag : ', insertedTagIds);
       console.log('number of ids in the created tags array', insertedTagIds.length);
 
-      if(insertedTagIds.length == 1) {
-        console.log('we think just one id was created');
-        insertedTagIds = insertedTagIds[0]
-      }
-
       console.log('does tagsBlogsIns exist id: ',tagsBlogsIns);
       if(tagsBlogsIns) {
         //if tagsBlogsIns is an array
         if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
-            tagsBlogsIns.push(insertedTagIds)
-        }
-
-        //if tagsBlogsIns is one item
-        if(typeof tagsBlogsIns === 'string') {
-          console.log('tagsBlogsIns right before we combine with the created id: ',tagsBlogsIns);
-          tagsBlogsIns = [tagsBlogsIns]
           tagsBlogsIns = tagsBlogsIns.concat(insertedTagIds)
+        }
           console.log('this is after we combine ids', tagsBlogsIns);
         }
 
-      }
     })
   }
 
@@ -175,21 +168,19 @@ function addBlog(req,res,next){
 
   function blogsInsertToDB() {
 
+    console.log('blogIns right before insert', blogIns);
     db('blogs').insert(blogIns).returning('id').then( blogId => {
       blogId = blogId[0]
       console.log('blog injection finnished');
 
+      // if user selects existing or created tags for blog
       if(tagsBlogsIns) {
-        if(typeof tagsBlogsIns === 'string') {
-          tagsBlogsIns = {tag_id: tagsBlogsIns, blog_id: blogId}
-        }
         if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
           tagsBlogsIns = tagsBlogsIns.map( individtag_id => {
             return {tag_id: individtag_id, blog_id: blogId}
           })
-          console.log('inside inner tagsblogsins', tagsBlogsIns);
         }
-
+        console.log('inside tagsblogsins right before insert to blogs_tags', tagsBlogsIns);
         db('blogs_tags').insert(tagsBlogsIns).then( () => {
           res.redirect('/blogs')
           console.log('blogs_tags injection finnished');
