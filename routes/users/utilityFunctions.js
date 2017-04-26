@@ -75,5 +75,6 @@ module.exports = {
   checkPassword,
   retreiveUserData,
   getTagNames,
-  removeDuplicates
+  removeDuplicates,
+  buildSingleBlogObj
 }
