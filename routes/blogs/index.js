@@ -36,13 +36,10 @@ function modifyCommentRating(req,res,next) {
 
     let commentId = req.params.id
     db('comments').select('*').where({id: req.params.id}).first().then( comment => {
-      console.log('this is the current comment.rating', comment.rating);
       let updatedRating = comment.rating + Number(req.body.votevalue)
       updatedRating = updatedRating.toString()
-      console.log('updatedRating', updatedRating);
 
       db('comments').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
-        console.log('rating after db update', result);
         result = {
           id: result[0].id,
           rating: result[0].rating
@@ -58,25 +55,16 @@ function modifyCommentRating(req,res,next) {
 function addBlogComment(req,res,next){
 
   const id = req.params.id
-  console.log('id',id);
   const userId = req.session.userId
-  console.log('userid',userId);
   const error = 'You must be logged in to comment'
   const {text} = req.body
-  console.log('text',text);
   if(userId) {
     return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
-      console.log('logging comment', comment);
 
       db('users').where({id: comment[0].user_id}).returning('*').first().then( user => {
-        console.log('username is :',user.user_name);
-        console.log('logging comment', comment);
         comment[0].user_name = user.user_name
-
         iofunc.postComment(comment[0])
-
       })
-
     })
     .catch((err) => {
       next(err)
@@ -113,6 +101,7 @@ function showSingleBlog(req,res,next){
     .then((result) => {
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
+      console.log('what is sent when we show a blog',result[0][0].comments);
       res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
     })
     .catch((err) => next(err))
@@ -221,8 +210,6 @@ function modifyBlogRating(req,res,next){
 
     let updatedRating = blog.rating + Number(req.body.votevalue)
     updatedRating = updatedRating.toString()
-    console.log('updatedRating', updatedRating);
-    console.log('req params id',req.params.id);
 
     db('blogs').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
       result = {
@@ -240,7 +227,6 @@ function modifyBlogRating(req,res,next){
 
 function showAddBlogForm(req,res,next){
   db('tags').then( tags =>{
-    console.log(tags);
     res.render('blogs/new', { tags, title: 'Add a blog' })
   })
 }

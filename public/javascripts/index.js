@@ -4,11 +4,24 @@ $(document).ready(function() {
 
 
 function requestRatingUpdate(url,vote) {
-
   let opts = {
     url: url,
     method: 'PUT',
     data: {votevalue: vote}
+  }
+  $.ajax(opts).done( response => {
+    console.log('ajax request finnished', response);
+  }).fail( error => {
+    console.log(error);
+  })
+}
+
+function postComment(url,data) {
+
+  let opts = {
+    url: url,
+    method: 'POST',
+    data: data
   }
 
   $.ajax(opts).done( response => {
@@ -78,6 +91,42 @@ $('.comment-section').on('click', '.arrow-down-comment', function () {
 })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('#submitComment').on('click', function () {
+
+let data = {
+  blog_id: $('#commentText').data('blogid'),
+  text: $('#commentText').val()
+  }
+
+  console.log('this is data passing',data);
+
+//pass blog id and an object
+postComment( $('#commentText').data('blogid') + '/comments/', data)
+
+})
 
 
 

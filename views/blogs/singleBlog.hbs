@@ -41,10 +41,23 @@
             </div>
           </div>
         </div>
-
       {{/each}}
       </div>
-      {{> addComment}}
+      <form class="form-horizontal" id="commentForm" role="form">
+          <div class="form-group">
+              <label for="email" class="col-sm-2 control-label">Comment</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" data-blogid="{{this.id}}" name="text" id="commentText" rows="5"></textarea>
+              </div>
+          </div>
+      </form>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-success btn-circle text-uppercase" id="submitComment"><span id="submitComment" class="glyphicon glyphicon-send"></span> Submit comment</button>
+            </div>
+        </div>
+
+
 
       {{#if error}}
         <h3>{{error}}</h3>
@@ -60,6 +73,8 @@
 
 <script>
   var socket = io.connect();
+
+
   socket.on('comment rating', function (responseData){
     console.log('responseData',responseData);
 
