@@ -5,8 +5,6 @@ $(document).ready(function() {
 
 function requestRatingUpdate(url,vote) {
 
-  console.log("running requestRatingUpdate", typeof vote);
-
   let opts = {
     url: url,
     method: 'PUT',
@@ -62,7 +60,7 @@ $('.arrow-up-comment').click(function () {
   let id = target.data('id');
   console.log('what we pass in on click',target,id);
 
-  requestRatingUpdate('/' + blogid  +'/comments/' + id ,'1')
+  requestRatingUpdate('/blogs/comments/' + id ,'1')
 
   console.log('clicked voting mech');
 })
@@ -70,9 +68,10 @@ $('.arrow-up-comment').click(function () {
 $('.arrow-down-comment').click(function () {
   let target = $(event.target);
   let id = target.data('id');
+
   console.log('what we pass in on click',target,id);
 
-  requestRatingUpdate('/' + blogid  +'/comments/' + id ,'-1')
+  requestRatingUpdate('/blogs/comments/' + id ,'-1')
 
   console.log('clicked voting mech');
 

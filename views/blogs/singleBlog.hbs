@@ -33,3 +33,26 @@
   </div>
 
 </div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  var socket = io.connect();
+  socket.on('comment rating', function (responseData){
+    console.log('responseData',responseData);
+
+    $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
+
+  })
+
+  socket.on('comment post', function (responseData){
+    console.log("inside comment post");
+    console.log('responseData',responseData);
+
+    // $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
+
+  })
+
+
+</script>

@@ -23,33 +23,35 @@ router.get('/:id', showSingleBlog)
 router.put('/rating/:id', modifyBlogRating)
 
 //Vote on a comment --> functions kept in seperate page
-router.put('/:id/comments/:id', voteBlogComment)
+router.put('/comments/:id', modifyCommentRating)
 
 router.post('/:id/comments', addBlogComment)
 
 
 
-function voteBlogComment(req,res,next){
+function modifyCommentRating(req,res,next) {
+    console.log('inside modifyCommentRating');
+    console.log('req dat body',req.body.votevalue);
+    console.log('req dat params id',req.params.id);
 
-    console.log('req dat body',req.body);
-    // let blogId = req.params.id
-    // db('comments').select('*').where({id: req.params.id}).first().then( comment => {
-    //   let updatedRating = comment.rating + Number(req.body.votevalue)
-    //   updatedRating = updatedRating.toString()
-    //   console.log('updatedRating', updatedRating);
-    //   console.log('req params id',req.params.id);
-    //
-    //   db('blogs').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
-    //     result = {
-    //       id: result[0].id,
-    //       rating: result[0].rating
-    //     }
-    //     //calling socket function
-    //     iofunc.updateAllRatings(result)
-    //   })
-    //
-    // })
+    let commentId = req.params.id
+    db('comments').select('*').where({id: req.params.id}).first().then( comment => {
+      console.log('this is the current comment.rating', comment.rating);
+      let updatedRating = comment.rating + Number(req.body.votevalue)
+      updatedRating = updatedRating.toString()
+      console.log('updatedRating', updatedRating);
 
+      db('comments').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
+        console.log('rating after db update', result);
+        result = {
+          id: result[0].id,
+          rating: result[0].rating
+        }
+        //calling socket function
+        iofunc.updateCommentRating(result)
+      })
+
+    })
 }
 
 //check if logged in not quite working
@@ -65,8 +67,9 @@ function addBlogComment(req,res,next){
         blog_id: id,
         user_id: userId,
         text: text
-      },'*')
-      .then((comments) => {
+      }).returning('*')
+      .then(comment => {
+        console.log('logging comment', comment);
         res.redirect(`/blogs/${id}`)
       })
       .catch((err) => next(err))
@@ -204,10 +207,7 @@ function addBlog(req,res,next){
 
 
 function modifyBlogRating(req,res,next){
-
-  console.log('req dat body',req.body.votevalue);
-
-
+  console.log('inside modifyBLOG');
 
   let blogId = req.params.id
 
@@ -224,7 +224,7 @@ function modifyBlogRating(req,res,next){
         rating: result[0].rating
       }
       //calling socket function
-      iofunc.updateAllRatings(result)
+      iofunc.updateBlogRating(result)
     })
 
   })

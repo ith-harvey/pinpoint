@@ -31,11 +31,11 @@ Each blog will have its own comments-list
               <p class="pull-right"><small>{{this.created_at}}</small></p>
 
               <div class="col-xs-1">
-                <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.comments_id}}"></span></button>
+                <button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.comments_id}}"></span></button>
                 <div class="blog-rating" data-id="{{this.comments_id}}">
                   <p><strong>{{this.comment_rating}}</strong></p>
                 </div>
-                <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.comments_id}}"></span></button>
+                <button class="btn btn-default btn-xs arrow-down-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.comments_id}}"></span></button>
               </div>
 
               <div class="col-xs-11">
