@@ -3,33 +3,31 @@
   {{> nav }}
 
   {{#each blogs}}
-    <div class="panel panel-default">
+    <div class="panel panel-default col-xs-12">
       <div class="panel-body blog" data-id="{{this.id}}">
-        <div>
-
-      <button class="btn btn-default arrow-up voted" data-id="{{this.id}}" ><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
-
+        <div class="col-xs-1">
+          <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}" ><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
           <div class="blog-rating" data-id="{{this.id}}">
-            <h3>{{this.rating}}</h3>
+            <h4>{{this.rating}}</h4>
           </div>
-          <button class="btn btn-default arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
-
-          <div class="blog-title">
-            <h3>{{this.title}}</h3></div>
+          <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
         </div>
-        <div>
+        <div class="blog-title col-xs-11">
+
+          <form action="/blogs/{{this.id}}" method="GET"><button type="submit"><h3>{{this.title}}</button></form>
+
           <div>{{this.description}}</div>
-          <div>
-            <h4>Tags : </h4>
-            {{#each this.tags}}
-              <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
-            {{/each}}
-          </div>
+          {{#each this.tags}}
+            <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
+          {{/each}}
           <div><a href='{{this.url}}'>{{this.url}}</a></div>
           <div>
-            <form action="/blogs/{{this.id}}" method="GET"><input type="submit" value="blog detail"></form>
+
           </div>
         </div>
+
+
+
 
       </div>
     </div>
