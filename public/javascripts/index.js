@@ -53,9 +53,9 @@ $('.arrow-down').click(function () {
 
 
 //tags.name references the tags array in the blogs object
+const $blogs = $('.change-this-class')
 
 $('#search').click(() => {
-
   const url = '/blogs/api'
   const searchOptions = {
     keys: ['title', 'tags.name'],
@@ -70,7 +70,6 @@ $('#search').click(() => {
   return $.ajax(APIOptions)
     .done(response => {
       const fuse = new Fuse(response,searchOptions)
-      const $blogs = $('.change-this-class')
       let searchTerm = document.getElementById('search-input').value
       let containsSearchTerm = []
 
@@ -81,9 +80,7 @@ $('#search').click(() => {
       $blogs.each((i, element) => {
         const id = $(element).data().id
         $(element).filter(item => {
-          console.log(item)
           if(containsSearchTerm.indexOf(id) === -1){
-            console.log('ITEM',item)
             $(element).hide()
           }
         })
@@ -93,6 +90,12 @@ $('#search').click(() => {
       console.error(error)
     })
 })
+
+
+$('#search-input').off('click', function(){
+  $blogs.show()
+})
+
 
 
 

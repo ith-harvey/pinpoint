@@ -22,10 +22,16 @@
       </div>
 
       <div class="navbar-form navbar-right">
-        <div class="form-group">
-          <input id="search-input" type="text" class="form-control" placeholder="Search">
+        <div class="input-group">
+          <div class="btn-group">
+            <input id="search-input" type="search" class="form-control">
+            <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+          </div>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" id="search">Search</button>
+          </span>
         </div>
-        <button id="search" type="button" class="btn btn-default">Submit</button>
+
       </div>
     </div>
     <!-- /.navbar-collapse -->
