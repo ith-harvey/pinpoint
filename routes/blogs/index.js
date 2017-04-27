@@ -74,7 +74,7 @@ function showAllBlogs(req,res,next){
   })
 }
 
-
+//Add a function to sort comments by date posted
 function showSingleBlog(req,res,next){
   const id = req.params.id
 
@@ -104,10 +104,10 @@ function getComments(id){
 
 function getTags(id){
   return db.select('tags.id AS tag_id','tags.name')
-  .from('tags')
-  .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-  .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
-  .where('blogs.id',id)
+    .from('tags')
+    .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+    .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+    .where('blogs.id',id)
 }
 
 

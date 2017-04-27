@@ -97,6 +97,7 @@ function seeUserFeed(req,res,next){
   const id = req.params.id
   return Promise.all([getBlogs(),getUserTags(id),getBlogTags()])
     .then((result) => {
+      result[0][0].tags = userUtilities.removeDuplicates(result[2],'name')
       console.log(result[0])
       res.render('users/userFeed',{
         userId: id,
@@ -114,17 +115,17 @@ function getBlogs(){
 
 function getBlogTags(){
   return db.select('tags.id AS tag_id','tags.name','blogs.title', 'blogs.description','blogs.rating','blogs.url')
-  .from('tags')
-  .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-  .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+    .from('tags')
+    .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+    .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
 }
 
 function getUserTags(id){
   return db.select('tags.id AS tag_id','tags.name', 'users.user_name')
-  .from('tags')
-  .fullOuterJoin('users_tags','tags.id','users_tags.tag_id')
-  .fullOuterJoin('users','users_tags.user_id','users.id')
-  .where('users.id',id)
+    .from('tags')
+    .fullOuterJoin('users_tags','tags.id','users_tags.tag_id')
+    .fullOuterJoin('users','users_tags.user_id','users.id')
+    .where('users.id',id)
 }
 
 
