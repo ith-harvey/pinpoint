@@ -56,25 +56,32 @@ function modifyCommentRating(req,res,next) {
 
 //check if logged in not quite working
 function addBlogComment(req,res,next){
+
   const id = req.params.id
+  console.log('id',id);
   const userId = req.session.userId
+  console.log('userid',userId);
   const error = 'You must be logged in to comment'
   const {text} = req.body
-  if(userId){
-    console.log(req.body, userId)
-    return db('comments')
-      .insert({
-        blog_id: id,
-        user_id: userId,
-        text: text
-      }).returning('*')
-      .then(comment => {
+  console.log('text',text);
+  if(userId) {
+    return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
+      console.log('logging comment', comment);
+
+      db('users').where({id: comment[0].user_id}).returning('*').first().then( user => {
+        console.log('username is :',user.user_name);
         console.log('logging comment', comment);
-        res.redirect(`/blogs/${id}`)
+        comment[0].user_name = user.user_name
+
+        iofunc.postComment(comment[0])
+
       })
-      .catch((err) => next(err))
-  }
-  else{
+
+    })
+    .catch((err) => {
+      next(err)
+    })
+  } else {
     res.render('blogs/singleBlog',{error})
   }
 }
@@ -106,7 +113,6 @@ function showSingleBlog(req,res,next){
     .then((result) => {
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
-      console.log('result[0] before send', result[0][0]);
       res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
     })
     .catch((err) => next(err))

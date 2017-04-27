@@ -55,7 +55,7 @@ $('.arrow-down').click(function () {
 
 })
 
-$('.arrow-up-comment').click(function () {
+$('.comment-section').on('click', '.arrow-up-comment', function () {
   let target = $(event.target);
   let id = target.data('id');
   console.log('what we pass in on click',target,id);
@@ -65,7 +65,7 @@ $('.arrow-up-comment').click(function () {
   console.log('clicked voting mech');
 })
 
-$('.arrow-down-comment').click(function () {
+$('.comment-section').on('click', '.arrow-down-comment', function () {
   let target = $(event.target);
   let id = target.data('id');
 
