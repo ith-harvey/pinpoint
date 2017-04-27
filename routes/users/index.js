@@ -94,60 +94,29 @@ function customizePreferences(req,res,next){
 
 function seeUserFeed(req,res,next){
   const userId = req.params.id
-  return Promise.all([getBlogs(),getUserTags(userId),getBlogTags()])
+  return Promise.all([getBlogs(),getUserTags(userId)])
     .then((result) => {
-      console.log('RESULT 0',result[0])
-      result[0][0].tags = userUtilities.removeDuplicates(result[2],'name')
-      console.log('!!!!!!!!!!!!',result[0][0])
+      blogs = userUtilities.modfiyBlogsObject(result[0])
       res.render('users/userFeed',{
         userId: userId,
         userName: result[1][0].user_name,
-        blogs: userUtilities.sortBlogsByRating(result[0]),
+        blogs: userUtilities.sortBlogsByRating(blogs),
         userTags: userUtilities.removeDuplicates(result[1],'name')
       })
     })
     .catch((err) => next(err))
 }
 
-// function seeUserFeed(req,res,next){
-//   const userId = req.params.id
-//
-//   return getBlogs()
-//     .then((blogs) => {
-//       blogs.map(blog => {
-//         return Promise.all([getUserTags(userId),getBlogTags(blog.id)])
-//           .then((result) => {
-//             blog.tags = userUtilities.removeDuplicates(result[1],'name')
-//             res.render('users/userFeed',{
-//               userId: userId,
-//               userName: result[1][0].user_name,
-//               blogs: userUtilities.sortBlogsByRating(result[0]),
-//               userTags: userUtilities.removeDuplicates(result[1],'name')
-//             })
-//           })
-//       })
-//       .catch((err) => next(err))
-//     })
-// }
 
 function getBlogs(){
-  return db('blogs')
+  return db.select(
+    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
+  )
+  .from('blogs')
+  .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
+  .innerJoin('tags','blogs_tags.tag_id', 'tags.id')
 }
 
-function getBlogTags(){
-  return db.select('tags.id AS tag_id','tags.name', 'blog_id AS blog_id','blogs.title', 'blogs.description','blogs.rating','blogs.url')
-    .from('tags')
-    .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-    .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
-}
-
-// function getBlogTags(id){
-//   return db.select('tags.id AS tag_id','tags.name', 'blog_id AS blog_id','blogs.title', 'blogs.description','blogs.rating','blogs.url')
-//     .from('tags')
-//     .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-//     .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
-//     .where('blog_id',id)
-// }
 
 function getUserTags(id){
   return db.select('tags.id AS tag_id','tags.name', 'users.user_name')
