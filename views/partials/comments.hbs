@@ -18,27 +18,36 @@ Each blog will have its own comments-list
 {{/each}}
 
  -->
-<div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                   <div class="comments-list">
-                       <div class="media">
-                           <p class="pull-right"><small>{{this.created_at}}</small></p>
-                            <a class="media-left" href="#">
-                              <!-- <img src="http://lorempixel.com/40/40/people/1/"> -->
-                            </a>
-                            <div class="media-body">
 
-                              <h4 class="media-heading user_name">{{this.user_name}}</h4>
-                                <p>{{this.text}}</p>
-                                <p><strong>{{this.rating}}</strong></p>
-                                <form action="/blogs/{{this.blog_id}}/comments/{{this.comment_id}}?_method=PUT" method="POST">
-                                  <button type="submit">Rate</button>
-                                </form>
-                              <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
-                            </div>
-                          </div>
-                   </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="comments-list">
+        <div class="media">
+
+
+          <div class="panel panel-default col-xs-12">
+            <div class="panel-body comment" data-id="{{this.comments_id}}">
+              <p class="pull-right"><small>{{this.created_at}}</small></p>
+
+              <div class="col-xs-1">
+                <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.comments_id}}"></span></button>
+                <div class="blog-rating" data-id="{{this.comments_id}}">
+                  <p><strong>{{this.comment_rating}}</strong></p>
                 </div>
+                <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.comments_id}}"></span></button>
+              </div>
+
+              <div class="col-xs-11">
+                <h4 class="media-heading user_name">{{this.user_name}}</h4>
+                <p>{{this.text}}</p>
+              </div>
             </div>
+          </div>
+
+
         </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -38,7 +38,7 @@ $('#tag-add-another-btn').click(function() {
 $('.arrow-up').click(function () {
   let target = $(event.target);
   let id = target.data('id');
-  console.log(target,id);
+  console.log('what we pass in on click',target,id);
 
   requestRatingUpdate('/blogs/rating/' + id ,'1')
 
@@ -49,7 +49,7 @@ $('.arrow-up').click(function () {
 $('.arrow-down').click(function () {
   let target = $(event.target);
   let id = target.data('id');
-  console.log(target,id);
+  console.log('what we pass in on click',target,id);
 
   requestRatingUpdate('/blogs/rating/' + id ,'-1')
 
@@ -57,9 +57,26 @@ $('.arrow-down').click(function () {
 
 })
 
+$('.arrow-up-comment').click(function () {
+  let target = $(event.target);
+  let id = target.data('id');
+  console.log('what we pass in on click',target,id);
 
+  requestRatingUpdate('/' + blogid  +'/comments/' + id ,'1')
 
+  console.log('clicked voting mech');
+})
 
+$('.arrow-down-comment').click(function () {
+  let target = $(event.target);
+  let id = target.data('id');
+  console.log('what we pass in on click',target,id);
+
+  requestRatingUpdate('/' + blogid  +'/comments/' + id ,'-1')
+
+  console.log('clicked voting mech');
+
+})
 
 
 

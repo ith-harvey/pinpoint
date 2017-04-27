@@ -25,10 +25,30 @@ router.put('/rating/:id', modifyBlogRating)
 //Vote on a comment --> functions kept in seperate page
 router.put('/:id/comments/:id', voteBlogComment)
 
-
 router.post('/:id/comments', addBlogComment)
 
+
+
 function voteBlogComment(req,res,next){
+
+    console.log('req dat body',req.body);
+    // let blogId = req.params.id
+    // db('comments').select('*').where({id: req.params.id}).first().then( comment => {
+    //   let updatedRating = comment.rating + Number(req.body.votevalue)
+    //   updatedRating = updatedRating.toString()
+    //   console.log('updatedRating', updatedRating);
+    //   console.log('req params id',req.params.id);
+    //
+    //   db('blogs').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
+    //     result = {
+    //       id: result[0].id,
+    //       rating: result[0].rating
+    //     }
+    //     //calling socket function
+    //     iofunc.updateAllRatings(result)
+    //   })
+    //
+    // })
 
 }
 
@@ -79,12 +99,11 @@ function showAllBlogs(req,res,next){
 //Add a function to sort comments by date posted
 function showSingleBlog(req,res,next){
   const id = req.params.id
-
   return Promise.all([getBlog(id),getComments(id),getTags(id)])
     .then((result) => {
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
-
+      console.log('result[0] before send', result[0][0]);
       res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
     })
     .catch((err) => next(err))
