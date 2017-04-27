@@ -1,4 +1,3 @@
-// const fuse = require('fuse.js')
 
 $(document).ready(function() {
 
@@ -50,31 +49,26 @@ $('.arrow-down').click(function () {
 
 })
 
-// <script src="fuse.js"></script>
-//finish linking this to the fuse file and or place this within a partial
 
-$(document).ready(function() {
-  const blogs = document.getElementsByClassName('blog')
-  let searchTerm = document.getElementById('search-term')
 
-  //tags.name references the tags array in the blogs object
-  const options = {
-    keys: ['title', 'tags.name'],
-    id: 'id'
-  }
-
-  const fuse = new Fuse(blogs,options)
-
-  $('#search').click(() => {
-    fuse.search(searchTerm)
-  })
+//tags.name references the tags array in the blogs object
+const options = {
+  keys: ['title', 'tags.name'],
+  shouldSort: true
 }
 
+const blogs = document.getElementsByClassName('blog')
+const fuse = new Fuse(blogs,options)
 
+$('#search').click(() => {
+  const searchTerm = document.getElementById('search-input').value
+  const search = fuse.search(searchTerm)
+  console.log(blogs)
 
+  blogs.sort(search)
 
-
-
+  console.log(fuse.search(searchTerm))
+})
 
 
 
