@@ -1,61 +1,95 @@
-<form class="form-horizontal" action='/blogs/new' method="POST">
-  <fieldset>
-    <div id="legend">
-      <legend class="">Add a blog</legend>
-    </div>
-    <div class="control-group">
-      <!-- Title -->
-      <label class="control-label"  for="title">Title: </label>
-      <div class="controls">
-        <input type="text" id="title" name="title" class="input-xlarge">
-        <p class="help-block">The title should refer to the name of the blog</p>
-      </div>
-    </div>
+<div class="container-fluid full-width">
 
-    <div class="control-group">
-      <!-- description -->
-      <label class="control-label" for="description">Description:</label>
-      <div class="controls">
-        <input type="text" id="description" name="description" placeholder="" class="input-xlarge">
-        <p class="help-block">Please provide a description of the blog</p>
-      </div>
-    </div>
 
-    <div class="control-group">
-      <div class="controls">
+
+  {{> nav }}
+
+
+
+  <form class="form-horizontal col-xs-12" action='/blogs/new' method="POST">
+    <fieldset>
+      <div id="legend">
+        <legend class="">Add a blog</legend>
+      </div>
+
+
+      <div class="row col-xs-12">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <div class="input-group">
+              <label class="control-label" for="title">Title: </label>
+              <p class="help-block">The title should refer to the name of the blog</p>
+              <input type="text" id="title" name="title" class="form-control">
+            </div>
+            <!-- /input-group -->
+          </div>
+        </div>
+        <!-- /.col-lg-6 -->
+
+
+        <!-- url -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <div class="input-group">
+              <label class="control-label" for="url">Blog's URL: </label>
+              <p class="help-block">URL that links to the blog you are adding</p>
+              <input type="text" id="url" name="url" placeholder="" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /row -->
+
+
+
+
+
+      <div class="input-group">
         {{> tagsMultiSelect}}
       </div>
-    </div>
 
-    <label class="control-label" for="tag-no-exist-btn">A tag doesn't exist?</label>
-    <input type="button" class="btn btn-primary" id="tag-no-exist-btn" value=" Add new classes">
+      <label class="control-label" for="tag-no-exist-btn">A tag doesn't exist?</label>
+      <input type="button" class="btn btn-primary" id="tag-no-exist-btn" value=" Add new tags">
 
-    <div id="tag-show-adition-group">
-      <div class="control-group tag-text-input">
-        <label class="control-label"  for="name">New tag: </label>
-        <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
-        <input type="button" class="btn btn-default tag-edit-btn" value="edit">
+      <div id="tag-show-adition-group">
+        <div class="tag-text-input">
+          <div class="form-group">
+            <div class="input-group">
+              <label class="control-label" for="name">New tag: </label>
+              <input type="text" id="name" name="name" placeholder="" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <input type="button" class="btn btn-primary" id="tag-add-another-btn" value="+ Add another tag">
+          </div>
+        </div>
       </div>
 
-      <div class="control-group">
-        <input type="button" class="btn btn-primary" id="tag-add-another-btn" value="+ Add another class">
-      </div>
-    </div>
 
-    <div class="control-group">
-      <!-- url -->
-      <label class="control-label"  for="url">Blog's URL: </label>
-      <div class="controls">
-        <input type="text" id="url" name="url" placeholder="" class="input-xlarge">
-        <p class="help-block">URL that links to the blog you are adding</p>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="control-label" for="description">Description:</label>
+            <p class="help-block">Please provide a description of the blog</p>
+            <input type="text" id="description" name="description" placeholder="" class="form-control">
+          </div>
+        </div>
+        <!-- /input-group -->
       </div>
-    </div>
+      <!-- /.col-lg-6 -->
 
-    <div class="control-group">
+
       <!-- Button -->
-      <div class="controls">
-        <input type="submit" class="btn btn-success">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="submit" class="btn btn-success">
+        </div>
       </div>
-    </div>
-  </fieldset>
-</form>
+
+
+    </fieldset>
+  </form>
+</div>
