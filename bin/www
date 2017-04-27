@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('pinpoint:server');
 var http = require('http');
-var io = require('../lib/io');
+var io = require('../lib/io')['io'];
 
 /**
  * Get port from environment and store in Express.

@@ -36,12 +36,12 @@
       <div class="panel-body blog" data-id="{{this.id}}">
         <div>
 
-        <form action="/blogs/rating/{{this.id}}?_method=PUT" method="POST"><button class="btn btn-default arrow-up voted" type="submit" name="rating" value="1"><span class="glyphicon glyphicon-arrow-up"></span></button></form>
+      <button class="btn btn-default arrow-up voted" data-id="{{this.id}}" ><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
 
-          <div class="blog-rating">
+          <div class="blog-rating" data-id="{{this.id}}">
             <h3>{{this.rating}}</h3>
           </div>
-          <form action="/blogs/rating/{{this.id}}?_method=PUT" method="POST"><button class="btn btn-default arrow-down voted" type="submit" name="rating" value="-1"><span class="glyphicon glyphicon-arrow-down"></span></button></form>
+          <button class="btn btn-default arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
 
 
           <div class="blog-title">
@@ -69,5 +69,11 @@
 
 <script>
   var socket = io.connect();
+  socket.on('message', function (responseData){
+    console.log(responseData);
+    console.log('thingy',$('.blog-rating').data('id', responseData.id));
+
+  })
+
 
 </script>

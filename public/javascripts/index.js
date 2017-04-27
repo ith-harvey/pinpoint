@@ -1,11 +1,27 @@
 
 $(document).ready(function() {
+  console.log('attached');
 
 
+function requestRatingUpdate(url,vote) {
+
+  console.log("running requestRatingUpdate", typeof vote);
+
+  let opts = {
+    url: url,
+    method: 'PUT',
+    data: {votevalue: vote}
+  }
+
+  $.ajax(opts).done( response => {
+    console.log('ajax request finnished', response);
+  }).fail( error => {
+    console.log(error);
+  })
+
+}
 
 
-
-console.log('attached');
 
 // displays area where users can create tags
 $('#tag-no-exist-btn').click(function() {
@@ -19,31 +35,26 @@ $('#tag-add-another-btn').click(function() {
   )
 })
 
-
-
-socket.on('new message', function (data) {
-  console.log(data + "<br>");
-})
-
-
-
 $('.arrow-up').click(function () {
-  socket.emit('up vote', 1);
-  console.log('clickup');
+  let target = $(event.target);
+  let id = target.data('id');
+  console.log(target,id);
+
+  requestRatingUpdate('/blogs/rating/' + id ,'1')
+
+  console.log('clicked voting mech');
 
 })
-
 
 $('.arrow-down').click(function () {
-  socket.emit('down vote', -1);
-  console.log('clickdown');
+  let target = $(event.target);
+  let id = target.data('id');
+  console.log(target,id);
 
-})
+  requestRatingUpdate('/blogs/rating/' + id ,'-1')
 
-
-$('.voted').click(function () {
-  // event.preventDefault()
   console.log('clicked voting mech');
+
 })
 
 

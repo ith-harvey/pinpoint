@@ -5,6 +5,8 @@ const routingFunctions = require('./routingFunctions.js')
 const utilityFunction = require('./utilityFunctions.js')
 const db = require('../../db')
 
+const iofunc = require('../../lib/io')
+
 const utilFunc = require('./utilityFunctions')
 
 router.get('/', showAllBlogs)
@@ -187,21 +189,26 @@ function addBlog(req,res,next){
 
 function modifyBlogRating(req,res,next){
 
-  console.log('in modifyBlogRating');
+  console.log('req dat body',req.body.votevalue);
 
-  console.log('req dat body',req.body);
-  console.log('req params id',req.params.id);
+
 
   let blogId = req.params.id
 
   db('blogs').select('*').where({id: req.params.id}).first().then( blog => {
-    console.log('this is the blog pulled', blog);
 
-    let updatedRating = blog.rating + Number(req.body.rating)
-    console.log('what is being inserted', updatedRating);
-    db('blogs').select('*').where({id: req.params.id}).update({rating: updatedRating}).returning('rating').then( result => {
-      console.log('result of PUT to rating', result);
+    let updatedRating = blog.rating + Number(req.body.votevalue)
+    updatedRating = updatedRating.toString()
+    console.log('updatedRating', updatedRating);
+    console.log('req params id',req.params.id);
 
+    db('blogs').where({id: req.params.id}).update('rating', updatedRating).returning('*').then( result => {
+      result = {
+        id: result[0].id,
+        rating: result[0].rating
+      }
+      //calling socket function
+      iofunc.updateAllRatings(result)
     })
 
   })
