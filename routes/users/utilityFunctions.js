@@ -43,22 +43,24 @@ function removeDuplicates(originalArray, prop) {
       return newArray
  }
 
- function buildSingleBlogObj(data){
-   const outputArray = data.map(item => {
-     const {user_name,name,blog_id,tag_id,title,rating,description,url} = item
-     const newObj = {user_name,name,blog_id,tag_id,title,rating,description,url}
-     newObj['tags'] = []
-     return newObj
-   })
+ function modfiyBlogsObject(blogs) {
+   return blogs.reduce((acc, blog, index, array) => {
 
-   const uniqueOutputArray = removeDuplicates(outputArray,'title')
+     const theBlogInTheNewArray = acc.filter(sortedBlog => {
+       return sortedBlog.id == blog.id
+     })[0]
 
-   return uniqueOutputArray.map(item => {
-     item.tags.push(...getTagNames(data,item.blog_id))
-     return item
-   })
+     if(!theBlogInTheNewArray) {
+       blog.tags = [{ id: blog.tag_id ,name: blog.name }]
+       blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id}]
+       acc.push(blog)
+     } else {
+       theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
+       theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id })
+     }
+     return acc
+   },[])
  }
-
 
  function getTagNames(userData,id){
    const arrayOfTags = []
@@ -102,7 +104,7 @@ module.exports = {
   retreiveUserData,
   getTagNames,
   removeDuplicates,
-  buildSingleBlogObj,
   turnIntoArray,
+  modfiyBlogsObject,
   sortBlogsByRating
 }
