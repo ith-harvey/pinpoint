@@ -7,6 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const methodOverride = require('method-override');
+const fuse = require('fuse.js')
 
 const bodyParser = require('body-parser');
 const hbs = require('hbs')
