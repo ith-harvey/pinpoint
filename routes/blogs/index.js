@@ -88,21 +88,19 @@ function showSingleBlog(req,res,next){
     .catch((err) => next(err))
 }
 
-
 function getBlog(id){
   return db('blogs').where('blogs.id',id)
 }
 
 //modify this object so that it also returns the user who created that comment
 function getComments(id){
-  return db.select('comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id')
-    .from()
-    
+  return db.select('comments.rating AS comment_rating','comments.text', 'comments.created_at','users.user_name', 'comments.id AS comments_id')
+    .from('comments')
+    .fullOuterJoin('users_comments_rating','comments.id','users_comments_rating.comment_id')
+    .fullOuterJoin('users','users_comments_rating.user_id','users.id')
+    .where('comments.blog_id',id)
 }
 
-// function getComments(id){
-//   return db('comments').where('comments.blog_id',id)
-// }
 
 function getTags(id){
   return db.select('tags.id AS tag_id','tags.name')
