@@ -50,39 +50,48 @@ $('.arrow-down').click(function () {
 })
 
 
-function requestBlogData(){
-  const url = '/blogs/api'
 
-  const opts = {
+
+//tags.name references the tags array in the blogs object
+
+$('#search').click(() => {
+
+  const url = '/blogs/api'
+  const searchOptions = {
+    keys: ['title', 'tags.name'],
+    shouldSort: true
+  }
+
+  const APIOptions = {
     url: url,
     method: 'GET'
   }
 
-  $.ajax(opts)
+  return $.ajax(APIOptions)
     .done(response => {
-      console.log(response)
-      return response
+      const fuse = new Fuse(response,searchOptions)
+      const $blogs = $('.change-this-class')
+      let searchTerm = document.getElementById('search-input').value
+      let containsSearchTerm = []
+
+      fuse.search(searchTerm).forEach(item => {
+        containsSearchTerm.push(item.id)
+      })
+
+      $blogs.each((i, element) => {
+        const id = $(element).data().id
+        $(element).filter(item => {
+          console.log(item)
+          if(containsSearchTerm.indexOf(id) === -1){
+            console.log('ITEM',item)
+            $(element).hide()
+          }
+        })
+      })
     })
     .fail(error => {
+      console.error(error)
     })
-}
-
-//tags.name references the tags array in the blogs object
-const options = {
-  keys: ['title', 'tags.name'],
-  shouldSort: true
-}
-
-const blogs = document.getElementsByClassName('blog')
-const fuse = new Fuse(requestBlogData(),options)
-
-$('#search').click(() => {
-  const searchTerm = document.getElementById('search-input').value
-
-  fuse.search(searchTerm)
-
-
-  console.log(fuse.search(searchTerm))
 })
 
 
