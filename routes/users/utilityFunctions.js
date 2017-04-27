@@ -70,11 +70,27 @@ function removeDuplicates(originalArray, prop) {
    return arrayOfTags
  }
 
+
+ function sortBlogsByRating(data){
+   return data.sort(blogSortCriterion)
+ }
+
+ function blogSortCriterion(a,b){
+   if(parseInt(a.rating) > parseInt(b.rating)){
+     return -1
+   }
+   else if(parseInt(a.rating) < parseInt(b.rating)){
+     return 1
+   }
+   return 0
+ }
+
 module.exports = {
   checkResponse,
   checkPassword,
   retreiveUserData,
   getTagNames,
   removeDuplicates,
-  buildSingleBlogObj
+  buildSingleBlogObj,
+  sortBlogsByRating
 }

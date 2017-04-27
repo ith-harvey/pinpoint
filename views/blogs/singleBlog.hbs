@@ -1,17 +1,18 @@
 <div class="container">
-  <h1>{{title}}</h1>
   {{#each blogs}}
-    <p>{{this.id}}</p>
-    <p>{{this.title}}</p>
+    <h1>{{this.title}}</h1>
+    <h4>{{this.rating}}</h4>
     <p>{{this.description}}</p>
-    <p>{{this.url}}</p>
-    <p>{{this.rating}}</p>
+    <div><a href='{{this.url}}'>{{this.url}}</a></div>
 
     <h4>Tags : </h4>
     {{#each this.tags}}
-      <p>{{this.name}}</p>
+      <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
     {{/each}}
 
+    <div class="page-header">
+      <h1><small class="pull-right"></small> Comments </h1>
+    </div>
     {{#each this.comments}}
       {{> comments}}
     {{/each}}

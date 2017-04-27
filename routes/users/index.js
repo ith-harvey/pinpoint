@@ -77,41 +77,56 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
-
-//Need to rewrite insert methodology to prevent multiple queries
 function customizePreferences(req,res,next){
   const userId = req.params.id
   const {id} = req.body
-  return id.map(tagID => {
-    return db('users_tags')
-      .insert({
-        user_id: userId,
-        tag_id: parseInt(id)
-      })
-      .then(() => {
-        res.redirect(`/users/${userId}/feed`)
-      })
-      .catch((err) => next(err))
-  })
-}
-
-
-function seeUserFeed(req,res,next) {
-  const id = req.params.id
-  return userUtilities.retreiveUserData(id)
-    .then((userData) => {
-      const outputObj = userUtilities.buildSingleBlogObj(userData)
-      res.render('users/userFeed', {
-        userId: id,
-        userName: userData[0].user_name,
-        blogs: outputObj
-      })
+  return db('users_tags')
+    .insert({
+      user_id: userId,
+      tag_id: parseInt(id)
+    })
+    .then(() => {
+      res.redirect(`/users/${userId}/feed`)
     })
     .catch((err) => next(err))
 }
 
 
+// result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
+function seeUserFeed(req,res,next){
+  const id = req.params.id
+  return Promise.all([getBlogs(),getUserTags(id),getBlogTags()])
+    .then((result) => {
+      result[0][0].tags = userUtilities.removeDuplicates(result[2],'name')
+      console.log(result[0])
+      res.render('users/userFeed',{
+        userId: id,
+        userName: result[1][0].user_name,
+        blogs: userUtilities.sortBlogsByRating(result[0]),
+        userTags: userUtilities.removeDuplicates(result[1],'name')
+      })
+    })
+    .catch((err) => next(err))
+}
 
+function getBlogs(){
+  return db('blogs')
+}
+
+function getBlogTags(){
+  return db.select('tags.id AS tag_id','tags.name','blogs.title', 'blogs.description','blogs.rating','blogs.url')
+    .from('tags')
+    .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+    .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+}
+
+function getUserTags(id){
+  return db.select('tags.id AS tag_id','tags.name', 'users.user_name')
+    .from('tags')
+    .fullOuterJoin('users_tags','tags.id','users_tags.tag_id')
+    .fullOuterJoin('users','users_tags.user_id','users.id')
+    .where('users.id',id)
+}
 
 
 

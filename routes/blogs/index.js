@@ -58,6 +58,8 @@ function addBlogComment(req,res,next){
 
 
 
+
+
 ////////// Routing Functions  //////////
   //can place these functions in an external file
 function showAllBlogs(req,res,next){
@@ -66,8 +68,7 @@ function showAllBlogs(req,res,next){
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    // blogs = combineTagsToBlogs(blogs)
-    blogs = modfiyBlogsObject(blogs)
+    blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
     res.render('blogs', {blogs, title: 'PinPoint' })
   }).catch( error => {
     console.log(error);
@@ -75,44 +76,40 @@ function showAllBlogs(req,res,next){
   })
 }
 
-
+//Add a function to sort comments by date posted
 function showSingleBlog(req,res,next){
   const id = req.params.id
-  return db.select(
-      'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url',
-      'comments.rating AS comment_rating','comments.text','users.user_name', 'comments.id AS comments_id', 'comments.blog_id'
-  )
-  .from('tags')
-  .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
-  .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
-  .fullOuterJoin('comments','blogs.id','comments.blog_id')
-  .fullOuterJoin('users_comments_rating', 'comments.id', 'users_comments_rating.comment_id')
-  .fullOuterJoin('users','users_comments_rating.user_id','users.id')
-  .where('comments.blog_id',id)
-  .then((blogs) => {
-    blogs = modfiyBlogsObject(blogs)
-    res.render('blogs/singleBlog', {blogs, title: 'PinPoint' })
-  })
-  .catch((err) => next(err))
+
+  return Promise.all([getBlog(id),getComments(id),getTags(id)])
+    .then((result) => {
+      result[0][0].comments = result[1]
+      result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
+
+      res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
+    })
+    .catch((err) => next(err))
 }
 
-function modfiyBlogsObject(blogs) {
-  return blogs.reduce((acc, blog, index, array) => {
+function getBlog(id){
+  return db('blogs').where('blogs.id',id)
+}
 
-    const theBlogInTheNewArray = acc.filter(sortedBlog => {
-      return sortedBlog.id == blog.id
-    })[0]
+//modify this object so that it also returns the user who created that comment
+function getComments(id){
+  return db.select('comments.rating AS comment_rating','comments.text', 'comments.created_at','users.user_name', 'comments.id AS comments_id')
+    .from('comments')
+    .fullOuterJoin('users_comments_rating','comments.id','users_comments_rating.comment_id')
+    .fullOuterJoin('users','users_comments_rating.user_id','users.id')
+    .where('comments.blog_id',id)
+}
 
-    if(!theBlogInTheNewArray) {
-      blog.tags = [{ id: blog.tag_id ,name: blog.name }]
-      blog.comments = [{ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id}]
-      acc.push(blog)
-    } else {
-      theBlogInTheNewArray.tags.push({ id: blog.tag_id, name: blog.name })
-      theBlogInTheNewArray.comments.push({ user_name: blog.user_name, text: blog.text, rating: blog.comment_rating, created_at: blog.created_at, comment_id: blog.comments_id, blog_id: blog.id })
-    }
-    return acc
-  },[])
+
+function getTags(id){
+  return db.select('tags.id AS tag_id','tags.name')
+    .from('tags')
+    .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+    .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+    .where('blogs.id',id)
 }
 
 
