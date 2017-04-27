@@ -70,8 +70,10 @@
 <script>
   var socket = io.connect();
   socket.on('message', function (responseData){
-    console.log(responseData);
-    console.log('thingy',$('.blog-rating').data('id', responseData.id));
+    console.log('responseData',responseData);
+    console.log('what is happening',$(`.blog-rating[data-id=${responseData.id}]`).children());
+
+    $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
 
   })
 
