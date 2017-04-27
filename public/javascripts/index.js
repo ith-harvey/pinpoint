@@ -50,6 +50,22 @@ $('.arrow-down').click(function () {
 })
 
 
+function requestBlogData(){
+  const url = '/blogs/api'
+
+  const opts = {
+    url: url,
+    method: 'GET'
+  }
+
+  $.ajax(opts)
+    .done(response => {
+      console.log(response)
+      return response
+    })
+    .fail(error => {
+    })
+}
 
 //tags.name references the tags array in the blogs object
 const options = {
@@ -58,14 +74,13 @@ const options = {
 }
 
 const blogs = document.getElementsByClassName('blog')
-const fuse = new Fuse(blogs,options)
+const fuse = new Fuse(requestBlogData(),options)
 
 $('#search').click(() => {
   const searchTerm = document.getElementById('search-input').value
-  const search = fuse.search(searchTerm)
-  console.log(blogs)
 
-  blogs.sort(search)
+  fuse.search(searchTerm)
+
 
   console.log(fuse.search(searchTerm))
 })
