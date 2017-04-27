@@ -59,7 +59,7 @@ function registerUser(req,res,next){
           .insert({user_name, email, hashed_password: password},'*')
       })
       .then(() => {
-        return sessionRouting.authenticateUser('register')
+        return sessionRouting.authenticateNewUser(req,res,next)
       })
       .catch((err) => next(err))
   }

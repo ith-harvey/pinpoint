@@ -14,12 +14,23 @@ function checkUserInput(email,password){
 }
 
 //Promise chain control flow
-function databaseOperations(req,res,next,email,error,password,source){
+  //auth for new user
+function databaseOperationsNew(req,res,next,email,error,password){
   return db('users')
     .where('email',email).first()
     .then(checkDbResponse(error))
     .then(compareHashes(password,error))
-    .then(deleteHashedPasswordAndRespond(req,res,source))
+    .then(deleteHashedPasswordAndRespondNew(req,res))
+    .catch((err) => next(err))
+}
+
+  //auth for existing user
+function databaseOperationsExisting(req,res,next,email,error,password){
+  return db('users')
+    .where('email',email).first()
+    .then(checkDbResponse(error))
+    .then(compareHashes(password,error))
+    .then(deleteHashedPasswordAndRespondExisting(req,res))
     .catch((err) => next(err))
 }
 
@@ -45,21 +56,31 @@ function compareHashes(password,error){
 }
 
 //attach sessionid to user, and delete hashed_password from client response
-function deleteHashedPasswordAndRespond(req,res,source){
+function deleteHashedPasswordAndRespondNew(req,res){
   return (user) => {
     delete user.hashed_password
     req.session.userId = user.id
-    if(source === 'login'){
-      return res.redirect(`/users/${user.id}/feed`)
-    }
     return res.redirect(`/users/${user.id}/customize`)
   }
 }
 
+
+function deleteHashedPasswordAndRespondExisting(req,res){
+  return (user) => {
+    delete user.hashed_password
+    req.session.userId = user.id
+    return res.redirect(`/users/${user.id}/feed`)
+  }
+}
+
+
+
 module.exports = {
   checkUserInput,
-  databaseOperations,
+  databaseOperationsNew,
+  databaseOperationsExisting,
   checkDbResponse,
   compareHashes,
-  deleteHashedPasswordAndRespond
+  deleteHashedPasswordAndRespondNew,
+  deleteHashedPasswordAndRespondExisting
 }
