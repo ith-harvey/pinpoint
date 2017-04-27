@@ -19,6 +19,7 @@ router.get('/:id/feed', authorize, seeUserFeed)
 router.get('/:id/customize', authorize, customizePreferencesForm)
 router.post('/:id/customize', authorize, customizePreferences)
 
+// NOT BUILT - So user can edit their information
 router.get('/:id/edit', seeUserEditForm)
 router.put('/:id/edit', editUserPreferences)
 
@@ -79,12 +80,13 @@ function customizePreferencesForm(req,res,next){
 
 function customizePreferences(req,res,next){
   const userId = req.params.id
-  const {id} = req.body
+  const ids = userUtilities.turnIntoArray(req.body.id)
+
+  let useTagsInsert = ids.map( id => {
+    return {user_id: userId, tag_id: id}
+  })
   return db('users_tags')
-    .insert({
-      user_id: userId,
-      tag_id: parseInt(id)
-    })
+    .insert(useTagsInsert)
     .then(() => {
       res.redirect(`/users/${userId}/feed`)
     })

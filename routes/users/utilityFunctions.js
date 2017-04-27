@@ -85,6 +85,17 @@ function removeDuplicates(originalArray, prop) {
    return 0
  }
 
+ function turnIntoArray(data) {
+   if(typeof data === 'string') {
+     data = [data]
+     return data
+   } else if (data.length > 1 && Array.isArray(data)) {
+     return data
+   }
+ }
+
+
+
 module.exports = {
   checkResponse,
   checkPassword,
@@ -92,5 +103,6 @@ module.exports = {
   getTagNames,
   removeDuplicates,
   buildSingleBlogObj,
+  turnIntoArray,
   sortBlogsByRating
 }
