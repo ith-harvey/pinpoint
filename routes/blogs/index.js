@@ -13,6 +13,9 @@ router.get('/', showAllBlogs)
 router.get('/new', showAddBlogForm)
 router.post('/new', addBlog)
 
+//retreives information used to search on page
+router.get('/api', getBlogData)
+
 router.get('/:id', showSingleBlog)
 
 //Vote,flag,tag a blog
@@ -88,6 +91,20 @@ function showAllBlogs(req,res,next){
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
     blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
     res.render('blogs', {blogs, title: 'PinPoint' })
+  }).catch( error => {
+    console.log(error);
+    next(error)
+  })
+}
+
+function getBlogData(req,res,next){
+  return db.select(
+    'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
+  .from('blogs')
+  .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
+  .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
+    blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
+    res.json(blogs)
   }).catch( error => {
     console.log(error);
     next(error)

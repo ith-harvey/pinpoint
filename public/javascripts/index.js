@@ -1,9 +1,9 @@
 
 $(document).ready(function() {
-  console.log('attached');
 
 
 function requestRatingUpdate(url,vote) {
+
   let opts = {
     url: url,
     method: 'PUT',
@@ -25,9 +25,7 @@ function postComment(url,data) {
   }
 
   $.ajax(opts).done( response => {
-    console.log('ajax request finnished', response);
   }).fail( error => {
-    console.log(error);
   })
 
 }
@@ -49,22 +47,20 @@ $('#tag-add-another-btn').click(function() {
 $('.arrow-up').click(function () {
   let target = $(event.target);
   let id = target.data('id');
-  console.log('what we pass in on click',target,id);
+
 
   requestRatingUpdate('/blogs/rating/' + id ,'1')
 
-  console.log('clicked voting mech');
 
 })
 
 $('.arrow-down').click(function () {
   let target = $(event.target);
   let id = target.data('id');
-  console.log('what we pass in on click',target,id);
+
 
   requestRatingUpdate('/blogs/rating/' + id ,'-1')
 
-  console.log('clicked voting mech');
 
 })
 
@@ -91,24 +87,49 @@ $('.comment-section').on('click', '.arrow-down-comment', function () {
 })
 
 
+//tags.name references the tags array in the blogs object
+const $blogs = $('.change-this-class')
+
+$('#search').click(() => {
+  const url = '/blogs/api'
+  const searchOptions = {
+    keys: ['title', 'tags.name'],
+    shouldSort: true
+  }
+
+  const APIOptions = {
+    url: url,
+    method: 'GET'
+  }
+
+  return $.ajax(APIOptions)
+    .done(response => {
+      const fuse = new Fuse(response,searchOptions)
+      let searchTerm = document.getElementById('search-input').value
+      let containsSearchTerm = []
+
+      fuse.search(searchTerm).forEach(item => {
+        containsSearchTerm.push(item.id)
+      })
+
+      $blogs.each((i, element) => {
+        const id = $(element).data().id
+        $(element).filter(item => {
+          if(containsSearchTerm.indexOf(id) === -1){
+            $(element).hide()
+          }
+        })
+      })
+    })
+    .fail(error => {
+      console.error(error)
+    })
+})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$('#search-input').off('click', function(){
+  $blogs.show()
+})
 
 
 

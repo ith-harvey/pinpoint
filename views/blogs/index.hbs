@@ -3,8 +3,8 @@
   {{> nav }}
 
   {{#each blogs}}
-    <div class="panel panel-default col-xs-12">
-      <div class="panel-body blog" data-id="{{this.id}}">
+    <div data-id="{{ this.id }}" class="change-this-class panel panel-default col-xs-12">
+      <div class="panel-body blog">
         <div class="col-xs-1">
           <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}" ><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
           <div class="blog-rating" data-id="{{this.id}}">
