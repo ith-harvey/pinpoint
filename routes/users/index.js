@@ -16,8 +16,8 @@ router.post('/register', registerUser)
 router.get('/:id/feed', authorize, seeUserFeed)
 
 // form to add tags to a user id
-router.get('/:id/customize', customizePreferencesForm)
-router.post('/:id/customize',customizePreferences)
+router.get('/:id/customize', authorize, customizePreferencesForm)
+router.post('/:id/customize', authorize, customizePreferences)
 
 router.get('/:id/edit', seeUserEditForm)
 router.put('/:id/edit', editUserPreferences)
@@ -92,15 +92,15 @@ function customizePreferences(req,res,next){
 }
 
 
-// result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
 function seeUserFeed(req,res,next){
-  const id = req.params.id
-  return Promise.all([getBlogs(),getUserTags(id),getBlogTags()])
+  const userId = req.params.id
+  return Promise.all([getBlogs(),getUserTags(userId),getBlogTags()])
     .then((result) => {
+      console.log('RESULT 0',result[0])
       result[0][0].tags = userUtilities.removeDuplicates(result[2],'name')
-      console.log(result[0])
+      console.log('!!!!!!!!!!!!',result[0][0])
       res.render('users/userFeed',{
-        userId: id,
+        userId: userId,
         userName: result[1][0].user_name,
         blogs: userUtilities.sortBlogsByRating(result[0]),
         userTags: userUtilities.removeDuplicates(result[1],'name')
@@ -109,16 +109,45 @@ function seeUserFeed(req,res,next){
     .catch((err) => next(err))
 }
 
+// function seeUserFeed(req,res,next){
+//   const userId = req.params.id
+//
+//   return getBlogs()
+//     .then((blogs) => {
+//       blogs.map(blog => {
+//         return Promise.all([getUserTags(userId),getBlogTags(blog.id)])
+//           .then((result) => {
+//             blog.tags = userUtilities.removeDuplicates(result[1],'name')
+//             res.render('users/userFeed',{
+//               userId: userId,
+//               userName: result[1][0].user_name,
+//               blogs: userUtilities.sortBlogsByRating(result[0]),
+//               userTags: userUtilities.removeDuplicates(result[1],'name')
+//             })
+//           })
+//       })
+//       .catch((err) => next(err))
+//     })
+// }
+
 function getBlogs(){
   return db('blogs')
 }
 
 function getBlogTags(){
-  return db.select('tags.id AS tag_id','tags.name','blogs.title', 'blogs.description','blogs.rating','blogs.url')
+  return db.select('tags.id AS tag_id','tags.name', 'blog_id AS blog_id','blogs.title', 'blogs.description','blogs.rating','blogs.url')
     .from('tags')
     .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
     .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
 }
+
+// function getBlogTags(id){
+//   return db.select('tags.id AS tag_id','tags.name', 'blog_id AS blog_id','blogs.title', 'blogs.description','blogs.rating','blogs.url')
+//     .from('tags')
+//     .fullOuterJoin('blogs_tags','tags.id','blogs_tags.tag_id')
+//     .fullOuterJoin('blogs','blogs_tags.blog_id','blogs.id')
+//     .where('blog_id',id)
+// }
 
 function getUserTags(id){
   return db.select('tags.id AS tag_id','tags.name', 'users.user_name')
