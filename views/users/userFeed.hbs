@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+<div class="containerfoot container-fluid full-width">
+
     {{> nav }}
-    {{> logout}}
+
     <a href="/users/{{userId}}/customize">Add Preference</a>
     <h1>{{userName}}</h1>
     <h3>Preferences:</h3>
@@ -17,5 +12,4 @@
     </ul>
     <a href="/blogs"><p>See all blogs</p></a>
     {{> singleBlog}}
-  </body>
-</html>
+  </div>

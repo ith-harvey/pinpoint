@@ -142,11 +142,7 @@ let data = {
 
 //pass blog id and an object
 postComment( $('#commentText').data('blogid') + '/comments/', data)
-
 })
-
-
-
 
 
 

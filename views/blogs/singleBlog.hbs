@@ -1,4 +1,4 @@
-<div class="container-fluid full-width">
+<div class="containerfoot container-fluid full-width">
 
 
 
@@ -10,7 +10,7 @@
     {{#if error}}
       <h3>{{error.message}}</h3>
     {{/if}}
-    
+
     {{#each blogs}}
       <h1>{{this.title}}</h1>
       <h4>{{this.rating}}</h4>
@@ -68,6 +68,8 @@
 
     {{/each}}
   </div>
+
+    {{> footer}}
 
 </div>
 

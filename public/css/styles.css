@@ -1,3 +1,36 @@
+ html {
+  font-size: 16px;
+  height: 100%;
+  font-family: 'Nunito', sans-serif;
+}
+
+body {
+
+}
+
+.center-page, #logo {
+  text-align: center;
+}
+
+#logo {
+  margin-top: .75em;
+  font-size: 7em;
+  margin-bottom: 1em;
+}
+
+.containerfooter {
+  min-height: 100%;
+
+}
+
+#footer {
+   position: relative;
+   bottom: 0;
+   width: 100%;
+   height: 4em;
+}
+
+
 #tag-show-adition-group {
   display: none;
 }
@@ -25,3 +58,12 @@
     cursor: pointer;
     color: #ccc;
 }
+
+.git-logo {
+  width: 2em;
+  height: 2em;
+}
+
+#register-link {
+  color: white;
+  text-decoration: none;
