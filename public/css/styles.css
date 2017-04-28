@@ -94,3 +94,7 @@ line-height: 4.5em;
 .pref-title {
   margin-left:1em;
 }
+
+.navbar-right {
+  margin-right: .75em;
+}
