@@ -32,9 +32,7 @@ function authenticateExistingUser(req,res,next){
     sessionUtilities.databaseOperationsExisting(req,res,next,email,error,password)
   }
   else {
-    console.log('invalid')
-    res.redirect('/session')
-    // next(error)
+    next(error)
   }
 }
 
