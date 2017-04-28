@@ -10,22 +10,6 @@ exports.seed = function(knex, Promise) {
           hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS',
           created_at: new Date(),
           updated_at: new Date()
-        },
-        {
-          id: 2,
-          user_name: 'Elon',
-          email: 'otherEmail@gmail.com',
-          hashed_password: '',
-          created_at: new Date(),
-          updated_at: new Date()
-        },
-        {
-          id: 3,
-          user_name: 'Layla',
-          email: 'laylasEmail@gmail.com',
-          hashed_password: '',
-          created_at: new Date(),
-          updated_at: new Date()
         }
       ]);
     })

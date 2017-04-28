@@ -14,7 +14,7 @@ exports.seed = function(knex) {
         {
           id: 2,
           blog_id: 1,
-          user_id: 2,
+          user_id: 1,
           vote_direction: false,
           created_at: new Date(),
           updated_at: new Date()
@@ -22,7 +22,7 @@ exports.seed = function(knex) {
         {
           id: 3,
           blog_id: 2,
-          user_id: 2,
+          user_id: 1,
           vote_direction: false,
           created_at: new Date(),
           updated_at: new Date()
