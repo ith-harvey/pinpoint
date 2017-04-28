@@ -20,14 +20,21 @@ exports.seed = function(knex, Promise) {
         {
           id: 3,
           user_id: 1,
-          tag_id: 3,
+          tag_id: 10,
           created_at: new Date(),
           updated_at: new Date()
         },
         {
           id: 4,
           user_id: 1,
-          tag_id: 1,
+          tag_id: 8,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 5,
+          user_id: 1,
+          tag_id: 11,
           created_at: new Date(),
           updated_at: new Date()
         }
