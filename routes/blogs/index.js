@@ -73,6 +73,9 @@ function addBlogComment(req,res,next){
   const userId = req.session.userId
   const error = {message: 'You must be logged in to comment'}
   const {text} = req.body
+
+  console.log('userId',userId);
+
   if(userId) {
     return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
 
@@ -130,10 +133,15 @@ function getBlogData(req,res,next){
 
 //Add a function to sort comments by date posted
 function showSingleBlog(req,res,next){
+
+
+  //have an error with the username getting sent through! or being posted
+
   const userId = req.session.userId
   const id = req.params.id
   return Promise.all([getBlog(id),getComments(id),getTags(id)])
     .then((result) => {
+      console.log('what is sent when we show a blog',result);
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
       console.log('what is sent when we show a blog',result[0][0].comments);

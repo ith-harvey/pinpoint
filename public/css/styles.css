@@ -7,6 +7,13 @@
   margin-left: auto;
 }
 
+#footer {
+  margin-top: 25vh;
+   position: relative;
+   bottom: 0;
+   width: 100%;
+   height: 4em;
+}
 .center-page, #logo {
   text-align: center;
 }
@@ -18,15 +25,8 @@
   color: 	#ccf2ff;
 }
 
-.containerfooter {
-  min-height: 100%;
-}
-
-#footer {
-   position: relative;
-   bottom: 0;
-   width: 100%;
-   height: 4em;
+.footer-color{
+  background-color: #F0F8FF;
 }
 
 
