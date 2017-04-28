@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const routingFunctions = require('./routingFunctions.js')
 const utilityFunction = require('./utilityFunctions.js')
 const db = require('../../db')
 
@@ -18,11 +17,7 @@ router.get('/api', getBlogData)
 
 router.get('/:id', showSingleBlog)
 
-//Vote,flag,tag a blog
-  //may need to break up this route
-    // ('/:id/vote')
-    // ('/:id/flag')
-    // ('/:id/tag')
+
 router.put('/rating/:id', authorize, modifyBlogRating)
 
 //Vote on a comment --> functions kept in seperate page
@@ -77,10 +72,10 @@ function addBlogComment(req,res,next){
   console.log('userId',userId);
 
   if(userId) {
-    return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
-
-      db('users').where({id: comment[0].user_id}).returning('*').first().then( user => {
-        comment[0].user_name = user.user_name
+    const newComment = {blog_id: id,user_id: userId,text: text}
+    return db('comments').insert(newComment).returning('*').then(comment => {
+      db('users').where({id: comment[0].user_id}).returning('*').then( user => {
+        comment[0].user_name = user[0].user_name
         iofunc.postComment(comment[0])
       })
     })
@@ -100,9 +95,7 @@ function addBlogComment(req,res,next){
 
 
 function showAllBlogs(req,res,next){
-
   const userId = req.session.userId
-  console.log('userId',userId);
 
   return db.select(
     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
@@ -112,7 +105,7 @@ function showAllBlogs(req,res,next){
     blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
     res.render('blogs', {blogs, title: 'PinPoint', userId})
   }).catch( error => {
-    console.log(error);
+    console.error(error);
     next(error)
   })
 }
@@ -126,7 +119,7 @@ function getBlogData(req,res,next){
     blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
     res.json(blogs)
   }).catch( error => {
-    console.log(error);
+    console.error(error);
     next(error)
   })
 }
@@ -139,12 +132,11 @@ function showSingleBlog(req,res,next){
 
   const userId = req.session.userId
   const id = req.params.id
-  return Promise.all([getBlog(id),getComments(id),getTags(id)])
+  return Promise.all([getBlog(id),getComments(id,userId),getTags(id)])
     .then((result) => {
       console.log('what is sent when we show a blog',result);
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
-      console.log('what is sent when we show a blog',result[0][0].comments);
       res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint', userId })
     })
     .catch((err) => next(err))
@@ -155,11 +147,10 @@ function getBlog(id){
 }
 
 //modify this object so that it also returns the user who created that comment
-function getComments(id){
+function getComments(id,userId){
   return db.select('comments.rating AS comment_rating','comments.text', 'comments.created_at','users.user_name', 'comments.id AS comments_id')
     .from('comments')
-    .fullOuterJoin('users_comments_rating','comments.id','users_comments_rating.comment_id')
-    .fullOuterJoin('users','users_comments_rating.user_id','users.id')
+    .fullOuterJoin('users','comments.user_id','users.id')
     .where('comments.blog_id',id)
 }
 
@@ -176,7 +167,6 @@ function getTags(id){
 
 function addBlog(req,res,next){
 
-  console.log('reqdatbody',req.body);
   let blogIns = {
     title: req.body.title,
     description: req.body.description,
@@ -192,23 +182,18 @@ function addBlog(req,res,next){
 
 
   if(tagNamesIns) {
-    console.log('this is tagNamesIns before map',tagNamesIns);
       tagNamesIns = tagNamesIns.map( specifName => {
           return {name: specifName}
       })
 
-    console.log('what is inserted into tags: ', tagNamesIns);
     db('tags').insert(tagNamesIns).returning('id').then( insertedTagIds => {
-      console.log('the id of the created tag : ', insertedTagIds);
-      console.log('number of ids in the created tags array', insertedTagIds.length);
 
-      console.log('does tagsBlogsIns exist id: ',tagsBlogsIns);
+
       if(tagsBlogsIns) {
         //if tagsBlogsIns is an array
         if(tagsBlogsIns.length >= 1 && Array.isArray(tagsBlogsIns)) {
           tagsBlogsIns = tagsBlogsIns.concat(insertedTagIds)
         }
-          console.log('this is after we combine ids', tagsBlogsIns);
         }
 
     })
@@ -219,10 +204,8 @@ function addBlog(req,res,next){
 
   function blogsInsertToDB() {
 
-    console.log('blogIns right before insert', blogIns);
     db('blogs').insert(blogIns).returning('id').then( blogId => {
       blogId = blogId[0]
-      console.log('blog injection finnished');
 
       // if user selects existing or created tags for blog
       if(tagsBlogsIns) {
@@ -231,10 +214,8 @@ function addBlog(req,res,next){
             return {tag_id: individtag_id, blog_id: blogId}
           })
         }
-        console.log('inside tagsblogsins right before insert to blogs_tags', tagsBlogsIns);
         db('blogs_tags').insert(tagsBlogsIns).then( () => {
           res.redirect('/blogs')
-          console.log('blogs_tags injection finnished');
         })
       }
     })
@@ -243,7 +224,6 @@ function addBlog(req,res,next){
 
 
 function modifyBlogRating(req,res,next){
-  console.log('inside modifyBLOG');
 
   let blogId = req.params.id
 
