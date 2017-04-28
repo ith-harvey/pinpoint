@@ -41,10 +41,46 @@ exports.seed = function(knex) {
         },
         {
           id: 7,
-          name: 'paragliding',
+          name: 'Paragliding',
           created_at: new Date(),
           updated_at: new Date()
-        }
+        },
+        {
+          id: 8,
+          name: 'Programming',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 9,
+          name: 'Sailing',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 10,
+          name: 'Finance',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 11,
+          name: 'Elon Musk',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 12,
+          name: 'Self Improvement',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 13,
+          name: 'Energy',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
       ]);
     })
     .then(() => {
