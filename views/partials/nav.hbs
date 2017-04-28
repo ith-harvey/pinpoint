@@ -1,49 +1,47 @@
 <nav class=" nav-justified navbar navbar-default">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header navbar-nav">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header navbar-nav">
     <button type="button" class="navbar-toggle col-xs-1 collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
     <span class="sr-only">Toggle navigation</span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
-  </button>
-  <a class="navbar-brand navbar-nav" href="/blogs">pinpoint</a>
-    </div>
+    </button>
+    <a class="navbar-brand navbar-nav" href="/blogs">pinpoint</a>
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="navbar-form navbar-left navbar-nav">
-          <a class="btn btn-info" href="/blogs/new">add a blog</a>
-      </div>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="navbar-form navbar-left navbar-nav">
+    <a class="btn btn-info" href="/blogs/new">add a blog</a>
+  </div>
 
 
-      {{#if userId}}
-      <div class="navbar-form navbar-right navbar-nav">
-        <form action="/session?_method=DELETE" method="POST">
+  {{#if userId}}
+    <div class="navbar-form navbar-right navbar-nav">
+      <form action="/session?_method=DELETE" method="POST">
         <button type="submit" class="btn btn-default" href="/session">log out</button>
-        </form>
-      </div>
-      <div class="navbar-form navbar-right navbar-nav">
-        <a class="btn btn-info" href="/users/{{userId}}/feed">userfeed</a>
-      </div>
-      {{else}}
-      <div class="navbar-form navbar-right navbar-nav">
-        <a class="btn btn-default" href="/../session">sign in</a>
-      </div>
-      {{/if}}
-
-      <div class="navbar-form navbar-nav navbar-right">
-        <div class="input-group">
-          <div class="btn-group">
-            <input id="search-input" type="search" class="form-control">
-            <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
-          </div>
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" id="search">Search</button>
-          </span>
-        </div>
-
-      </div>
+      </form>
     </div>
-    <!-- /.navbar-collapse -->
+    <div class="navbar-form navbar-right navbar-nav">
+      <a class="btn btn-info" href="/users/{{userId}}/feed">userfeed</a>
+    </div>
+  {{else}}
+    <div class="navbar-form navbar-right navbar-nav">
+      <a class="btn btn-default" href="/../session">sign in</a>
+    </div>
+  {{/if}}
+
+  <div class="navbar-form navbar-nav navbar-right">
+    <div class="input-group">
+      <div class="btn-group">
+        <input id="search-input" type="search" class="form-control">
+        <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+      </div>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" id="search">Search</button>
+      </span>
+    </div>
+  </div>
+  <!-- /.navbar-collapse -->
   <!-- /.container-fluid -->
 </nav>

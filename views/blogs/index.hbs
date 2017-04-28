@@ -1,48 +1,40 @@
-
-
-  {{> nav }}
-
+{{> nav }}
+<div class="">
   {{#each blogs}}
-    <div data-id="{{ this.id }}" class="change-this-class panel panel-default col-xs-12">
-      <div class="panel-body blog">
-        <div class="col-xs-1">
-          <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
-          <div class="blog-rating" data-id="{{this.id}}">
-            <h4>{{this.rating}}</h4>
+    <div class="row">
+      <div data-id="{{ this.id }}" class="change-this-class panel panel-default col-xs-12">
+        <div class="panel-body blog">
+          <div class="col-xs-1">
+            <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span></button>
+            <div class="blog-rating" data-id="{{this.id}}">
+              <h4>{{this.rating}}</h4>
+            </div>
+            <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
           </div>
-          <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
-        </div>
-        <div class="blog-title col-xs-11">
-          <a href="/blogs/{{this.id}}"><h3>{{this.title}}</h3></a>
-          <div>{{this.description}}</div>
-          {{#each this.tags}}
-            <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
-          {{/each}}
-          <div><a href='{{this.url}}'>{{this.url}}</a></div>
-          <div>
-
+          <div class="blog-title col-xs-11">
+            <a href="/blogs/{{this.id}}"><h3>{{this.title}}</h3></a>
+            <div>{{this.description}}</div>
+            {{#each this.tags}}
+              <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
+            {{/each}}
+            <div><a href='{{this.url}}'>{{this.url}}</a></div>
           </div>
         </div>
-
-
-
-
       </div>
     </div>
   {{/each}}
 </div>
 
+
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
   var socket = io.connect();
-  socket.on('blog rating', function (responseData){
-    console.log('responseData',responseData);
-    console.log('what is happening',$(`.blog-rating[data-id=${responseData.id}]`).children());
+  socket.on('blog rating', function(responseData) {
+    console.log('responseData', responseData);
+    console.log('what is happening', $(`.blog-rating[data-id=${responseData.id}]`).children());
 
     $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
 
   })
-
-
 </script>
