@@ -77,7 +77,6 @@
   width:100%;
 }
 
-
 .navbar-nav {
 line-height: 4.5em;
 }
@@ -97,4 +96,13 @@ line-height: 4.5em;
 
 .navbar-right {
   margin-right: .75em;
+}
+
+.top-of-footer {
+  margin-top: 1.5em;
+
+}
+
+.bottom-of-footer {
+  margin-bottom: 2em;
 }
