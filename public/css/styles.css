@@ -7,7 +7,6 @@
   margin-left: auto;
 }
 
-
 .center-page, #logo {
   text-align: center;
 }
@@ -16,11 +15,11 @@
   margin-top: .75em;
   font-size: 7em;
   margin-bottom: 1em;
+  color: 	#ccf2ff;
 }
 
 .containerfooter {
   min-height: 100%;
-
 }
 
 #footer {
@@ -72,9 +71,23 @@
 .navbar-default {
   background-color: #F0F8FF;
   height: 6em;
+  width:100%;
 }
 
 
 .navbar-nav {
-line-height:80px;
+line-height: 4.5em;
+}
+
+.navbar-brand {
+  line-height: 1.1em;
+  font-size: 3em;
+}
+
+.return-to-all {
+  padding: 0px;
+}
+
+.pref-title {
+  margin-left:1em;
 }

@@ -1,21 +1,32 @@
-<div class="containerfoot container-fluid full-width">
+ {{> nav }}
 
-    {{> nav }}
 
-    <a href="/users/{{userId}}/customize">Add Preference</a>
-    <h1>{{userName}}</h1>
-    <h3>Preferences:</h3>
+<h1>{{userName}}</h1>
+<div class="form-group">
+  <a class="btn btn-default btn-xs" href="/users/{{userId}}/customize">Customize preferences</a>
+</div>
+<div class="panel panel-default">
+  <div class="form-group">
+      <h3 class="pref-title">Preferences:</h3>
+    </div>
     <ul class="list-inline">
       {{#each userTags}}
         <li>
+          <div class="panel-body">
           <div class="panel panel-primary">
-             <div class="panel-heading">
-               <h3 class="panel-title">{{this.name}}</h3>
-             </div>
-           </div>
+            <div class="panel-heading">
+              <h3 class="panel-title">{{this.name}}</h3>
+            </div>
+          </div>
+          </div>
         </li>
       {{/each}}
-    </ul>
-    <a href="/blogs"><p>See all blogs</p></a>
-    {{> singleBlog}}
-  </div>
+</div>
+</ul>
+<hr />
+<div class="form-group">
+
+  <a class="btn btn-info btn-lg" href="/blogs">Return to all blogs</a>
+</div>
+
+{{> singleBlog}}

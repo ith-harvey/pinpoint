@@ -1,4 +1,5 @@
-<div class="containerfoot container-fluid full-width">
+
+  {{> nav}}
 
   <form class="form-horizontal" action="/users/register" method="POST">
     <fieldset>
@@ -52,6 +53,3 @@
   {{#if errorMessage}}
     <h3>{{errorMessage}}</h3>
   {{/if}}
-
-
-</div>
