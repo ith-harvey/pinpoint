@@ -50,7 +50,7 @@ exports.seed = function(knex, Promise) {
         {
           id: 5,
           title: 'TechCrunch',
-          rating: 1,
+          rating: 8,
           description: 'TechCrunch is an online publisher of technology industry news. It primarily covers businesses ranging from startups to established firms. Notable journalists and contributors include venture capitalists Chris Dixon and entrepreneurs Justin Kan and Kevin Rose. The website is owned by AOL.',
           url: 'https://techcrunch.com/',
           flagged: false,
@@ -83,7 +83,7 @@ exports.seed = function(knex, Promise) {
         {
           id: 8,
           title: 'Mark Manson\'s blog',
-          rating: 1,
+          rating: 3,
           description: 'This is a blog. It is written by a dude. His name is Mark Manson.',
           url: 'https://markmanson.net/',
           flagged: false,

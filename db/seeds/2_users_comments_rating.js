@@ -14,7 +14,7 @@ exports.seed = function(knex, Promise) {
         {
           id: 2,
           comment_id: 2,
-          user_id: 2,
+          user_id: 1,
           vote_direction: false,
           created_at: new Date(),
           updated_at: new Date()
