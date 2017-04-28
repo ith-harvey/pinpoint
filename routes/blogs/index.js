@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const routingFunctions = require('./routingFunctions.js')
 const utilityFunction = require('./utilityFunctions.js')
 const db = require('../../db')
 
@@ -70,10 +69,10 @@ function addBlogComment(req,res,next){
   const error = {message: 'You must be logged in to comment'}
   const {text} = req.body
   if(userId) {
-    return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
-
-      db('users').where({id: comment[0].user_id}).returning('*').first().then( user => {
-        comment[0].user_name = user.user_name
+    const newComment = {blog_id: id,user_id: userId,text: text}
+    return db('comments').insert(newComment).returning('*').then(comment => {
+      db('users').where({id: comment[0].user_id}).returning('*').then( user => {
+        comment[0].user_name = user[0].user_name
         iofunc.postComment(comment[0])
       })
     })
@@ -126,11 +125,10 @@ function getBlogData(req,res,next){
 function showSingleBlog(req,res,next){
   const userId = req.session.userId
   const id = req.params.id
-  return Promise.all([getBlog(id),getComments(id),getTags(id)])
+  return Promise.all([getBlog(id),getComments(id,userId),getTags(id)])
     .then((result) => {
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
-      console.log('what is sent when we show a blog',result[0][0].comments);
       res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint', userId })
     })
     .catch((err) => next(err))
@@ -141,11 +139,10 @@ function getBlog(id){
 }
 
 //modify this object so that it also returns the user who created that comment
-function getComments(id){
+function getComments(id,userId){
   return db.select('comments.rating AS comment_rating','comments.text', 'comments.created_at','users.user_name', 'comments.id AS comments_id')
     .from('comments')
-    .fullOuterJoin('users_comments_rating','comments.id','users_comments_rating.comment_id')
-    .fullOuterJoin('users','users_comments_rating.user_id','users.id')
+    .fullOuterJoin('users','comments.user_id','users.id')
     .where('comments.blog_id',id)
 }
 
