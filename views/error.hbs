@@ -1,3 +1,8 @@
 <h1>{{message}}</h1>
-<h2>{{error.status}}</h2>
-<pre>{{error.stack}}</pre>
+{{#unless error.stack}}
+  <a href="/users/register"><h4>Register here</h4></a>
+{{/unless}}
+{{#if error.stack}}
+  <h2>{{error.status}}</h2>
+  <pre>{{error.stack}}</pre>
+{{/if}}

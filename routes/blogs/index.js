@@ -23,19 +23,32 @@ router.get('/:id', showSingleBlog)
     // ('/:id/vote')
     // ('/:id/flag')
     // ('/:id/tag')
-router.put('/rating/:id', modifyBlogRating)
+router.put('/rating/:id', authorize, modifyBlogRating)
 
 //Vote on a comment --> functions kept in seperate page
-router.put('/comments/:id', modifyCommentRating)
+router.put('/comments/:id', authorize, modifyCommentRating)
 
-router.post('/:id/comments', addBlogComment)
+router.post('/:id/comments', authorize, addBlogComment)
+
+
+
+
+function authorize(req,res,next){
+  const error = {status: 401, message: 'You must be logged in to access this feature'}
+  if(req.session.userId){
+    return next()
+  }
+  else{
+    console.error(error)
+    next(error)
+    // res.redirect('/blogs')
+  }
+}
+
 
 
 
 function modifyCommentRating(req,res,next) {
-    console.log('inside modifyCommentRating');
-    console.log('req dat body',req.body.votevalue);
-    console.log('req dat params id',req.params.id);
 
     let commentId = req.params.id
     db('comments').select('*').where({id: req.params.id}).first().then( comment => {
@@ -52,14 +65,13 @@ function modifyCommentRating(req,res,next) {
       })
 
     })
+    .catch((err) => next(err))
 }
 
-//check if logged in not quite working
 function addBlogComment(req,res,next){
-
   const id = req.params.id
   const userId = req.session.userId
-  const error = 'You must be logged in to comment'
+  const error = {message: 'You must be logged in to comment'}
   const {text} = req.body
   if(userId) {
     return db('comments').insert({blog_id: id,user_id: userId,text: text}).returning('*').then(comment => {
@@ -81,8 +93,9 @@ function addBlogComment(req,res,next){
 
 
 
-////////// Routing Functions  //////////
-  //can place these functions in an external file
+
+
+
 function showAllBlogs(req,res,next){
   return db.select(
     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
@@ -186,6 +199,7 @@ function addBlog(req,res,next){
         }
 
     })
+    .catch((err) => next(err))
   }
 
   blogsInsertToDB()
@@ -210,9 +224,6 @@ function addBlog(req,res,next){
           console.log('blogs_tags injection finnished');
         })
       }
-    // }).catch( error => {
-    //   next(error)
-    // })
     })
   }
 }
@@ -236,8 +247,10 @@ function modifyBlogRating(req,res,next){
       //calling socket function
       iofunc.updateBlogRating(result)
     })
+    .catch((err) => next(err))
 
   })
+  .catch((err) => next(err))
 }
 
 

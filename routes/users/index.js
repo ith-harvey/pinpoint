@@ -30,13 +30,13 @@ router.put('/:id/edit', editUserPreferences)
   //redirect to showAllBlogs if req.session.id not present
 function authorize(req,res,next){
   const id = req.params.id
-  const error = {status: 401, message: 'Unauthorized'}
+  const error = {status: 401, message: 'You must be logged in to access this feature'}
   if(parseInt(req.session.userId) === parseInt(id)){
     return next()
   }
   else{
-    // next(error)
-    res.redirect('/blogs')
+    next(error)
+    // res.redirect('/blogs')
   }
 }
 
@@ -45,8 +45,6 @@ function showRegistrationPage(req,res,next){
 }
 
 
-//hash methodology needs a workfactor to be specified
-  //may be easier to use request promise to wrangle the inputted data into an array called by req.body
 function registerUser(req,res,next){
   const {user_name,email,password} = req.body
   const errorMessage = 'Bad Email or Password'

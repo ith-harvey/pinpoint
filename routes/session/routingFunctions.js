@@ -7,9 +7,8 @@ function showLogin(req,res,next){
 }
 
 function endSession(req,res,next){
-  const message = {message: 'You have been logged out'}
   req.session = null
-  res.status(200).json(message)
+  res.redirect('/blogs')
 }
 
 
@@ -26,7 +25,6 @@ function authenticateNewUser(req,res,next){
 }
 
 function authenticateExistingUser(req,res,next){
-  console.log(req.body)
   const {email,password} = req.body
   const error = {status: 400, message: 'Bad email or password'}
   const isValid = sessionUtilities.checkUserInput(email,password)

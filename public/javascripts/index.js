@@ -10,9 +10,9 @@ function requestRatingUpdate(url,vote) {
     data: {votevalue: vote}
   }
   $.ajax(opts).done( response => {
-    console.log('ajax request finnished', response);
   }).fail( error => {
-    console.log(error);
+    const errorMessage = 'You must be logged in to access this feature'
+    window.alert(errorMessage)
   })
 }
 
@@ -26,6 +26,8 @@ function postComment(url,data) {
 
   $.ajax(opts).done( response => {
   }).fail( error => {
+    const errorMessage = 'You must be logged in to access this feature'
+    window.alert(errorMessage)
   })
 
 }
@@ -67,22 +69,18 @@ $('.arrow-down').click(function () {
 $('.comment-section').on('click', '.arrow-up-comment', function () {
   let target = $(event.target);
   let id = target.data('id');
-  console.log('what we pass in on click',target,id);
 
   requestRatingUpdate('/blogs/comments/' + id ,'1')
 
-  console.log('clicked voting mech');
 })
 
 $('.comment-section').on('click', '.arrow-down-comment', function () {
   let target = $(event.target);
   let id = target.data('id');
 
-  console.log('what we pass in on click',target,id);
 
   requestRatingUpdate('/blogs/comments/' + id ,'-1')
 
-  console.log('clicked voting mech');
 
 })
 
@@ -141,8 +139,6 @@ let data = {
   blog_id: $('#commentText').data('blogid'),
   text: $('#commentText').val()
   }
-
-  console.log('this is data passing',data);
 
 //pass blog id and an object
 postComment( $('#commentText').data('blogid') + '/comments/', data)
