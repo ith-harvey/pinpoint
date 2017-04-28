@@ -103,6 +103,7 @@ function seeUserFeed(req,res,next){
         userId: userId,
         userName: result[1][0].user_name,
         blogs: userUtilities.sortBlogsByRating(blogs),
+        userId,
         userTags: userUtilities.removeDuplicates(result[1],'name')
       })
     })

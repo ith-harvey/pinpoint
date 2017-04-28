@@ -84,13 +84,17 @@ function addBlogComment(req,res,next){
 ////////// Routing Functions  //////////
   //can place these functions in an external file
 function showAllBlogs(req,res,next){
+
+  const userId = req.session.userId
+  console.log('userId',userId);
+
   return db.select(
     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
     blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
-    res.render('blogs', {blogs, title: 'PinPoint' })
+    res.render('blogs', {blogs, title: 'PinPoint', userId})
   }).catch( error => {
     console.log(error);
     next(error)
@@ -113,13 +117,14 @@ function getBlogData(req,res,next){
 
 //Add a function to sort comments by date posted
 function showSingleBlog(req,res,next){
+  const userId = req.session.userId
   const id = req.params.id
   return Promise.all([getBlog(id),getComments(id),getTags(id)])
     .then((result) => {
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
       console.log('what is sent when we show a blog',result[0][0].comments);
-      res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint' })
+      res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint', userId })
     })
     .catch((err) => next(err))
 }
@@ -243,8 +248,9 @@ function modifyBlogRating(req,res,next){
 
 
 function showAddBlogForm(req,res,next){
+  const userId = req.session.userId
   db('tags').then( tags =>{
-    res.render('blogs/new', { tags, title: 'Add a blog' })
+    res.render('blogs/new', { tags, title: 'Add a blog', userId })
   })
 }
 
