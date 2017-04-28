@@ -41,6 +41,18 @@
       <!-- /row -->
 
 
+      <div class="col-xs-12">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="control-label" for="description">Description:</label>
+            <p class="help-block">Please provide a description of the blog</p>
+            <!-- <input type="text" id="description" name="description" placeholder="" class="form-control"> -->
+            <textarea class="form-control" name="description" rows="5" cols="85" id="description"></textarea>
+          </div>
+        </div>
+        <!-- /input-group -->
+      </div>
+      <!-- /.col-lg-6 -->
 
 
 
@@ -48,7 +60,6 @@
         {{> tagsMultiSelect}}
       </div>
 
-      <label class="control-label" for="tag-no-exist-btn">A tag doesn't exist?</label>
       <input type="button" class="btn btn-primary" id="tag-no-exist-btn" value=" Add new tags">
 
       <div id="tag-show-adition-group">
@@ -69,21 +80,11 @@
       </div>
 
 
-      <div class="col-xs-12">
-        <div class="form-group">
-          <div class="input-group">
-            <label class="control-label" for="description">Description:</label>
-            <p class="help-block">Please provide a description of the blog</p>
-            <input type="text" id="description" name="description" placeholder="" class="form-control">
-          </div>
-        </div>
-        <!-- /input-group -->
-      </div>
-      <!-- /.col-lg-6 -->
+
 
 
       <!-- Button -->
-      <div class="form-group">
+      <div style="margin-top: 1.25em; margin-left: .120em;" class="form-group">
         <div class="input-group">
           <input type="submit" class="btn btn-success">
         </div>
