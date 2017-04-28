@@ -2,11 +2,11 @@
   font-size: 16px;
   height: 100%;
   font-family: 'Nunito', sans-serif;
+  max-width: 80%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-body {
-
-}
 
 .center-page, #logo {
   text-align: center;
@@ -67,3 +67,14 @@ body {
 #register-link {
   color: white;
   text-decoration: none;
+}
+
+.navbar-default {
+  background-color: #F0F8FF;
+  height: 6em;
+}
+
+
+.navbar-nav {
+line-height:80px;
+}

@@ -10,9 +10,7 @@
         <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span></button>
       </div>
       <div class="blog-title col-xs-11">
-
-        <form action="/blogs/{{this.id}}" method="GET"><button type="submit"><h3>{{this.title}}</button></form>
-
+        <a href="/blogs/{{this.id}}"><h3>{{this.title}}</h3></a>
         <div>{{this.description}}</div>
         {{#each this.tags}}
           <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>

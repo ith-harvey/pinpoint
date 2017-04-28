@@ -5,9 +5,15 @@
     <a href="/users/{{userId}}/customize">Add Preference</a>
     <h1>{{userName}}</h1>
     <h3>Preferences:</h3>
-    <ul>
+    <ul class="list-inline">
       {{#each userTags}}
-         <li><p>{{this.name}}</p></li>
+        <li>
+          <div class="panel panel-primary">
+             <div class="panel-heading">
+               <h3 class="panel-title">{{this.name}}</h3>
+             </div>
+           </div>
+        </li>
       {{/each}}
     </ul>
     <a href="/blogs"><p>See all blogs</p></a>
