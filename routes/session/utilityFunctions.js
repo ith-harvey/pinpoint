@@ -26,12 +26,15 @@ function databaseOperationsNew(req,res,next,email,error,password){
 
   //auth for existing user
 function databaseOperationsExisting(req,res,next,email,error,password){
+  const errorMessage = 'Bad email or password'
   return db('users')
     .where('email',email).first()
     .then(checkDbResponse(error))
     .then(compareHashes(password,error))
     .then(deleteHashedPasswordAndRespondExisting(req,res))
-    .catch((err) => next(err))
+    .catch(() => {
+      res.render('users/login',{errorMessage})
+    })
 }
 
 //Ensure response is not undefined

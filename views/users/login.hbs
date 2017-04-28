@@ -8,7 +8,14 @@
     <form action="/session/login" method="POST" id="loginForm">
       <div class="row">
         <div class=" col-xs-offset-4 col-xs-4">
-          <h4>Please log in</h4>
+          {{#unless errorMessage}}
+            <h4>Please log in</h4>
+          {{/unless}}
+          {{#if errorMessage}}
+            <div class="alert alert-danger">
+              <p>{{errorMessage}}</p>
+            </div>
+          {{/if}}
           <input type="text" name="email" id="userName" class="form-control input-sm chat-input" placeholder="username" />
           </br>
           <input type="password" name="password" id="userPassword" class="form-control input-sm chat-input" placeholder="password" />
@@ -27,8 +34,6 @@
       </div>
     </form>
 
-    {{#if errorMessage}}
-      <h3>{{errorMessage}}</h3>
-    {{/if}}
+
   </div>
 </div>
