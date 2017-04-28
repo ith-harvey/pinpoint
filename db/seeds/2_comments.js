@@ -8,16 +8,16 @@ exports.seed = function(knex, Promise) {
           blog_id: 1,
           user_id: 1,
           rating: 0,
-          text: 'What an awesome blog!',
+          text: 'Are you ready for this much information?',
           created_at: new Date(),
           updated_at: new Date()
         },
         {
           id: 2,
           blog_id: 2,
-          user_id: 2,
+          user_id: 1,
           rating: 0,
-          text: 'This blog is okay',
+          text: 'This is a great source of information on the space industry.',
           created_at: new Date(),
           updated_at: new Date()
         }

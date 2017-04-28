@@ -104,20 +104,41 @@ exports.seed = function(knex, Promise) {
         {
           id: 15,
           blog_id: 8,
-          tag_id: 13,
+          tag_id: 12,
           created_at: new Date(),
           updated_at: new Date()
         },
         {
-          id: 14,
-          blog_id: 7,
-          tag_id: 1,
+          id: 16,
+          blog_id: 9,
+          tag_id: 8,
           created_at: new Date(),
           updated_at: new Date()
         },
         {
-          id: 15,
-          blog_id: 8,
+          id: 17,
+          blog_id: 9,
+          tag_id: 12,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 18,
+          blog_id: 9,
+          tag_id: 5,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 19,
+          blog_id: 10,
+          tag_id: 8,
+          created_at: new Date(),
+          updated_at: new Date()
+        },
+        {
+          id: 20,
+          blog_id: 10,
           tag_id: 12,
           created_at: new Date(),
           updated_at: new Date()
