@@ -11,8 +11,8 @@ function requestRatingUpdate(url,vote) {
   }
   $.ajax(opts).done( response => {
   }).fail( error => {
-    const errorMessage = 'You must be logged in to access this feature'
-    window.alert(errorMessage)
+    // const errorMessage = 'You must be logged in to access this feature'
+    // window.alert(errorMessage)
   })
 }
 
@@ -26,8 +26,8 @@ function postComment(url,data) {
 
   $.ajax(opts).done( response => {
   }).fail( error => {
-    const errorMessage = 'You must be logged in to access this feature'
-    window.alert(errorMessage)
+    // const errorMessage = 'You must be logged in to access this feature'
+    // window.alert(errorMessage)
   })
 
 }
