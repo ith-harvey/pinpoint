@@ -1,10 +1,9 @@
 # pinpoint
 
 
-
-
 ### Definition:
 A community driven blog management and discovery platform.
+
 
 ### Problem Statement:
 Modern people face two intertwining problems. Extensive content optionality, and limited time. Information is available and easily accessible on any imaginable topic. This information exists in vast quantities, but varying qualities.
@@ -15,20 +14,17 @@ That's where pinpoint comes in. We offer tools for the community to classify blo
 
 
 ### Getting started:
-https://pinpointblogs.herokuapp.com/blogs
-
-
+[Check out our site!](https://pinpointblogs.herokuapp.com/blogs)
 
 
 ### Technology Used:
-* JavaScript
 * HTML
 * Bootstrap
+* JavaScript
+* Knex.js
 * fuse.js
 * sockets.io
-* knex.js
 
 
-
-
+### Entity Relationship Diagram:
 ![](public/images/pinpointERD.png)
