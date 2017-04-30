@@ -19,7 +19,7 @@ That's where pinpoint comes in. We offer tools for the community to classify blo
 
 
 
-[pinpoint Registration](https://www.youtube.com/embed/mAcB3AQre6c)
+[pinpoint Voting and Commenting](https://www.youtube.com/embed/mAcB3AQre6c)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mAcB3AQre6c" frameborder="0" allowfullscreen></iframe>
 
@@ -29,7 +29,7 @@ That's where pinpoint comes in. We offer tools for the community to classify blo
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Zk5u7ppFR9Q" frameborder="0" allowfullscreen></iframe>
 
 
-[pinpoint Voting and Commenting](https://www.youtube.com/embed/JjOyUKJOt_M)
+[pinpoint Registration](https://www.youtube.com/embed/JjOyUKJOt_M)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JjOyUKJOt_M" frameborder="0" allowfullscreen></iframe>
 
