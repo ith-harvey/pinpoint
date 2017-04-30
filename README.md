@@ -13,10 +13,9 @@ This begs the question, how does a busy person utilize their limited time most e
 That's where pinpoint comes in. We offer tools for the community to classify blogs according to topics covered, and rate those blogs according to quality. Out of the aggregation of our users knowledge and expertise, we are able to curate a set of high quality content that is relevant to our users preferences.
 
 
-
-### Getting started:
 [Visit pinpoint at https://pinpointblogs.herokuapp.com/blogs](https://pinpointblogs.herokuapp.com/blogs)
 
+### Getting started:
 
 [pinpoint Voting and Commenting](https://www.youtube.com/embed/mAcB3AQre6c)
 
