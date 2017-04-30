@@ -1,7 +1,5 @@
 # pinpoint
 
-
-### Definition:
 A community driven blog management and discovery platform.
 
 
