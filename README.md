@@ -24,12 +24,12 @@ That's where pinpoint comes in. We offer tools for the community to classify blo
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mAcB3AQre6c" frameborder="0" allowfullscreen></iframe>
 
 
-[pinpoint Search](https://www.youtube.com/embed/Zk5u7ppFR9Q)
+[pinpoint Registration](https://www.youtube.com/embed/Zk5u7ppFR9Q)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Zk5u7ppFR9Q" frameborder="0" allowfullscreen></iframe>
 
 
-[pinpoint Registration](https://www.youtube.com/embed/JjOyUKJOt_M)
+[pinpoint Search](https://www.youtube.com/embed/JjOyUKJOt_M)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JjOyUKJOt_M" frameborder="0" allowfullscreen></iframe>
 
