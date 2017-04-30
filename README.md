@@ -4,11 +4,11 @@ A community driven blog management and discovery platform.
 
 
 ### Problem Statement:
-Modern people face two intertwining problems. Extensive content optionality, and limited time. Information is available and easily accessible on any imaginable topic. This information exists in vast quantities, but varying qualities.
+People face three intertwining problems: Too much information, too many choices, and too little time. These issues are especially accute in the blogosphere.
 
-This begs the question, how does a busy person utilize their limited time most effectively? How can someone be sure that the blogs they are perusing offer the best bang for the buck?
+This begs the question, how does a busy person most effectivley search for information? How can someone be sure that the blogs they are perusing offer the best bang for their buck?
 
-That's where pinpoint comes in. We offer tools for the community to classify blogs according to topics covered, and rate those blogs according to quality. Out of the aggregation of our users knowledge and expertise, we are able to curate a set of high quality content that is relevant to our users preferences.
+Pinpoint enables it's users to classify blogs according to their topics, and rate them based on quality. Aggregating our users knowledge and expertise, we are able to curate a set of high quality content relevant to our users preferences.
 
 
 [Visit pinpoint at https://pinpointblogs.herokuapp.com/blogs](https://pinpointblogs.herokuapp.com/blogs)
