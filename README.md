@@ -6,9 +6,9 @@ A community driven blog management and discovery platform.
 ### Problem Statement:
 People face three intertwining problems: Too much information, too many choices, and too little time. These issues are especially accute in the blogosphere.
 
-This begs the question, how does a busy person most effectively search for information? How can someone be sure that the blogs they are perusing offer the best bang for their buck?
+How does a busy person most effectively search for information? How can someone be sure that the blogs they are pursuing offer the best bang for their buck?
 
-Pinpoint enables it's users to classify blogs according to their topics, and rate them based on quality. Aggregating our users knowledge and expertise, we are able to curate a set of high quality content relevant to our users preferences.
+Pinpoint enables it's users to classify blogs according to their topics, and rate them based on quality. Aggregating our users knowledge and expertise, we are able to curate a set of high quality content relevant to our user's preferences.
 
 
 [Visit pinpoint at https://pinpointblogs.herokuapp.com/blogs](https://pinpointblogs.herokuapp.com/blogs)
