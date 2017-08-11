@@ -6,10 +6,12 @@ body {
   font: normal 14px Roboto,arial,sans-serif;
 }
 
-/*.container {
+.container {
     padding: 25px;
     position: fixed;
-}*/
+}
+
+
 
 .form-login {
     background-color: #EDEDED;
