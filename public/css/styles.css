@@ -1,10 +1,7 @@
- html {
+ body {
   font-size: 16px;
   height: 100%;
   font-family: 'Nunito', sans-serif;
-  max-width: 80%;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 #footer {

@@ -68,8 +68,6 @@ function addBlogComment(req,res,next){
   const error = {message: 'You must be logged in to comment'}
   const {text} = req.body
 
-  console.log('userId',userId);
-
   if(userId) {
     const newComment = {blog_id: id,user_id: userId,text: text}
     return db('comments').insert(newComment).returning('*').then(comment => {
