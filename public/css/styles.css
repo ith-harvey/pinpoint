@@ -42,13 +42,15 @@
     font-size:14px;
     font-weight: bold;
 }
-.comments-list .media{
+
+.comments-list .media {
     border-bottom: 1px dotted #ccc;
 }
 
 #search-input {
     width: 200px;
 }
+
 #searchclear {
     position: absolute;
     right: 5px;

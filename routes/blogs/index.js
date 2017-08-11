@@ -14,7 +14,6 @@ router.post('/new', addBlog)
 
 //retreives information used to search on page
 router.get('/api', getBlogData)
-
 router.get('/:id', showSingleBlog)
 
 
@@ -87,16 +86,9 @@ function addBlogComment(req,res,next){
   }
 }
 
-
-
-
-
-
-
-
 function showAllBlogs(req,res,next){
   const userId = req.session.userId
-
+  console.log('here is the userID --> ',userId);
   return db.select(
     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url')
   .from('blogs')

@@ -1,5 +1,12 @@
+<div class="entry">
+  {{#if userId}}
+  {{else}}
+    <p class="alert alert-danger">You are not logged in, please login to experience the sites full functionality.</p>
+  {{/if}}
+</div>
 {{> nav }}
 <div class="">
+  {{this.name}}
   {{#each blogs}}
     <div class="row">
       <div data-id="{{ this.id }}" class="change-this-class panel panel-default col-xs-12">
@@ -31,8 +38,6 @@
 <script>
   var socket = io.connect();
   socket.on('blog rating', function(responseData) {
-    console.log('responseData', responseData);
-    console.log('what is happening', $(`.blog-rating[data-id=${responseData.id}]`).children());
 
     $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
 
