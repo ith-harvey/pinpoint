@@ -1,6 +1,6 @@
 {{#if userId}}
 {{else}}
-  <span class="alert-header alert alert-danger" style="margin-top: 0px;">You are not logged in, please login to experience pinpoint's full functionality.</span>
+  <span class="alert-header alert alert-danger" style="margin-top: 0px;">You are not signed in, please sign in to experience pinpoint's full functionality.</span>
 {{/if}}
 <nav class=" nav-justified navbar navbar-default" style="margin-top: 0px;">
   <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,9 +16,12 @@
 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="navbar-form navbar-left navbar-nav">
+    {{#if userId}}
     <a class="btn btn-info" href="/blogs/new">add a blog</a>
+    {{else}}
+    <btn id="btn-addblog-no-uid" class="btn btn-info">add a blog</btn>
+    {{/if}}
   </div>
-
 
   {{#if userId}}
     <div class="navbar-form navbar-right navbar-nav">
