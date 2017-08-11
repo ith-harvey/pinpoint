@@ -1,7 +1,13 @@
-body {
+html {
   font-size: 16px;
   height: 100%;
+  overflow: hidden;
+}
+
+body {
   font-family: 'Nunito', sans-serif;
+  overflow: auto;
+  height: 100%
 }
 
 .alert-header {
