@@ -1,12 +1,14 @@
 <div>
   {{this.name}}
   {{#each blogs}}
-    <div class="row">
+
+
+    <!-- <div class="row">
       <div data-id="{{ this.id }}" class="change-this-class panel panel-default col-xs-12">
         <div class="panel-body blog">
 
-        {{#if userId}} <!-- //user logged in - they can vote -->
-            <div class="col-xs-1">
+        {{#if userId}}  //user logged in - they can vote
+             <div class="col-xs-1 vertical-center">
               <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
               </button>
               <div class="blog-rating" data-id="{{this.id}}">
@@ -16,7 +18,17 @@
               </button>
             </div>
 
-          {{else}} <!-- //user not logged in - fire valitation alert -->
+           {{else}}
+             <div class="col-xs-1">
+              <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
+              </button>
+              <div class="blog-rating" data-id="{{this.id}}">
+                <h4>{{this.rating}}</h4>
+              </div>
+              <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
+              </button>
+            </div>
+
             <div class="col-xs-1">
               <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
               </button>
@@ -26,6 +38,7 @@
               <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
               </button>
             </div>
+
           {{/if}}
 
           <div class="blog-title col-xs-11">
@@ -38,7 +51,52 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <table>
+      <tbody>
+        <tr>
+          <div data-id="{{ this.id }}" class="change-this-class col-xs-12">
+
+            {{#if userId}}
+                <td class="col-xs-1 align-middle">
+                  <button class="btn btn-default btn-xs arrow-up voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
+                  </button>
+                  <div class="blog-rating" data-id="{{this.id}}">
+                    <h4>{{this.rating}}</h4>
+                  </div>
+                  <button class="btn btn-default btn-xs arrow-down voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
+                  </button>
+                </td>
+
+               {{else}}
+                <td class="col-xs-1 align-middle">
+                  <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
+                  </button>
+                  <div class="blog-rating" data-id="{{this.id}}">
+                    <h4>{{this.rating}}</h4>
+                  </div>
+                  <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
+                  </button>
+                </td>
+
+              {{/if}}
+
+              <td class="blog-title col-xs-11">
+                <a href="/blogs/{{this.id}}"><h3>{{this.title}}</h3></a>
+                <div>{{this.description}}</div>
+                {{#each this.tags}}
+                  <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
+                {{/each}}
+                <div><a href='{{this.url}}'>{{this.url}}</a></div>
+              </td>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+
+
+
   {{/each}}
 </div>
 
