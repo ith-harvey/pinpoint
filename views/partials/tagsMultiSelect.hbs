@@ -1,40 +1,38 @@
-
 <script defer>
-$(function() {
-  console.log('hello?')
+  $(function() {
+    console.log('hello?')
     $('#search').on('keyup', function() {
-        var pattern = $(this).val();
-        $('.searchable-container .items').hide();
-        $('.searchable-container .items').filter(function() {
-            return $(this).text().match(new RegExp(pattern, 'i'));
-        }).show();
+      var pattern = $(this).val();
+      $('.searchable-container .items').hide();
+      $('.searchable-container .items').filter(function() {
+        return $(this).text().match(new RegExp(pattern, 'i'));
+      }).show();
     });
-});
+  });
 </script>
 
-    <div class="row">
-        <div class="form-group">
-            <div class="searchable-container">
-
-              {{#each tags}}
-                <div class="items col-xs-5 col-sm-5 col-md-3 col-lg-3">
-                    <div class="info-block block-info clearfix">
-                        <div class="square-box pull-left">
-                            <span class="glyphicon glyphicon-tags glyphicon-lg"></span>
-                        </div>
-                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                            <label class="btn btn-default">
-                                <div class="bizcontent">
-                                    <input type="checkbox" name="id" autocomplete="off" value="{{this.id}}">
-                                    <span class="glyphicon glyphicon-ok glyphicon-lg"></span>
-                                    <h5>{{this.name}}</h5>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                {{/each}}
-
+<div class="row">
+  <div class="form-group">
+    <div class="searchable-container">
+      {{#each tags}}
+        <div class="items col-xs-5 col-sm-5 col-md-3 col-lg-3">
+          <div class="info-block block-info clearfix">
+            <div class="square-box pull-left">
+              <span class="glyphicon glyphicon-tags glyphicon-lg"></span>
             </div>
+            <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              <label class="btn btn-default">
+                <div class="bizcontent">
+                  <input type="checkbox" name="id" autocomplete="off" value="{{this.id}}">
+                  <span class="glyphicon glyphicon-ok glyphicon-lg"></span>
+                  <h5>{{this.name}}</h5>
+                </div>
+              </label>
+            </div>
+          </div>
         </div>
-	</div>
+      {{/each}}
+
+    </div>
+  </div>
+</div>
