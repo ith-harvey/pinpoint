@@ -1,9 +1,4 @@
-
-
-  {{> nav }}
-
-
-  <div class="container">
+  <div class="container single-blog-container">
 
     {{#if error}}
       <h3>{{error.message}}</h3>
@@ -21,7 +16,7 @@
       {{/each}}
 
       <div class="page-header">
-        <h1><small class="pull-right"></small> Comments </h1>
+        <h3><small class="pull-right"></small> Comments </h3>
       </div>
       <div class ="comment-section">
       {{#each this.comments}}
@@ -56,7 +51,11 @@
       </form>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
+              {{#if userId}}
                 <button class="btn btn-success btn-circle text-uppercase" id="submitComment"><span id="submitComment" class="glyphicon glyphicon-send"></span> Submit comment</button>
+                {{else}}
+                <button class="btn btn-success btn-circle text-uppercase no-uid-inactive" id="submitComment"><span id="submitComment" class="glyphicon glyphicon-send"></span> Submit comment</button>
+              {{/if}}
             </div>
         </div>
 

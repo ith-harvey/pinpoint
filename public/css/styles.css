@@ -10,8 +10,12 @@ body {
   height: 100%
 }
 
-.arrow-up-no-uid, .arrow-down-no-uid {
+.no-uid-inactive {
   opacity: .4;
+}
+
+.single-blog-container {
+  margin-bottom: 3em;
 }
 
 .alert-header {

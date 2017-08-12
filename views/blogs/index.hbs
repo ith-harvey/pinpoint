@@ -18,12 +18,12 @@
 
           {{else}} <!-- //user not logged in - fire valitation alert -->
             <div class="col-xs-1">
-              <button class="btn btn-default btn-xs arrow-up-no-uid voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
+              <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.id}}"></span>
               </button>
               <div class="blog-rating" data-id="{{this.id}}">
                 <h4>{{this.rating}}</h4>
               </div>
-              <button class="btn btn-default btn-xs arrow-down-no-uid voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
+              <button class="btn btn-default btn-xs no-uid-inactive voted" data-id="{{this.id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.id}}"></span>
               </button>
             </div>
           {{/if}}
