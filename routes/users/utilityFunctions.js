@@ -18,7 +18,7 @@ function checkPassword(passwordStr){
 
 
 //retreive all users and tag info that match the user id passed in through req.params
-function retreiveUserData(id){
+function retreiveUserData(id) {
   return db.select('users.user_name','tags.name', 'blogs.id AS blog_id', 'tags.id AS tag_id','blogs.title','blogs.rating','blogs.description', 'blogs.url')
     .from('users')
     .innerJoin('users_tags','users.id','users_tags.user_id')

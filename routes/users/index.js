@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt-as-promised')
 const db = require('../../db')
 const userUtilities = require('./utilityFunctions.js')
 
+const util = require('util')
+
 const sessionRouting = require('../session/routingFunctions.js')
 
 ////////// Routes //////////
@@ -89,31 +91,50 @@ function customizePreferences(req,res,next){
 }
 
 
-function seeUserFeed(req,res,next){
+function seeUserFeed(req,res,next) {
   const userId = req.params.id
   return Promise.all([getBlogs(),getUserTags(userId)])
     .then((result) => {
-      let blogs = result[0]
+      let blogs = userUtilities.modfiyBlogsObject(result[0])
       let userTagsArr = result[1]
 
-      // need to write a filter here. When we do a return inside the for loop it breaks the loop so that won't work...
+
+      // console.log(' ////////////////////// blogs pre filt-->',blogs);
+
+    let filteredBlogs = blogs.filter(blog => {
+        let blogAndUserShareTag = blog.tags.filter (blogTagObj => {
+            if (userTagsArr.findIndex( x => x.tag_id === blogTagObj.id) != -1) {
+              return blogTagObj
+            } else {
+              return
+            }
+          })[0]
+
+          if(blogAndUserShareTag) {
+            return blog
+          }
+          else {
+            return
+          }
+
+      })
+      console.log('here is the end result! -------> ', filteredBlogs);
 
 
-    let postfilt = blogs.filter( (blog, i) => {
-      console.log('what we get on index', userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1);
 
-        if (userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1) {
-          return blog
-        } else {
-          return
-        }
-    })
+      // if (userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1) {
+      //   return blog
+      // } else {
+      //   return
+      // }
 
-      blogs = userUtilities.modfiyBlogsObject(postfilt)
+
+
+
       res.render('users/userFeed',{
         userId: userId,
         userName: result[1][0].user_name,
-        blogs: userUtilities.sortBlogsByRating(blogs),
+        blogs: userUtilities.sortBlogsByRating(filteredBlogs),
         userId,
         userTags: userUtilities.removeDuplicates(result[1],'name')
       })
@@ -132,7 +153,7 @@ function getBlogs(){
 }
 
 
-function getUserTags(id){
+function getUserTags(id) {
   return db.select('tags.id AS tag_id','tags.name', 'users.user_name')
     .from('tags')
     .fullOuterJoin('users_tags','tags.id','users_tags.tag_id')
