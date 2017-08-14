@@ -127,12 +127,18 @@ $(document).ready(function() {
   })
 
   $('#submitComment').on('click', function() {
-    let data = {
-      blog_id: $('#commentText').data('blogid'),
-      text: $('#commentText').val()
-    }
 
-    //pass blog id and an object
-    postComment($('#commentText').data('blogid') + '/comments/', data)
+    // if the text field isn't empty -> post
+    if(!$('#commentText').val()) {
+      let data = {
+        blog_id: $('#commentText').data('blogid'),
+        text: $('#commentText').val()
+      }
+      //pass blog id and an object
+      postComment($('#commentText').data('blogid') + '/comments/', data)
+    } else {
+      // fire validation -> "please provide a comment before posting"
+
+    }
   })
 })
