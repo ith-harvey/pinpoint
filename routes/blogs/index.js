@@ -16,15 +16,12 @@ router.post('/new', addBlog)
 router.get('/api', getBlogData)
 router.get('/:id', showSingleBlog)
 
-
 router.put('/rating/:id', authorize, modifyBlogRating)
 
 //Vote on a comment --> functions kept in seperate page
 router.put('/comments/:id', authorize, modifyCommentRating)
 
 router.post('/:id/comments', authorize, addBlogComment)
-
-
 
 
 function authorize(req,res,next){
@@ -35,11 +32,8 @@ function authorize(req,res,next){
   else{
     console.error(error)
     next(error)
-    // res.redirect('/blogs')
   }
 }
-
-
 
 
 function modifyCommentRating(req,res,next) {
@@ -115,19 +109,17 @@ function getBlogData(req,res,next){
 }
 
 //Add a function to sort comments by date posted
+
 function showSingleBlog(req,res,next){
-
-
   //have an error with the username getting sent through! or being posted
-
   const userId = req.session.userId
   const id = req.params.id
   return Promise.all([getBlog(id),getComments(id,userId),getTags(id)])
     .then((result) => {
-      console.log('what is sent when we show a blog',result);
       result[0][0].comments = result[1]
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
-      res.render('blogs/singleBlog', {blogs: result[0], title: 'PinPoint', userId })
+      console.log('what I send over', result[0][0]);
+      res.render('blogs/singleBlog', {blogs: result[0][0], title: 'PinPoint', userId})
     })
     .catch((err) => next(err))
 }

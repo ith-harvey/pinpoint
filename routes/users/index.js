@@ -98,11 +98,9 @@ function seeUserFeed(req,res,next) {
       let blogs = userUtilities.modfiyBlogsObject(result[0])
       let userTagsArr = result[1]
 
-
-      // console.log(' ////////////////////// blogs pre filt-->',blogs);
-
-    let filteredBlogs = blogs.filter(blog => {
-        let blogAndUserShareTag = blog.tags.filter (blogTagObj => {
+    // filters all blogs based off of a userstag preferences
+    let userFilteredBlogs = blogs.filter(blog => {
+        let blogAndUserShareTag = blog.tags.filter(blogTagObj => {
             if (userTagsArr.findIndex( x => x.tag_id === blogTagObj.id) != -1) {
               return blogTagObj
             } else {
@@ -110,31 +108,18 @@ function seeUserFeed(req,res,next) {
             }
           })[0]
 
+          // if the blog and user do share a tag then return that blog
           if(blogAndUserShareTag) {
             return blog
-          }
-          else {
+          } else {
             return
           }
-
       })
-      console.log('here is the end result! -------> ', filteredBlogs);
-
-
-
-      // if (userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1) {
-      //   return blog
-      // } else {
-      //   return
-      // }
-
-
-
 
       res.render('users/userFeed',{
         userId: userId,
         userName: result[1][0].user_name,
-        blogs: userUtilities.sortBlogsByRating(filteredBlogs),
+        blogs: userUtilities.sortBlogsByRating(userFilteredBlogs),
         userId,
         userTags: userUtilities.removeDuplicates(result[1],'name')
       })
@@ -143,7 +128,7 @@ function seeUserFeed(req,res,next) {
 }
 
 
-function getBlogs(){
+function getBlogs() {
   return db.select(
     'blogs.title','blogs.id','tags.id AS tag_id','tags.name','blogs.rating', 'blogs.description', 'blogs.url'
   )

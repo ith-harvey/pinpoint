@@ -3,23 +3,22 @@
     {{#if error}}
       <h3>{{error.message}}</h3>
     {{/if}}
-
-    {{#each blogs}}
-      <h1>{{this.title}}</h1>
-      <h4>{{this.rating}}</h4>
-      <p>{{this.description}}</p>
-      <div><a href='{{this.url}}'>{{this.url}}</a></div>
+      <h1>{{blogs.title}}</h1>
+      <h4>{{blogs.rating}}</h4>
+      <p>{{blogs.description}}</p>
+      <div><a href='{{this.url}}'>{{blogs.url}}</a></div>
 
       <h4>Tags : </h4>
-      {{#each this.tags}}
+      {{#each blogs.tags}}
         <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
       {{/each}}
+
 
       <div class="page-header">
         <h3><small class="pull-right"></small> Comments </h3>
       </div>
       <div class ="comment-section">
-      {{#each this.comments}}
+      {{#each blogs.comments}}
 
         <div class="panel panel-default col-xs-12">
           <div class="panel-body comment" data-id="{{this.comments_id}}">
@@ -45,25 +44,19 @@
           <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Comment</label>
               <div class="col-sm-10">
-                <textarea class="form-control" data-blogid="{{this.id}}" name="text" id="commentText" rows="5"></textarea>
+                <textarea class="form-control" data-blogid="{{blogs.id}}" name="text" id="commentText" rows="5"></textarea>
               </div>
           </div>
       </form>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              {{#if userId}}
-                <button class="btn btn-success btn-circle text-uppercase" id="submitComment"><span id="submitComment" class="glyphicon glyphicon-send"></span> Submit comment</button>
+              {{#if this.userId}}
+                <button class="btn btn-success btn-circle" id="submitComment">submit comment <span id="submitComment" class="glyphicon glyphicon-send"></span></button>
                 {{else}}
-                <button class="btn btn-success btn-circle text-uppercase no-uid-inactive" id="submitComment"><span id="submitComment" class="glyphicon glyphicon-send"></span> Submit comment</button>
+                <button class="btn btn-success btn-circle text-uppercase no-uid-inactive" id="submitComment">submit comment <span id="submitComment" class="glyphicon glyphicon-send"></span></button>
               {{/if}}
             </div>
         </div>
-
-
-
-
-
-    {{/each}}
   </div>
 
 
@@ -77,11 +70,10 @@
 
   })
   socket.on('post comment', function (responseData){
-
+    console.log('what was posted in comm',$('.comment-section').val());
 
     $('.comment-section').prepend(`<div class="panel panel-default col-xs-12"><div class="panel-body comment" data-id="${responseData.id}"><p class="pull-right"><small>${responseData.updated_at}</small></p><div class="col-xs-1"><button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="${responseData.id}"></span></button><div class="blog-rating" data-id="${responseData.id}"><p><strong>${responseData.rating}</strong></p></div><button class="btn btn-default btn-xs arrow-down-comment voted" data-id="${responseData.id}"><span class="glyphicon glyphicon-arrow-down" data-id="${responseData.id}"></span></button></div><div class="col-xs-11"><h4 class="media-heading user_name">${responseData.user_name}</h4><p>${responseData.text}</p></div></div></div>`)
 
   })
-
 
 </script>
