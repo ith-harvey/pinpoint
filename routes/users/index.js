@@ -6,9 +6,6 @@ const userUtilities = require('./utilityFunctions.js')
 
 const sessionRouting = require('../session/routingFunctions.js')
 
-//http://bootsnipp.com/snippets/featured/multi-select-tiled-layout
-  //fancy select tiles
-
 ////////// Routes //////////
 router.get('/register', showRegistrationPage)
 router.post('/register', registerUser)
@@ -96,7 +93,23 @@ function seeUserFeed(req,res,next){
   const userId = req.params.id
   return Promise.all([getBlogs(),getUserTags(userId)])
     .then((result) => {
-      blogs = userUtilities.modfiyBlogsObject(result[0])
+      let blogs = result[0]
+      let userTagsArr = result[1]
+
+      // need to write a filter here. When we do a return inside the for loop it breaks the loop so that won't work...
+
+
+    let postfilt = blogs.filter( (blog, i) => {
+      console.log('what we get on index', userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1);
+
+        if (userTagsArr.findIndex( x => x.tag_id === blog.tag_id) != -1) {
+          return blog
+        } else {
+          return
+        }
+    })
+
+      blogs = userUtilities.modfiyBlogsObject(postfilt)
       res.render('users/userFeed',{
         userId: userId,
         userName: result[1][0].user_name,
