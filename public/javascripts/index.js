@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
   function requestRatingUpdate(url, vote) {
 
     let opts = {
@@ -14,21 +13,6 @@ $(document).ready(function() {
       // const errorMessage = 'You must be logged in to access this feature'
       // window.alert(errorMessage)
     })
-  }
-
-  function postComment(url, data) {
-
-    let opts = {
-      url: url,
-      method: 'POST',
-      data: data
-    }
-
-    $.ajax(opts).done(response => {}).fail(error => {
-      // const errorMessage = 'You must be logged in to access this feature'
-      // window.alert(errorMessage)
-    })
-
   }
 
 
@@ -122,23 +106,6 @@ $(document).ready(function() {
       })
   })
 
-  $('#search-input').off('click', function() {
-    $blogs.show()
-  })
 
-  $('#submitComment').on('click', function() {
 
-    // if the text field isn't empty -> post
-    if(!$('#commentText').val()) {
-      let data = {
-        blog_id: $('#commentText').data('blogid'),
-        text: $('#commentText').val()
-      }
-      //pass blog id and an object
-      postComment($('#commentText').data('blogid') + '/comments/', data)
-    } else {
-      // fire validation -> "please provide a comment before posting"
-
-    }
-  })
 })

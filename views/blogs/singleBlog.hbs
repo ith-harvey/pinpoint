@@ -17,6 +17,9 @@
       <div class="page-header">
         <h3><small class="pull-right"></small> Comments </h3>
       </div>
+      <div>
+        <span class="alert-comment-no-text alert alert-danger" style="margin-top: 0px;">Please write a comment before submitting.</span>
+      </div>
       <div class ="comment-section">
       {{#each blogs.comments}}
 
@@ -39,7 +42,6 @@
           </div>
         </div>
       {{/each}}
-
       </div>
       <form class="form-horizontal" id="commentForm" role="form">
           <div class="form-group">
@@ -58,6 +60,7 @@
               {{/if}}
             </div>
         </div>
+
   </div>
 
 
