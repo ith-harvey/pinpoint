@@ -13,34 +13,14 @@
         <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
       {{/each}}
 
-
       <div class="page-header">
         <h3><small class="pull-right"></small> Comments </h3>
       </div>
 
       <div class ="comment-section">
-      {{#each blogs.comments}}
-
-        <div class="panel panel-default col-xs-12">
-          <div class="panel-body comment" data-id="{{this.comments_id}}">
-            <p class="pull-right"><small>{{this.created_at}}</small></p>
-
-            <div class="col-xs-1">
-              <button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.comments_id}}"></span></button>
-              <div class="blog-rating" data-id="{{this.comments_id}}">
-                <p><strong>{{this.comment_rating}}</strong></p>
-              </div>
-              <button class="btn btn-default btn-xs arrow-down-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.comments_id}}"></span></button>
-            </div>
-
-            <div class="col-xs-11">
-              <h4 class="media-heading user_name">{{this.user_name}}</h4>
-              <p>{{this.text}}</p>
-            </div>
-          </div>
-        </div>
-      {{/each}}
+          {{> comment}}
       </div>
+
       <form class="form-horizontal" id="commentForm" role="form">
           <div>
             <span class="alert-comment-no-text alert alert-danger" style="margin-top: 0px;">Please write a comment before submitting.</span>
@@ -61,7 +41,6 @@
               {{/if}}
             </div>
         </div>
-
   </div>
 
 
@@ -76,7 +55,7 @@
   })
   socket.on('post comment', function (responseData){
 
-    $('.comment-section').prepend(`<div class="panel panel-default col-xs-12"><div class="panel-body comment" data-id="${responseData.id}"><p class="pull-right"><small>${responseData.updated_at}</small></p><div class="col-xs-1"><button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="${responseData.id}"></span></button><div class="blog-rating" data-id="${responseData.id}"><p><strong>${responseData.rating}</strong></p></div><button class="btn btn-default btn-xs arrow-down-comment voted" data-id="${responseData.id}"><span class="glyphicon glyphicon-arrow-down" data-id="${responseData.id}"></span></button></div><div class="col-xs-11"><h4 class="media-heading user_name">${responseData.user_name}</h4><p>${responseData.text}</p></div></div></div>`)
+    $('.comment-section').prepend(`{{> liveCommentPost}}`)
 
   })
 

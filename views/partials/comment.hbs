@@ -1,0 +1,30 @@
+<table>
+  <tbody>
+    {{#each blogs.comments}}
+      <tr class="comment col-xs-12" data-id="{{this.comments_id}}">
+
+        <td class="col-xs-1 text-center">
+          <button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="{{this.comments_id}}"></span></button>
+          <div class="blog-rating" data-id="{{this.comments_id}}">
+            <strong>{{this.comment_rating}}</strong>
+          </div>
+          <button class="btn btn-default btn-xs arrow-down-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-down" data-id="{{this.comments_id}}"></span></button>
+        </td>
+
+        <td class="col-xs-11">
+          <div class="row">
+            <div class="col-xs-3">
+              <h4 class="media-heading user_name">{{this.user_name}}</h4>
+            </div>
+            <div class="col-xs-9">
+              <h4 class="media-heading comment-date">{{this.created_at}}</h4>
+            </div>
+          </div>
+          <div>
+            <p>{{this.text}}</p>
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

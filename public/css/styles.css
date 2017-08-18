@@ -21,10 +21,15 @@ body {
 .table-borderless {
   border: 0;
 }
+
 td h3 {
   margin-bottom: .1em;
 }
-
+.comment-date {
+  color: grey;
+  font-size: .72rem;
+  margin: .1rem 0 0 0;
+}
 
 
 .alert-header, .alert-comment-no-text {

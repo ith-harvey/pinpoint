@@ -1,0 +1,23 @@
+<div class="panel panel-default col-xs-12">
+  <div class="panel-body comment" data-id="${responseData.id}">
+    <p class="pull-right">
+      <small>${responseData.updated_at}</small>
+    </p>
+    <div class="col-xs-1 text-center">
+      <button class="btn btn-default btn-xs arrow-up-comment voted" data-id="{{this.comments_id}}"><span class="glyphicon glyphicon-arrow-up" data-id="${responseData.id}"></span>
+      </button>
+      <div class="blog-rating" data-id="${responseData.id}">
+        <p>
+          <strong>${responseData.rating}</strong>
+        </p>
+      </div>
+      <button class="btn btn-default btn-xs arrow-down-comment voted" data-id="${responseData.id}">
+        <span class="glyphicon glyphicon-arrow-down" data-id="${responseData.id}"></span>
+      </button>
+    </div>
+    <div class="col-xs-11">
+      <h4 class="media-heading user_name">${responseData.user_name}</h4>
+      <p>${responseData.text}</p>
+    </div>
+  </div>
+</div>
