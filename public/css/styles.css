@@ -25,13 +25,21 @@ td h3 {
   margin-bottom: .1em;
 }
 
+
+
 .alert-header, .alert-comment-no-text {
   margin-bottom: 0px;
   width: 100%;
   height: 3rem;
-  display: none;
   border-radius: 0px;
   text-align: center;
+}
+.alert-header{
+ display: none;
+}
+
+.alert-comment-no-text {
+  display: none;
 }
 
 .blogs-container {
