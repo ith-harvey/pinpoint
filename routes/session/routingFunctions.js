@@ -6,7 +6,7 @@ function showLogin(req,res,next){
   res.render('users/login', {title: 'Sign In'})
 }
 
-function endSession(req,res,next){
+function endSession(req,res,next) {
   req.session = null
   res.redirect('/blogs')
 }

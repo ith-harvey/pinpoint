@@ -34,8 +34,20 @@ td h3 {
   margin: .1rem 0 0 0;
 }
 
-.vcenter {
-  
+.tagbttn-margin {
+  margin: .5rem 0 0 0;
+}
+
+.vertical-center-inner {
+  vertical-align: middle;
+  display: table-cell;
+  text-align: center;
+}
+
+.vertical-center-outer {
+  display: table;
+  /*height: 100%;*/
+  min-height: 10rem;
 }
 
 .alert-header, .alert-comment-no-text {

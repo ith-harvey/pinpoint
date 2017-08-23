@@ -3,27 +3,33 @@
       <h3>{{error.message}}</h3>
     {{/if}}
 
-        <div class="row">
-          <div class="col-xs-4">
-            <h1>{{blogs.title}}</h1>
-          </div>
-          <div class="col-xs-8">
-            <a href='{{this.url}}'>{{blogs.url}}</a>
+      <div class="row">
+        <div class ="col-xs-2 vertical-center-outer">
+          <div class="vertical-center-inner">
+            <h2>{{blogs.rating}}</h2>
           </div>
         </div>
-        <h4>{{blogs.rating}}</h4>
-        <p>{{blogs.description}}</p>
+
+        <div class="col-xs-10">
+
           <div class="row">
+              <h1>{{blogs.title}}</h1>
+              <a href='{{this.url}}'>{{blogs.url}}</a>
+          </div>
+
+          <div class="row">
+            <p>{{blogs.description}}</p>
             <div class="col-xs-1">
               <h4>Tags : </h4>
             </div>
-            <div class="col-xs-11 vcenter">
+            <div class="col-xs-11 tagbttn-margin ">
             {{#each blogs.tags}}
               <btn class="btn-primary btn-xs" data-tagid="{{this.id}}">{{this.name}}</btn>
             {{/each}}
             </div>
           </div>
-
+        </div>
+      </div>
 
       <div class="page-header">
         <h3><small class="pull-right"></small> Comments </h3>
