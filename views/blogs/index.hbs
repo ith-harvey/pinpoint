@@ -1,6 +1,14 @@
 <div>
   {{this.name}}
-  {{> singleBlog}}
+  <table>
+    <tbody>
+      {{#if userId}}
+        {{> singleBlog}}
+      {{else}}
+        {{> singleBlogNoVote}}
+      {{/if}}
+    </tbody>
+  </table>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
