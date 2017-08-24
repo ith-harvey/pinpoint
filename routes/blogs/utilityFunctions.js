@@ -48,19 +48,27 @@ function removeDuplicates(originalArray, prop) {
       return newArray
  }
 
- function sortBlogsByRating(data){
-   return data.sort(blogSortCriterion)
+
+ function sortByRating(data) {
+   let groupToBeSorted = ''
+   data.comments_id ? groupToBeSorted = 'comment_rating' : groupToBeSorted = 'rating'
+   console.log('before',data);
+   console.log('after',data.sort(sortCriterion));
+
+   return data.sort(sortCriterion)
+
+   function sortCriterion(a,b) {
+     if (parseInt(a[groupToBeSorted]) > parseInt(b[groupToBeSorted])) {
+       return -1
+     }
+     else if (parseInt(a[groupToBeSorted]) < parseInt(b[groupToBeSorted])) {
+       return 1
+     }
+     return 0
+   }
  }
 
- function blogSortCriterion(a,b){
-   if(parseInt(a.rating) > parseInt(b.rating)){
-     return -1
-   }
-   else if(parseInt(a.rating) < parseInt(b.rating)){
-     return 1
-   }
-   return 0
- }
+
 
 
 module.exports = {
@@ -68,8 +76,8 @@ module.exports = {
   turnIntoArray,
   valueInEveryIndex,
   removeDuplicates,
-  sortBlogsByRating,
-  modfiyBlogsObject
+  modfiyBlogsObject,
+  sortByRating,
 
 
 }

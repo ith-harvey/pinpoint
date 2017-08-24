@@ -66,6 +66,7 @@
 
 <script>
   var socket = io.connect();
+
   socket.on('comment rating', function (responseData){
 
     $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)

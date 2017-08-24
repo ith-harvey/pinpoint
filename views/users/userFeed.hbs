@@ -5,25 +5,24 @@
 </div>
 <div class="panel panel-default">
   <div class="form-group">
-      <h3 class="pref-title">Preferences:</h3>
-    </div>
+    <h3 class="pref-title">Preferences:</h3>
+  </div>
     <ul class="list-inline">
       {{#each userTags}}
         <li>
           <div class="panel-body">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{this.name}}</h3>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{this.name}}</h3>
+              </div>
             </div>
-          </div>
           </div>
         </li>
       {{/each}}
+    </ul>
 </div>
-</ul>
-<hr />
-<div class="form-group">
 
+<div class="form-group">
   <a class="btn btn-info btn-lg" href="/blogs">Return to all blogs</a>
 </div>
 <table>
@@ -31,3 +30,14 @@
     {{> singleBlog}}
   </tbody>
 </table>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  var socket = io.connect();
+  socket.on('blog rating', function(responseData) {
+
+    $(`.blog-rating[data-id=${responseData.id}]`).children().text(`${responseData.rating}`)
+
+  })
+</script>

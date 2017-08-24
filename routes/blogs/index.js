@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const utilityFunction = require('./utilityFunctions.js')
 const db = require('../../db')
 
 const iofunc = require('../../lib/io')
@@ -86,7 +85,7 @@ function showAllBlogs(req,res,next){
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
+    blogs = utilFunc.sortByRating(utilFunc.modfiyBlogsObject(blogs))
     res.render('blogs', {blogs, title: 'PinPoint', userId})
   }).catch( error => {
     console.error(error);
@@ -100,7 +99,7 @@ function getBlogData(req,res,next){
   .from('blogs')
   .innerJoin('blogs_tags','blogs.id', 'blogs_tags.blog_id')
   .innerJoin('tags','blogs_tags.tag_id', 'tags.id').where({flagged: false}).then( blogs => {
-    blogs = utilFunc.sortBlogsByRating(utilFunc.modfiyBlogsObject(blogs))
+    blogs = utilFunc.sortByRating(utilFunc.modfiyBlogsObject(blogs))
     res.json(blogs)
   }).catch( error => {
     console.error(error);
@@ -110,13 +109,14 @@ function getBlogData(req,res,next){
 
 //Add a function to sort comments by date posted
 
-function showSingleBlog(req,res,next){
+function showSingleBlog(req,res,next) {
   //have an error with the username getting sent through! or being posted
   const userId = req.session.userId
   const id = req.params.id
   return Promise.all([getBlog(id),getComments(id,userId),getTags(id)])
     .then((result) => {
       result[0][0].comments = result[1]
+      utilFunc.sortByRating(result[0][0].comments)
       result[0][0].tags = utilFunc.removeDuplicates(result[2],'name')
       console.log('what I send over', result[0][0]);
       res.render('blogs/singleBlog', {blogs: result[0][0], title: 'PinPoint', userId})
