@@ -97,7 +97,6 @@ function removeDuplicates(originalArray, prop) {
  }
 
 
-
 module.exports = {
   checkResponse,
   checkPassword,

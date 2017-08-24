@@ -30,10 +30,10 @@ router.put('/:id/edit', editUserPreferences)
 function authorize(req,res,next){
   const id = req.params.id
   const error = {status: 401, message: 'You must be logged in to access this feature'}
-  if(parseInt(req.session.userId) === parseInt(id)){
+  if (parseInt(req.session.userId) === parseInt(id)) {
     return next()
   }
-  else{
+  else {
     next(error)
     // res.redirect('/blogs')
   }
@@ -66,7 +66,7 @@ function registerUser(req,res,next){
   }
 }
 
-function customizePreferencesForm(req,res,next){
+function customizePreferencesForm(req,res,next) {
   const id = req.params.id
   return db('tags')
     .then((tags) => {
@@ -75,7 +75,7 @@ function customizePreferencesForm(req,res,next){
     .catch((err) => next(err))
 }
 
-function customizePreferences(req,res,next){
+function customizePreferences(req,res,next) {
   const userId = req.params.id
   const ids = userUtilities.turnIntoArray(req.body.id)
 

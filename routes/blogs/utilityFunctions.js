@@ -50,10 +50,8 @@ function removeDuplicates(originalArray, prop) {
 
 
  function sortByRating(data) {
-   let groupToBeSorted = ''
-   data.comments_id ? groupToBeSorted = 'comment_rating' : groupToBeSorted = 'rating'
-   console.log('before',data);
-   console.log('after',data.sort(sortCriterion));
+   let groupToBeSorted
+   data[0].comments_id ? groupToBeSorted = 'comment_rating' : groupToBeSorted = 'rating'
 
    return data.sort(sortCriterion)
 
@@ -67,8 +65,6 @@ function removeDuplicates(originalArray, prop) {
      return 0
    }
  }
-
-
 
 
 module.exports = {
