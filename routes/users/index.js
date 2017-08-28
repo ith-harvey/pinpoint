@@ -79,6 +79,8 @@ function customizePreferences(req,res,next) {
   const userId = req.params.id
   const ids = userUtilities.turnIntoArray(req.body.id)
 
+  removePreferences(userId)
+
   let useTagsInsert = ids.map( id => {
     return {user_id: userId, tag_id: id}
   })
@@ -88,6 +90,17 @@ function customizePreferences(req,res,next) {
       res.redirect(`/users/${userId}/feed`)
     })
     .catch((err) => next(err))
+}
+
+function removePreferences(userId) {
+  console.log('in the right function');
+  console.log('whatever ids is', userId);
+  return db('users_tags')
+    .where('user_id', userId)
+    .del()
+    .then(() => {
+      return
+    })
 }
 
 
