@@ -49,21 +49,24 @@ function removeDuplicates(originalArray, prop) {
  }
 
 
- function sortByRating(data) {
-   let groupToBeSorted
-   data[0].comments_id ? groupToBeSorted = 'comment_rating' : groupToBeSorted = 'rating'
+ function sortByRating(data, groupToBeSorted) {
 
-   return data.sort(sortCriterion)
+   // if sorting comments and their are no comments to sort
+  if (groupToBeSorted === 'comment_rating' && !data.length) {
+    return data
+  }
+  // for everything else
+  return data.sort(sortCriterion)
 
-   function sortCriterion(a,b) {
-     if (parseInt(a[groupToBeSorted]) > parseInt(b[groupToBeSorted])) {
-       return -1
-     }
-     else if (parseInt(a[groupToBeSorted]) < parseInt(b[groupToBeSorted])) {
-       return 1
-     }
-     return 0
+  function sortCriterion(a,b) {
+   if (parseInt(a[groupToBeSorted]) > parseInt(b[groupToBeSorted])) {
+     return -1
    }
+   else if (parseInt(a[groupToBeSorted]) < parseInt(b[groupToBeSorted])) {
+     return 1
+   }
+   return 0
+  }
  }
 
 
