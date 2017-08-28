@@ -2,8 +2,8 @@
 $(document).ready(function() {
   let didScroll;
   let lastScrollTop = 0;
-  let delta = 10;
-  let navbarHeight = $('header').outerHeight();
+  let delta = 5;
+  let navbarHeight = $('.header').outerHeight();
 
   //////////// VALIDATION FUNCTIONS ///////////////
 
@@ -71,9 +71,7 @@ $(document).ready(function() {
   }, 250);
   function hasScrolled() {
     var st = $(window).scrollTop();
-    console.log('st',st);
-    console.log('lastScrollTop',lastScrollTop);
-    console.log('navbarHeight',navbarHeight);
+
     if (Math.abs(lastScrollTop - st) <= delta) {
       return
     }
