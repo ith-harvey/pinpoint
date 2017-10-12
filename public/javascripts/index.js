@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
   function requestRatingUpdate(url, vote) {
-
     let opts = {
       url: url,
       method: 'PUT',
@@ -10,67 +9,56 @@ $(document).ready(function() {
       }
     }
     $.ajax(opts).done(response => {}).fail(error => {
-      // const errorMessage = 'You must be logged in to access this feature'
-      // window.alert(errorMessage)
+      const errorMessage = 'You must be logged in to access this feature'
     })
   }
-
 
   // displays area where users can create tags
   $('#tag-no-exist-btn').click(function() {
     $('#tag-show-adition-group').fadeIn()
   })
 
-  // displays an aditional tag field where users can create multiple tags
+  // displays aditional tag field
+    // - allows user to add multiple tags
   $('#tag-add-another-btn').click(function() {
     $('.tag-text-input').append(
       '<div class="form-group"><div class="input-group"><label class="control-label" for="name">New tag: </label><input type="text" id="name" name="name" placeholder="" class="form-control"></div></div>'
     )
   })
 
+  // fires upvote action on blog rating
   $('.arrow-up').click(function() {
     let target = $(event.target);
     let id = target.data('id');
-
-
     requestRatingUpdate('/blogs/rating/' + id, '1')
-
-
   })
 
+  // fires downvote action on blog rating
   $('.arrow-down').click(function() {
     let target = $(event.target);
     let id = target.data('id');
-
-
     requestRatingUpdate('/blogs/rating/' + id, '-1')
-
-
   })
 
+  // fires upvote action on comment rating
   $('.comment-section').on('click', '.arrow-up-comment', function() {
     let target = $(event.target);
     let id = target.data('id');
-
     requestRatingUpdate('/blogs/comments/' + id, '1')
-
   })
 
+  // fires downvote action on comment rating
   $('.comment-section').on('click', '.arrow-down-comment', function() {
     let target = $(event.target);
     let id = target.data('id');
-
-
     requestRatingUpdate('/blogs/comments/' + id, '-1')
-
-
   })
 
 
   //tags.name references the tags array in the blogs object
-  const $blogs = $('.change-this-class')
+  const $blogs = $('.single-blog')
 
-  $('#search').click(() => {
+  $('#search').click( () => {
     const url = '/blogs/api'
     const searchOptions = {
       keys: ['title', 'tags.name'],
@@ -84,6 +72,7 @@ $(document).ready(function() {
 
     return $.ajax(APIOptions)
       .done(response => {
+        // Utilizing Fuse search library (http://fusejs.io/)
         const fuse = new Fuse(response, searchOptions)
         let searchTerm = document.getElementById('search-input').value
         let containsSearchTerm = []
@@ -105,7 +94,4 @@ $(document).ready(function() {
         console.error(error)
       })
   })
-
-
-
 })

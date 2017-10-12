@@ -16,6 +16,7 @@ body {
 .comment {
   margin: 1.6rem 0 0 0;
 }
+
 .single-blog-container {
   margin-bottom: 3em;
 }
@@ -42,6 +43,9 @@ td h3 {
   display: table-cell;
   text-align: center;
 }
+.footer-pusher {
+  min-height: 82vh;
+}
 
 .vertical-center-outer {
   display: table;
@@ -65,9 +69,10 @@ td h3 {
   width: 100%;
 }
 
-.alert-header{
+.alert-header {
  display: none;
 }
+
 .form-horizontal {
   margin: 3rem 0 0 0;
 }

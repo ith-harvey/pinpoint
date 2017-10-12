@@ -62,19 +62,20 @@ $(document).ready(function() {
     didScroll = true;
   });
 
-  // run hasScrolled() and reset didScroll status
+  // Checks on an interval if the user has scrolled
   setInterval(function() {
     if (didScroll) {
-      hasScrolled();
+      scrollUpShowHeader();
       didScroll = false;
     }
   }, 250);
-  function hasScrolled() {
-    var st = $(window).scrollTop();
 
+  function scrollUpShowHeader() {
+    var st = $(window).scrollTop();
     if (Math.abs(lastScrollTop - st) <= delta) {
       return
     }
+
     // If current position > last position AND scrolled past navbar...
     if (st > lastScrollTop && st > navbarHeight) {
       // Scroll Down
