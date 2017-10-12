@@ -27,6 +27,7 @@ Pinpoint enables it's users to classify blogs according to their topics, and rat
 ### Technology Used:
 * HTML
 * Bootstrap
+* Handlebars.js
 * JavaScript
 * Knex.js
 * fuse.js
